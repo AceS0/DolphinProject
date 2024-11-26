@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -41,6 +42,14 @@ public class UserInterface {
                 //Switch på forskellige commands brugeren kan vælge
                 switch (command) {
                     case "1", "create", "c" -> addMemberByUser();
+                    case "2","search","s" -> {
+                        if (splitPut.length > 1) {
+                            searchForMember(splitPut[1]);
+                        } else {
+                            System.out.print("insert search term: ");
+                            searchForMember(sc.next());
+                        }
+                    }
 
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
@@ -56,7 +65,6 @@ public class UserInterface {
         System.out.println("You are creating a member");
         System.out.print("Insert MemberID: ");
         int memberId = sc.nextInt();
-        while (!sc.hasNextInt())
 
         System.out.print("Insert first name: ");
         String memberName = sc.next();
@@ -121,11 +129,76 @@ public class UserInterface {
         }
 
         controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage1,competitive1);
+        controller.setMembershipFee(memberName,activity1,age);
     }
 
-    public void searchForFilm(){
-        ArrayList<Members> found = controller.runSearch();
+    public void searchForMember(String members){
+        ArrayList<Members> found = controller.runSearch(members);
         Scanner sc = new Scanner(System.in);
+        if (found.isEmpty()) {
+            System.out.println("The member you searched for does not exist, please try again.");
+        } else {
+
+            if (found.size() == 1) {
+                for (Members member : found) {
+                    System.out.println(member.toString());
+                }
+                System.out.println("Do you want to edit " + found.getFirst().getName() + "? HINT \"Yes\" or \"No\"");
+                System.out.print("Type here: ");
+                String input = sc.next().toLowerCase();
+
+                while (true) {
+                    if (input.equals("yes") || input.equals("y")) {
+                        //editFilm(found.getFirst(), "placeholder");
+                        System.out.println("Not finished");
+                        return;
+                    } else if (input.equals("no") || input.equals("n")) {
+                        System.out.println("-> Returning back to menu.");
+                        userInterface();
+                    } else {
+                        System.out.print("Couldn't interpret the input, please enter \"Yes\" or \"No\": ");
+                        input = sc.next().toLowerCase();
+                    }
+                }
+
+            } else {
+                StringBuilder toPrint = new StringBuilder();
+                for (Members member : found) {
+                    toPrint.append("ID: ").append(member.getID()).append
+                            ("\nName: ").append(member.getName()).append
+                            ("\nAge: ").append(member.getAge()).append
+                            ("\nPhone number: ").append(member.getNumber()).append
+                            ("\nMail: ").append(member.getMail()).append
+                            ("\nIs active: ").append(member.getIsActive()).append
+                            ("\nIs senior: ").append(member.getIsSenior()).append
+                            ("\nIs competitive: ").append(member.getIsCompetitive()).append
+                            ("\nAnnual fee: ").append(member.getAnnualFee()).append(" DKK");
+                }
+
+                System.out.println(toPrint);
+                System.out.println("Which member do you want to get more details about?");
+                System.out.print("Type here: ");
+                String input = sc.nextLine();
+                found = controller.runSearch(input);
+
+                for (Members ignored : found) {
+                    if (!found.isEmpty()) {
+                        searchForMember(input);
+                    }
+                }
+
+                if (found.isEmpty()) {
+                    System.out.println("Couldn't find the member, please try again or to leave type \"exit\" or \"quit\". ");
+                    System.out.print("Type here: ");
+                    input = sc.nextLine();
+                    if (input.equals("quit") || input.equals("exit")) {
+                        userInterface();
+                    } else {
+                        searchForMember(input);
+                    }
+                }
+            }
+        }
     }
 }
 

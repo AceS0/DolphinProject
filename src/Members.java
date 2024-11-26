@@ -6,9 +6,6 @@ public class Members {
     private int age;
     private int number;
     private String mail;
-    private boolean activity;
-    private boolean stage;
-    private boolean competitive;
     private boolean isActive;
     private boolean isSenior;
     private boolean isCompetitive;
@@ -20,9 +17,7 @@ public class Members {
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
 
-
-    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                   boolean isCompetitive) {
+    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior, boolean isCompetitive) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -31,18 +26,6 @@ public class Members {
         this.isActive = isActive;
         this.isSenior = isSenior;
         this.isCompetitive = isCompetitive;
-    }
-
-    //Metode til at finde members
-    public ArrayList<Members> memberLookUp(String search){
-        ArrayList<Members> results = new ArrayList<>();
-        for (Members member : members) {
-
-            if (member.getName().toLowerCase().contains(search.toLowerCase())) {
-                results.add(member);
-            }
-        }
-        return results;
     }
 
     public void setMembershipFee (boolean isActive, int age) {
@@ -75,6 +58,13 @@ public class Members {
         return isActive;
     }
 
+    public boolean getIsSenior() {
+        return isSenior;
+    }
+
+    public boolean getIsCompetitive() {
+        return isCompetitive;
+    }
 
     public void addMember(Members ID){
         members.add(ID);
@@ -104,18 +94,6 @@ public class Members {
         return mail;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public boolean isSenior() {
-        return isSenior;
-    }
-
-    public boolean isCompetitive() {
-        return isCompetitive;
-    }
-
     public ArrayList<Members> getMembers() {
         return members;
     }
@@ -125,7 +103,7 @@ public class Members {
                 "\nName: "+name+
                 "\nAge: "+age+
                 "\nPhone number: "+number+
-                "\nMail: "+ mail+
+                "\nMail: "+mail+
                 "\nIs active: "+isActive+
                 "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
