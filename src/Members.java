@@ -17,6 +17,7 @@ public class Members {
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
 
+
     public Members(int ID, String name, String lastname, int age, String mail, int number, boolean isActive, boolean isSenior,
                    boolean isCompetitive) {
         this.ID = ID;
@@ -27,6 +28,48 @@ public class Members {
         this.isActive = isActive;
         this.isSenior = isSenior;
         this.isCompetitive = isCompetitive;
+    }
+
+    //Metode til at finde members
+    public ArrayList<Members> memberLookUp(String search){
+        ArrayList<Members> results = new ArrayList<>();
+        for (Members member : members) {
+
+            if (member.getName().toLowerCase().contains(search.toLowerCase())) {
+                results.add(member);
+            }
+        }
+        return results;
+    }
+
+    public void setMembershipFee (boolean isActive, int age) {
+        try {
+            if (isActive) {
+                if (age < 18) {
+                    setAnnualFee(juniorRate);
+                } else if (age < 60) {
+                    setAnnualFee(seniorDiscountedRate);
+                } else {
+                    setAnnualFee(seniorRate);
+                }
+            } else {
+                setAnnualFee(passiveRate);
+            }
+        } catch (Exception e) {
+            System.out.println("Input not valid!");
+        }
+    }
+
+    public void setAnnualFee(double annualFee) {
+        this.annualFee = annualFee;
+    }
+
+    public double getAnnualFee() {
+        return annualFee;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
     }
 
     public void addMember(Members ID){
@@ -73,48 +116,6 @@ public class Members {
         return members;
     }
 
-    //Metode til at finde members
-    public ArrayList<Members> memberLookUp(String search){
-        ArrayList<Members> results = new ArrayList<>();
-        for (Members member : members) {
-
-            if (member.getName().toLowerCase().contains(search.toLowerCase())) {
-                results.add(member);
-            }
-        }
-        return results;
-    }
-
-    public void setMembershipFee (boolean isActive, int age) {
-        try {
-            if (isActive == true) {
-                if (age < 18) {
-                    setAnnualFee(juniorRate);
-                } else if (age < 60) {
-                    setAnnualFee(seniorDiscountedRate);
-                } else if (age >= 60){
-                    setAnnualFee(seniorRate);
-                }
-            } else if (isActive == false) {
-                setAnnualFee(passiveRate);
-            }
-        } catch (Exception e) {
-            System.out.println("Input not valid!");
-        }
-    }
-
-    public void setAnnualFee(double annualFee) {
-        this.annualFee = annualFee;
-    }
-
-    public double getAnnualFee() {
-        return annualFee;
-    }
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
     public String toString() {
         return  "ID: "+ID+
                 "\nName: "+name+
@@ -122,7 +123,7 @@ public class Members {
                 "\nPhone number: "+number+
                 "\nMail: "+mail+
                 "\nIs active: "+isActive+
-                "\nStage: "+isSenior+
+                "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
                 "\nAnnual fee: "+getAnnualFee()+" DKK";
     }
