@@ -2,8 +2,7 @@ import java.util.ArrayList;
 
 public class Members {
     private int ID;
-    private String firstName;
-    private String lastname;
+    private String name;
     private int age;
     private int number;
     private String mail;
@@ -12,10 +11,9 @@ public class Members {
     private boolean competitive;
 
 
-    public Members(int ID, String name, String lastname, int age, int number, String mail, boolean activity, boolean stage, boolean discipline) {
+    public Members(int ID, String name, int age, int number, String mail, boolean activity, boolean stage, boolean discipline) {
         this.ID = ID;
-        this.firstName = name;
-        this.lastname = lastname;
+        this.name = name;
         this.age = age;
         this.number = number;
         this.mail = mail;

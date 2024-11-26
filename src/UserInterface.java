@@ -57,12 +57,10 @@ public class UserInterface {
         System.out.println("You are creating a member");
         System.out.print("Insert MemberID: ");
         int memberId = sc.nextInt();
+        while (!sc.hasNextInt())
 
         System.out.print("Insert first name: ");
-        String memberFirstName = sc.next();
-
-        System.out.print("Insert last name: ");
-        String memberLastName = sc.next();
+        String memberName = sc.next();
 
         System.out.print("Insert age: ");
         int age = sc.nextInt();
@@ -123,7 +121,7 @@ public class UserInterface {
             }
         }
 
-        controller.addMemberToList(memberId,memberFirstName,memberLastName,age,number,mail,activity1,stage1,competitive1);
+        controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage1,competitive1);
     }
 }
 
