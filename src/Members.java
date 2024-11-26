@@ -74,7 +74,7 @@ public class Members {
     public boolean getIsActive() {
         return isActive;
     }
-}
+
 
     public void addMember(Members ID){
         members.add(ID);
@@ -125,7 +125,7 @@ public class Members {
                 "\nName: "+name+
                 "\nAge: "+age+
                 "\nPhone number: "+number+
-                "\nMail: "+mail+
+                "\nMail: "+ mail+
                 "\nIs active: "+isActive+
                 "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
