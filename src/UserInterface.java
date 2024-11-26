@@ -1,11 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class UserInterface {
-    Controller controller = new Controller();
+    private Controller controller = new Controller();
 
     public void userInterface() {
 
@@ -122,6 +121,11 @@ public class UserInterface {
         }
 
         controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage1,competitive1);
+    }
+
+    public void searchForFilm(){
+        ArrayList<Members> found = controller.runSearch();
+        Scanner sc = new Scanner(System.in);
     }
 }
 
