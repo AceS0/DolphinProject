@@ -1,10 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
-
+private final Controller controller = new Controller();
     public void userInterface() {
 
         boolean running = true;
@@ -45,6 +46,11 @@ public class UserInterface {
                 System.out.println("Unknown request, please try again.");
             }
         }
+    }
+
+    public void searchForFilm(){
+        ArrayList<Members> found = controller.runSearch();
+        Scanner sc = new Scanner(System.in);
     }
 }
 
