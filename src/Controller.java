@@ -7,4 +7,7 @@ public class Controller {
         return results;
     }
 
+    public void setMembershipFee() {
+
+    }
 }

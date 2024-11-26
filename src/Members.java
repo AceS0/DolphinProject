@@ -1,3 +1,4 @@
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 public class Members {
@@ -42,7 +43,7 @@ public class Members {
         return results;
     }
 
-    public void setMembershipFee (boolean isActive, int age) {
+    public void setMembershipFee(boolean isActive, int age) {
         try {
             if (isActive) {
                 if (age < 18) {
@@ -58,6 +59,14 @@ public class Members {
         } catch (Exception e) {
             System.out.println("Input not valid!");
         }
+    }
+
+    public double sumMembershipFees() {
+        double sum = 0;
+        for(Members member : members) {
+            sum += getAnnualFee();
+        }
+        return sum;
     }
 
     public void setAnnualFee(double annualFee) {
