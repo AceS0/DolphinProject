@@ -10,6 +10,16 @@ public class Members {
     private boolean stage;
     private boolean isCompetitive;
     private final ArrayList<Members> members = new ArrayList();
+    private boolean isActive;
+    private boolean stage;          //!!SKAL ÆNDRES!!
+    private boolean isCompetitive;
+    private int annualFee;
+    private final int juniorRate = 1000;
+    private final int seniorRate = 1600;
+    private final int seniorDiscount = 25;
+    private final int seniorDiscountedRate = seniorRate*(1-(seniorDiscount/100));
+    private final int passiveRate = 500;
+    private ArrayList<Members> members = new ArrayList();
 
 
     public Members(int ID, String name, int age, String mail, int number, boolean isActive, boolean stage, boolean isCompetitive) {
@@ -77,5 +87,41 @@ public class Members {
             }
         }
         return results;
+    }
+}
+
+    public void setMembershipFee (boolean isActive, int age) {
+        try {
+            if (isActive == true) {
+                if (age < 18) {
+                    setAnnualFee(juniorRate);
+                } else if (age < 60) {
+                    setAnnualFee(seniorDiscountedRate);
+                } else if (age >= 60){
+                    setAnnualFee(seniorRate);
+                }
+            } else if (isActive == false) {
+                setAnnualFee(passiveRate);
+            }
+        } catch (Exception e) {
+            System.out.println("Input not valid!");
+        }
+    }
+
+    public void setAnnualFee(int annualFee) {
+        this.annualFee = annualFee;
+    }
+
+    public int getAnnualFee() {
+        return annualFee;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public String toString() {
+        return "ID: "+ID+"\nName: "+name+"\nLastname: "+lastname+"\nAge: "+age+"\nPhone number: "+number+ "\nMail: "+mail+
+                "\nIs active: "+isActive+"\nStage: "+stage+"\nIs competitive: "+isCompetitive+"\nAnnual fee: "+getAnnualFee()+" DKK";
     }
 }
