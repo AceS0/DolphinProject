@@ -50,28 +50,41 @@ public class Members {
         this.annualFee = annualFee;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setSenior(boolean senior) {
+        isSenior = senior;
+    }
+
+    public void setCompetitive(boolean competitive) {
+        isCompetitive = competitive;
+    }
+
+
     public double getAnnualFee() {
         return annualFee;
-    }
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public boolean getIsSenior() {
-        return isSenior;
-    }
-
-    public boolean getIsCompetitive() {
-        return isCompetitive;
-    }
-
-    public void addMember(Members ID){
-        members.add(ID);
-    }
-
-    public void removeMember(Members ID){
-        members.remove(ID);
     }
 
     public int getID() {
@@ -94,8 +107,16 @@ public class Members {
         return mail;
     }
 
-    public ArrayList<Members> getMembers() {
-        return members;
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public boolean getIsSenior() {
+        return isSenior;
+    }
+
+    public boolean getIsCompetitive() {
+        return isCompetitive;
     }
 
     public String toString() {

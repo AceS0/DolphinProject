@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -17,6 +18,13 @@ public class UserInterface {
                         Welcome to your movie collection.
                         Below is your options:\s
                         1. Create a member.
+                        2. Search for a member.
+                        3. Edit a member.
+                        10. Exit""");
+        /*"""
+                        Welcome to your movie collection.
+                        Below is your options:\s
+                        1. Create a member.
                         2. Remove a member.
                         3. Search for a member.
                         4. List the members.
@@ -25,7 +33,7 @@ public class UserInterface {
                         7. Save members to a file.
                         8. Load members from a file.
                         9. Delete a file.
-                        10. Exit""");
+                        10. Exit"""*/
 
         while (running) {
             try {
@@ -50,7 +58,14 @@ public class UserInterface {
                             searchForMember(sc.next());
                         }
                     }
-
+                    case "3","edit","e" -> {
+                            if (splitPut.length > 1) {
+                                editMember(splitPut[1]);
+                            } else {
+                                System.out.print("Type the member you want to edit: ");
+                                editMember(sc.next());
+                            }
+                    }
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -132,8 +147,8 @@ public class UserInterface {
         controller.setMembershipFee(memberName,activity1,age);
     }
 
-    public void searchForMember(String members){
-        ArrayList<Members> found = controller.runSearch(members);
+    public void searchForMember(String thisMember){
+        ArrayList<Members> found = controller.runSearch(thisMember);
         Scanner sc = new Scanner(System.in);
         if (found.isEmpty()) {
             System.out.println("The member you searched for does not exist, please try again.");
@@ -149,7 +164,7 @@ public class UserInterface {
 
                 while (true) {
                     if (input.equals("yes") || input.equals("y")) {
-                        //editFilm(found.getFirst(), "placeholder");
+                        editMemberSplit(found.getFirst(), "placeholder");
                         System.out.println("Not finished");
                         return;
                     } else if (input.equals("no") || input.equals("n")) {
@@ -197,6 +212,107 @@ public class UserInterface {
                         searchForMember(input);
                     }
                 }
+            }
+        }
+    }
+
+    public void editMember(String thisMember) {
+        try {
+            ArrayList<Members> found = controller.runSearch(thisMember);
+            Scanner sc = new Scanner(System.in);
+
+
+            System.out.println("Do you want to edit '" + found.getFirst().getName() + "'? (yes/no)");
+            String input = sc.next().toLowerCase();
+            while (true) {
+                if (input.equals("yes") || input.equals("y")) {
+                    editMemberSplit(found.getFirst(), "placeholder");
+                    return;
+                } else if (input.equals("no") || input.equals("n")) {
+                    System.out.println("-> Returning back to menu.");
+                    return;
+                } else {
+                    System.out.print("Couldn't interpret the input, please enter \"Yes\" or \"No\": ");
+                    input = sc.next().toLowerCase();
+                }
+            }
+        } catch (NoSuchElementException nsee) {
+            System.out.println("The member was either not found or the members collection is empty, please try again.");
+        }
+    }
+
+    public void editMemberSplit(Members thisMember, String edit) {
+        boolean running = true;
+        while (running) {
+            System.out.println(thisMember.toString());
+            Scanner sc = new Scanner(System.in);
+            System.out.println("0. exit, 1. id, 2. name, 3. age, 4. number, 5. mail, 6. active, 7. senior, 8. competitive");
+            switch (sc.next()) {
+                case "0", "exit"-> {
+                    System.out.println("-> Returning back to menu.");
+                    running = false;
+                }
+                case "1", "id"-> {
+                    System.out.print("what should the new ID be: ");
+                    if (sc.hasNextInt()) {
+                        System.out.println("The value has now been changed to: " + controller.editMember(thisMember, "id", String.valueOf(sc.nextInt())));
+                    }
+                }
+                case "2", "name"-> {
+                    System.out.print("what should the new name be: ");
+                    System.out.println(controller.editMember(thisMember, "name", sc.next()));
+                }
+                case "3", "age"-> {
+                    System.out.print("what should the new age be: ");
+                    if (sc.hasNextInt()) {
+                        System.out.println("The value has now been changed to: " + controller.editMember(thisMember, "age", String.valueOf(sc.nextInt())));
+                    }
+                }
+                case "4", "number"-> {
+                    System.out.print("what should the new number be: ");
+                    if (sc.hasNextInt()) {
+                        System.out.println("The value has now been changed to: " + controller.editMember(thisMember, "number", String.valueOf(sc.nextInt())));
+                    }
+                }
+                case "5", "mail"-> {
+                    System.out.print("what should the new mail be: ");
+                    System.out.println(controller.editMember(thisMember, "mail", sc.next()));
+                }
+
+                case "6","active"-> {
+                    while (true) {
+                        System.out.println("is " + thisMember.getName() + " active?");
+                        System.out.print("Type here: ");
+                        String input = sc.next();
+                        if (input.equals("yes") || input.equals("no")) {
+                            System.out.println(controller.editMember(thisMember, "active", input));
+                            break;
+                        }
+                    }
+                }
+                case "7", "senior" -> {
+                    while (true) {
+                        System.out.println("is " + thisMember.getName() + " a senior?");
+                        System.out.print("Type here: ");
+                        String input = sc.next();
+                        if (input.equals("yes") || input.equals("no")) {
+                            System.out.println(controller.editMember(thisMember, "senior", input));
+                            break;
+                        }
+                    }
+                }
+                case "8", "competitive"-> {
+                    while (true) {
+                        System.out.println("is " + thisMember.getName() + " competitive?");
+                        System.out.print("Type here: ");
+                        String input = sc.next();
+                        if (input.equals("yes") || input.equals("no")) {
+                            System.out.println(controller.editMember(thisMember, "competitive", input));
+                            break;
+                        }
+                    }
+                }
+                default -> System.out.print("Invalid input, please try again.");
             }
         }
     }
