@@ -20,6 +20,7 @@ public class UserInterface {
                         1. Create a member.
                         2. Search for a member.
                         3. Edit a member.
+                        4. Calculate total annual membership fee.
                         10. Exit""");
         /*"""
                         Welcome to your movie collection.
@@ -42,7 +43,7 @@ public class UserInterface {
                         Type "help", for a list of commands.\
                         
                         Choose an option:\s""");
-                //Dette splitter brugerens input, som vi gør brug af i bla search funktionen:
+                //Dette splitter brugerens input, som vi gør brug af i bl.a. search-funktionen:
                 String userInput = br.readLine().toLowerCase();
                 String[] splitPut = userInput.split(" ");
                 String command = splitPut[0];
@@ -66,6 +67,7 @@ public class UserInterface {
                                 editMember(sc.next());
                             }
                     }
+                    case "4", "sum" -> System.out.println(controller.sumMembershipFees());
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -305,7 +307,6 @@ public class UserInterface {
                     System.out.print("what should the new mail be: ");
                     System.out.println(controller.editMember(thisMember, "mail", sc.next()));
                 }
-
                 case "6","active"-> {
                     while (true) {
                         System.out.println("is " + thisMember.getName() + " active?");
@@ -344,5 +345,3 @@ public class UserInterface {
         }
     }
 }
-
-

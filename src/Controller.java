@@ -10,14 +10,17 @@ public class Controller {
         members.addMember(new Members(ID, name, age, number, mail, actitvity, stage, competitive));
     }
 
-    public void setMembershipFee(String name,boolean isActive, int age){
+    public void setMembershipFee(String name, boolean isActive, int age){
         ArrayList<Members> found = runSearch(name);
         if (found.size() == 1){
             found.getFirst().setMembershipFee(isActive,age);
         } else {
             System.out.println("in progress");
         }
+    }
 
+    public String sumMembershipFees() {
+        return members.sumMembershipFees();
     }
 
     public String editMember(Members member, String command, String edit) {
@@ -59,7 +62,6 @@ public class Controller {
                 return null;
         }
     }
-
 
     public ArrayList<Members> runSearch(String search){
         ArrayList<Members> results = members.memberLookUp(search);

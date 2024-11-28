@@ -30,6 +30,15 @@ public class MemberHandling {
              return results;
         }
     }
+
+    public String sumMembershipFees() {
+        double sum = 0;
+        for(Members member : members) {
+            sum += member.getAnnualFee();
+        }
+        return "The total annual membership fee is " + sum + " DKK";
+    }
+
     public void addMember(Members member){
         members.add(member);
     }
