@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -53,22 +55,53 @@ public class UserInterface {
 
     public void addMemberByUser(){
         Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+
         System.out.println("You are creating a member");
         System.out.print("Insert MemberID: ");
+        while (!sc.hasNextInt()){
+            System.out.println("Invalid input, please try again");
+            System.out.print("Type here: ");
+            sc.next();
+        }
         int memberId = sc.nextInt();
-        while (!sc.hasNextInt())
 
-        System.out.print("Insert first name: ");
-        String memberName = sc.next();
+        sc.nextLine();
+
+        System.out.print("Insert full name: ");
+        while (sc.hasNextInt()){
+            System.out.println("Invalid input, please try again");
+            System.out.print("Type here: ");
+            sc.next();
+        }
+        String memberName = sc.nextLine();
+
 
         System.out.print("Insert age: ");
+        while (!sc.hasNextInt()){
+            System.out.println("Invalid input, please try again");
+            System.out.print("Type here: ");
+            sc.next();
+
+        }
         int age = sc.nextInt();
 
+        sc.nextLine();
+
+
         System.out.print("Insert telephone number: ");
+        while (!sc.hasNextInt()){
+            System.out.println("Invalid input, please try again");
+            System.out.print("Type here: ");
+            sc.next();
+        }
         int number = sc.nextInt();
+        sc.nextLine();
 
         System.out.print("Insert mail: ");
         String mail = sc.next();
+
 
         System.out.print("Is the member active: ");
         String activity = sc.next().toLowerCase();
@@ -76,14 +109,16 @@ public class UserInterface {
         while (!activity.equals("yes") && !activity.equals("no")){
             System.out.println("Invalid input, please try again");
             System.out.print("Type yes/no here: ");
-            activity = sc.next().toLowerCase();
-
+            activity = sc.next();
+        }
             if (activity.equals("yes") || activity.equals("no")){
-                if (activity.equals("no")) activity1 = false;
-                    System.out.println("The member's activity status has been set to passive ");
-                    break;
+            if (activity.equals("no")) {
+                activity1 = false;
+                System.out.println("The member's activity status has been set to passive ");
             }
         }
+        sc.nextLine();
+
 
         System.out.print("Is the member a senior (+18): ");
         String stage = sc.nextLine().toLowerCase();
@@ -91,16 +126,18 @@ public class UserInterface {
         while (!stage.equals("yes") && !stage.equals("no")){
             System.out.println("Invalid input, please try again");
             System.out.print("Type yes/no here: ");
-            stage = sc.nextLine().toLowerCase();
+            stage = sc.nextLine();
+        }
+        if (stage.equals("yes") || stage.equals("no")){
+            if (stage.equals("no")){
+                stage1 = false;
+                System.out.println("The member has been assigned the junior status (<18)");
 
-            if (stage.equals("yes") || stage.equals("no")){
-                if (stage.equals("no")){
-                    stage1 = false;
-                    System.out.println("The member has been assigned the junior status (<18)");
-                    break;
-                }
             }
         }
+
+
+
 
         System.out.print("Is the member competitive: ");
         String competitive = sc.nextLine().toLowerCase();
@@ -109,21 +146,21 @@ public class UserInterface {
         while (!competitive.equals("yes") && !competitive.equals("no")){
             System.out.println("Invalid input, please try again");
             System.out.print("Type yes/no here: ");
-            competitive = sc.nextLine().toLowerCase();
-
-            if (competitive.equals("yes") || competitive.equals("no")){
-                if (competitive.equals("no")) {
-                    competitive1 = false;
-                    System.out.println("The members status has been changed to recreational");
-                    break;
-                }
+            competitive = sc.nextLine();
+        }
+        if (competitive.equals("yes") || competitive.equals("no")){
+            if (competitive.equals("no")) {
+                competitive1 = false;
+                System.out.println("The members status has been changed to recreational");
             }
         }
 
+
         controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage1,competitive1);
+        System.out.println("You have created a new membership");
     }
 
-    public void searchForFilm(){
+    public void searchForMember(){
         ArrayList<Members> found = controller.runSearch();
         Scanner sc = new Scanner(System.in);
     }

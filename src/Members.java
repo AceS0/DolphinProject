@@ -6,9 +6,6 @@ public class Members {
     private int age;
     private int number;
     private String mail;
-    private boolean activity;
-    private boolean stage;
-    private boolean competitive;
     private boolean isActive;
     private boolean isSenior;
     private boolean isCompetitive;
