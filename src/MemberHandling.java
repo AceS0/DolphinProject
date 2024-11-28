@@ -29,7 +29,7 @@ public class MemberHandling {
         }
     }
 
-//abdyk
+
     public void addMember(Members member){
         members.add(member);
     }
