@@ -19,7 +19,7 @@ public class Members {
     private final int passiveRate = 500;
 
 
-    public Members(int ID, String name, String lastname, int age, String mail, int number, boolean isActive, boolean isSenior,
+    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
                    boolean isCompetitive) {
         this.ID = ID;
         this.name = name;
