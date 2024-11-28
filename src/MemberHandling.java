@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class MemberHandling {
     private ArrayList<Members> members = new ArrayList();
+    
     public MemberHandling(){
         Members enes = new Members(1,"enes",60,50102030,
                 "EnesZeki@dk",true,false,true);
@@ -28,8 +29,6 @@ public class MemberHandling {
             return results;
         }
     }
-
-
     public void addMember(Members member){
         members.add(member);
     }

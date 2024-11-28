@@ -1,8 +1,8 @@
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 public class Controller {
     private MemberHandling members = new MemberHandling();
-    private Members member;
 
     public void addMemberToList(int ID, String name, int age, int number,
                                 String mail, boolean actitvity, boolean stage, boolean competitive){
@@ -66,4 +66,7 @@ public class Controller {
         return results;
     }
 
+    public void setMembershipFee() {
+
+    }
 }
