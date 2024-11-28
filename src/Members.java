@@ -17,9 +17,7 @@ public class Members {
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
 
-
-    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                   boolean isCompetitive) {
+    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior, boolean isCompetitive) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -28,18 +26,6 @@ public class Members {
         this.isActive = isActive;
         this.isSenior = isSenior;
         this.isCompetitive = isCompetitive;
-    }
-
-    //Metode til at finde members
-    public ArrayList<Members> memberLookUp(String search){
-        ArrayList<Members> results = new ArrayList<>();
-        for (Members member : members) {
-
-            if (member.getName().toLowerCase().contains(search.toLowerCase())) {
-                results.add(member);
-            }
-        }
-        return results;
     }
 
     public void setMembershipFee (boolean isActive, int age) {
@@ -64,21 +50,41 @@ public class Members {
         this.annualFee = annualFee;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setSenior(boolean senior) {
+        isSenior = senior;
+    }
+
+    public void setCompetitive(boolean competitive) {
+        isCompetitive = competitive;
+    }
+
+
     public double getAnnualFee() {
         return annualFee;
-    }
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-
-    public void addMember(Members ID){
-        members.add(ID);
-    }
-
-    public void removeMember(Members ID){
-        members.remove(ID);
     }
 
     public int getID() {
@@ -101,20 +107,16 @@ public class Members {
         return mail;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public boolean isSenior() {
+    public boolean getIsSenior() {
         return isSenior;
     }
 
-    public boolean isCompetitive() {
+    public boolean getIsCompetitive() {
         return isCompetitive;
-    }
-
-    public ArrayList<Members> getMembers() {
-        return members;
     }
 
     public String toString() {
@@ -122,7 +124,7 @@ public class Members {
                 "\nName: "+name+
                 "\nAge: "+age+
                 "\nPhone number: "+number+
-                "\nMail: "+ mail+
+                "\nMail: "+mail+
                 "\nIs active: "+isActive+
                 "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
