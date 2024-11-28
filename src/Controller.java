@@ -65,8 +65,4 @@ public class Controller {
         ArrayList<Members> results = members.memberLookUp(search);
         return results;
     }
-
-    public void setMembershipFee() {
-
-    }
 }

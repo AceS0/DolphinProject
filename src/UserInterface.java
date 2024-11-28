@@ -2,12 +2,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UserInterface {
-    private Controller controller = new Controller();
+    private final Controller controller = new Controller();
 
     public void userInterface() {
 
@@ -134,11 +133,9 @@ public class UserInterface {
             System.out.print("Type yes/no here: ");
             activity = sc.next();
         }
-            if (activity.equals("yes") || activity.equals("no")){
-            if (activity.equals("no")) {
-                activity1 = false;
-                System.out.println("The member's activity status has been set to passive ");
-            }
+        if (activity.equals("no")) {
+            activity1 = false;
+            System.out.println("The member's activity status has been set to passive ");
         }
         sc.nextLine();
 
@@ -151,15 +148,11 @@ public class UserInterface {
             System.out.print("Type yes/no here: ");
             stage = sc.nextLine();
         }
-        if (stage.equals("yes") || stage.equals("no")){
-            if (stage.equals("no")){
-                stage1 = false;
-                System.out.println("The member has been assigned the junior status (<18)");
+        if (stage.equals("no")) {
+            stage1 = false;
+            System.out.println("The member has been assigned the junior status (<18)");
 
-            }
         }
-
-
 
 
         System.out.print("Is the member competitive: ");
@@ -171,11 +164,9 @@ public class UserInterface {
             System.out.print("Type yes/no here: ");
             competitive = sc.nextLine();
         }
-        if (competitive.equals("yes") || competitive.equals("no")){
-            if (competitive.equals("no")) {
-                competitive1 = false;
-                System.out.println("The members status has been changed to recreational");
-            }
+        if (competitive.equals("no")) {
+            competitive1 = false;
+            System.out.println("The members status has been changed to recreational");
         }
 
 

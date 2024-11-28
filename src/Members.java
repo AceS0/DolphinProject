@@ -10,8 +10,8 @@ public class Members {
     private boolean isActive;
     private boolean isSenior;
     private boolean isCompetitive;
-    private final ArrayList<Members> members = new ArrayList();
     private double annualFee;
+    private final ArrayList<Members> members = new ArrayList<>();
     private final int juniorRate = 1000;
     private final int seniorRate = 1600;
     private final double seniorDiscount = 25;
@@ -28,18 +28,6 @@ public class Members {
         this.isActive = isActive;
         this.isSenior = isSenior;
         this.isCompetitive = isCompetitive;
-    }
-  
-    //Metode til at finde members
-    public ArrayList<Members> memberLookUp(String search){
-        ArrayList<Members> results = new ArrayList<>();
-        for (Members member : members) {
-
-            if (member.getName().toLowerCase().contains(search.toLowerCase())) {
-                results.add(member);
-            }
-        }
-        return results;
     }
   
     public void setMembershipFee (boolean isActive, int age) {

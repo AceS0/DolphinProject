@@ -8,6 +8,7 @@ public class MemberHandling {
                 "EnesZeki@dk",true,false,true);
         members.add(enes);
     }
+
     //Metode til at finde members
     public ArrayList<Members> memberLookUp(String search){
         ArrayList<Members> results = new ArrayList<>();
@@ -26,7 +27,7 @@ public class MemberHandling {
                     results.add(member);
                 }
             }
-            return results;
+             return results;
         }
     }
     public void addMember(Members member){
