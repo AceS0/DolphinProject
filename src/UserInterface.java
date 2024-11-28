@@ -171,7 +171,7 @@ public class UserInterface {
 
 
         controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage1,competitive1);
-        controller.setMembershipFee(memberName,activity1,age);
+        controller.setMembershipFee(memberId,memberName,activity1,age);
         System.out.println("You have created a new membership");
     }
     public void searchForMember(String thisMember){
@@ -191,7 +191,7 @@ public class UserInterface {
 
                 while (true) {
                     if (input.equals("yes") || input.equals("y")) {
-                        editMemberSplit(found.getFirst(), "placeholder");
+                        editMemberSplit(found.getFirst());
                         System.out.println("Not finished");
                         return;
                     } else if (input.equals("no") || input.equals("n")) {
@@ -204,20 +204,9 @@ public class UserInterface {
                 }
 
             } else {
-                StringBuilder toPrint = new StringBuilder();
                 for (Members member : found) {
-                    toPrint.append("ID: ").append(member.getID()).append
-                            ("\nName: ").append(member.getName()).append
-                            ("\nAge: ").append(member.getAge()).append
-                            ("\nPhone number: ").append(member.getNumber()).append
-                            ("\nMail: ").append(member.getMail()).append
-                            ("\nIs active: ").append(member.getIsActive()).append
-                            ("\nIs senior: ").append(member.getIsSenior()).append
-                            ("\nIs competitive: ").append(member.getIsCompetitive()).append
-                            ("\nAnnual fee: ").append(member.getAnnualFee()).append(" DKK");
+                    System.out.println(member.toString());
                 }
-
-                System.out.println(toPrint);
                 System.out.println("Which member do you want to get more details about?");
                 System.out.print("Type here: ");
                 String input = sc.nextLine();
@@ -253,7 +242,7 @@ public class UserInterface {
             String input = sc.next().toLowerCase();
             while (true) {
                 if (input.equals("yes") || input.equals("y")) {
-                    editMemberSplit(found.getFirst(), "placeholder");
+                    editMemberSplit(found.getFirst());
                     return;
                 } else if (input.equals("no") || input.equals("n")) {
                     System.out.println("-> Returning back to menu.");
@@ -268,7 +257,7 @@ public class UserInterface {
         }
     }
 
-    public void editMemberSplit(Members thisMember, String edit) {
+    public void editMemberSplit(Members thisMember) {
         boolean running = true;
         while (running) {
             System.out.println(thisMember.toString());

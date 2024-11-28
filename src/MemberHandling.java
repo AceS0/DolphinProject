@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class MemberHandling {
-    private ArrayList<Members> members = new ArrayList();
+    private final ArrayList<Members> members = new ArrayList();
     
     public MemberHandling(){
         Members enes = new Members(1,"enes",60,50102030,
@@ -15,7 +15,7 @@ public class MemberHandling {
         if (search.matches(".*\\d.*")){
             for (Members member : members) {
 
-                if (String.valueOf(member.getID()).contains(search)) {
+                if (String.valueOf(member.getID()).matches(search)) {
                     results.add(member);
                 }
             }
@@ -34,7 +34,7 @@ public class MemberHandling {
         members.add(member);
     }
 
-    public void removeMember(Members ID){
-        members.remove(ID);
+    public void removeMember(Members member){
+        members.remove(member);
     }
 }
