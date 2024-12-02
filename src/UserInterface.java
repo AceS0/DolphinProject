@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserInterface {
     private Controller controller = new Controller();
@@ -16,12 +13,16 @@ public class UserInterface {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(
                 """
-                        Welcome to your movie collection.
+                        Welcome to Dolphin - Swimming - Club.
                         Below is your options:\s
                         1. Create a member.
                         2. Search for a member.
                         3. Edit a member.
-                        10. Exit""");
+                        4. List the members.
+                        5. Sort memberlist. 
+                        10. Exit.
+                        
+                        """);
         /*"""
                         Welcome to your movie collection.
                         Below is your options:\s
@@ -67,6 +68,9 @@ public class UserInterface {
                                 editMember(sc.next());
                             }
                     }
+                    case "5", "Sort" -> sortMembers();
+                    case "10", "exit" -> running = false;
+                    default -> System.out.println("Unknown request, please try again.");
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -78,18 +82,22 @@ public class UserInterface {
 
     public void addMemberByUser(){
         Scanner sc = new Scanner(System.in);
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
 
         System.out.println("You are creating a member");
+        System.out.println("Type exit for return to menu");
         System.out.print("Insert MemberID: ");
         while (!sc.hasNextInt()){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type here: ");
-            sc.next();
+            if (sc.next().equals("exit")){
+                System.out.println("Returning back to menu");
+                userInterface();
+            }else {
+                System.out.println("Invalid input, please try again");
+                System.out.print("Type here: ");
+                sc.nextLine();
+            }
+
         }
         int memberId = sc.nextInt();
-
         sc.nextLine();
 
         System.out.print("Insert full name: ");
@@ -98,90 +106,118 @@ public class UserInterface {
             System.out.print("Type here: ");
             sc.next();
         }
+
+       if (sc.next().equals("exit")) {
+            System.out.println("Returning back to menu");
+            userInterface();
+        }
         String memberName = sc.nextLine();
+
 
 
         System.out.print("Insert age: ");
         while (!sc.hasNextInt()){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type here: ");
-            sc.next();
-
+            if (sc.next().equals("exit")) {
+                System.out.println("Returning back to menu");
+                userInterface();
+            }else {
+                System.out.println("Invalid input, please try again");
+                System.out.print("Type here: ");
+                sc.next();
+            }
         }
         int age = sc.nextInt();
-
         sc.nextLine();
+
+        while (age <= 0){
+            try {
+                System.out.print("A person cannot be in this age, try again: ");
+                age = sc.nextInt();
+            }catch (InputMismatchException iME){
+                System.out.print("A person cannot be in this age, try again:");
+                sc.nextLine();
+                sc.next();
+            }
+        }
+
+       boolean stage;
+        if (age >= 18){
+          System.out.println("The member has been assigned the senior status (+18)");
+          stage = true;
+        }else {
+          System.out.println("The member has been assigned the junior status (<18)");
+          stage = false;
+        }
+
 
 
         System.out.print("Insert telephone number: ");
         while (!sc.hasNextInt()){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type here: ");
-            sc.next();
+            if (sc.next().equals("exit")) {
+                System.out.println("Returning back to menu");
+                userInterface();
+            }else {
+                System.out.println("Invalid input, please try again");
+                System.out.print("Type here: ");
+                sc.next();
+            }
         }
         int number = sc.nextInt();
         sc.nextLine();
 
         System.out.print("Insert mail: ");
-        String mail = sc.next();
-
+        if (sc.next().equals("exit")) {
+            System.out.println("Returning back to menu");
+            userInterface();
+        }
+        String mail = sc.nextLine();
 
         System.out.print("Is the member active: ");
         String activity = sc.next().toLowerCase();
         boolean activity1 = true;
         while (!activity.equals("yes") && !activity.equals("no")){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type yes/no here: ");
-            activity = sc.next();
-        }
-            if (activity.equals("yes") || activity.equals("no")){
-            if (activity.equals("no")) {
-                activity1 = false;
-                System.out.println("The member's activity status has been set to passive ");
+            if (activity.equals("exit")) {
+                System.out.println("Returning back to menu");
+                userInterface();
+            } else {
+                System.out.println("Invalid input, please try again");
+                System.out.print("Type yes/no here: ");
+                activity = sc.next();
             }
+        }
+        if (activity.equals("no")) {
+            activity1 = false;
+            System.out.println("The member's activity status has been set to passive ");
         }
         sc.nextLine();
-
-
-        System.out.print("Is the member a senior (+18): ");
-        String stage = sc.nextLine().toLowerCase();
-        boolean stage1 = true;
-        while (!stage.equals("yes") && !stage.equals("no")){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type yes/no here: ");
-            stage = sc.nextLine();
-        }
-        if (stage.equals("yes") || stage.equals("no")){
-            if (stage.equals("no")){
-                stage1 = false;
-                System.out.println("The member has been assigned the junior status (<18)");
-
-            }
-        }
-
-
-
 
         System.out.print("Is the member competitive: ");
         String competitive = sc.nextLine().toLowerCase();
         boolean competitive1 = true;
-
         while (!competitive.equals("yes") && !competitive.equals("no")){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type yes/no here: ");
-            competitive = sc.nextLine();
-        }
-        if (competitive.equals("yes") || competitive.equals("no")){
-            if (competitive.equals("no")) {
-                competitive1 = false;
-                System.out.println("The members status has been changed to recreational");
+            if (competitive.equals("exit")){
+                System.out.println("Returning back to menu");
+                userInterface();
+            } else {
+                System.out.println("Invalid input, please try again");
+                System.out.print("Type yes/no here: ");
+                competitive = sc.nextLine();
             }
         }
+        if (competitive.equals("no")) {
+            competitive1 = false;
+            System.out.println("The members status has been changed to recreational");
+        }else if (!activity1) {
+            System.out.println("A member cannot be passive and competitive/recreational at the same time");
+            System.out.println("Edit the member status to active to continue");
+            editMember("");
+        }
 
 
-        controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage1,competitive1);
+
+        controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage,competitive1);
         controller.setMembershipFee(memberName,activity1,age);
-        System.out.println("You have created a new membership");
+        System.out.println("You have created a new membership for " + memberName);
     }
     public void searchForMember(String thisMember){
         ArrayList<Members> found = controller.runSearch(thisMember);
@@ -352,6 +388,95 @@ public class UserInterface {
             }
         }
     }
+    public void sortMembers() {
+        Scanner sc = new Scanner(System.in);
+         System.out.println(
+                """ 
+                        How do you want to list the members?
+                        
+                        Sorted by: 
+                        1. ID?
+                        2. Name?
+                        3. Age?
+                        4. Number?
+                        5. Mail?
+                        6. IsActive?
+                        7. IsSenior?
+                        8. IsCompetitive?
+                        9. Return to menu
+                        """);
+        System.out.print("Type here: ");
+        String input = sc.next().toLowerCase();
+
+
+        switch (input) {
+            case "1", "id", "i" -> System.out.println("test");
+            case "2", "name", "n" -> System.out.println("test");
+            case "3", "age", "a" -> System.out.println("test");
+            case "4", "number" -> System.out.println("test");
+            case "5", "mail", "m" -> System.out.println("test");
+            case "6", "isactive" -> System.out.println("test");
+            case "7", "issenior" -> System.out.println("test");
+            case "8", "iscompetitive" -> System.out.println("test");
+            case "9", "return", "exit" -> userInterface();
+            default -> sortMembers();
+
+
+
+
+        }
+        System.out.println("Do you want to have secondary sort?");
+        System.out.print("Type (yes/no): ");
+        String input2 = sc.next().toLowerCase();
+        while (true) {
+
+             switch (input2) {
+                case "yes" -> {
+                    System.out.println(
+                            """ 
+                                    How do you want to list the members?
+                                    
+                                    Sorted by: 
+                                    1. ID?
+                                    2. Name?
+                                    3. Age?
+                                    4. Number?
+                                    5. Mail?
+                                    6. IsActive?
+                                    7. IsSenior?
+                                    8. IsCompetitive?
+                                    9. Return to menu
+                                    """);
+                    System.out.print("Type here: ");
+                    String input3 = sc.next().toLowerCase();
+                    switch (input3) {
+                        case "1", "id", "i" -> System.out.println("test");
+                        case "2", "name", "n" -> System.out.println("test");
+                        case "3", "age", "a" -> System.out.println("test");
+                        case "4", "number" -> System.out.println("test");
+                        case "5", "mail", "m" -> System.out.println("test");
+                        case "6", "isactive" -> System.out.println("test");
+                        case "7", "issenior" -> System.out.println("test");
+                        case "8", "iscompetitive" -> System.out.println("test");
+                        case "9", "Return", "exit" -> userInterface();
+                    }
+                }
+                case "no" -> System.out.println("test");
+                case "9", "return", "exit" -> {
+                    System.out.println("Returning back to menu");
+                    userInterface();
+                }
+                default -> System.out.print("Invalid input, please try again: ");
+
+
+            }
+
+        }
+
+    }
 }
+
+
+
 
 
