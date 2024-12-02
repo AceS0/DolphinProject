@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class MemberHandling {
-    private ArrayList<Members> members = new ArrayList();
+    private final ArrayList<Members> members = new ArrayList();
     
     public MemberHandling(){
         Members enes = new Members(1,"enes",60,50102030,
@@ -15,7 +15,7 @@ public class MemberHandling {
         if (search.matches(".*\\d.*")){
             for (Members member : members) {
 
-                if (String.valueOf(member.getID()).contains(search)) {
+                if (String.valueOf(member.getID()).matches(search)) {
                     results.add(member);
                 }
             }
@@ -39,11 +39,28 @@ public class MemberHandling {
         return "The total annual membership fee is " + sum + " DKK";
     }
 
+    public String memberList() {
+        StringBuilder toPrint = new StringBuilder();
+        toPrint.append("\nHere is the list of members:");
+        for (Members member : members) {
+            toPrint.append("\n\n").append(member.toString());
+        }
+        return toPrint.toString();
+    }
+
+    public String memberListShort() {
+       StringBuilder toPrint = new StringBuilder();
+        for (Members member : members) {
+            toPrint.append("\nID: ").append(member.getID()).append("\nName: ").append(member.getName());
+        }
+        return toPrint.toString();
+    }
+
     public void addMember(Members member){
         members.add(member);
     }
 
-    public void removeMember(Members ID){
-        members.remove(ID);
+    public void removeMember(Members member){
+        members.remove(member);
     }
 }
