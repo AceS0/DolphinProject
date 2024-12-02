@@ -31,6 +31,14 @@ public class MemberHandling {
         }
     }
 
+    public String sumMembershipFees() {
+        double sum = 0;
+        for(Members member : members) {
+            sum += member.getAnnualFee();
+        }
+        return "The total annual membership fee is " + sum + " DKK";
+    }
+
     public String memberList() {
         StringBuilder toPrint = new StringBuilder();
         toPrint.append("\nHere is the list of members:");
@@ -47,7 +55,6 @@ public class MemberHandling {
         }
         return toPrint.toString();
     }
-
 
     public void addMember(Members member){
         members.add(member);

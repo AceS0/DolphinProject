@@ -34,7 +34,7 @@ public class Members {
             if (isActive) {
                 if (age < 18) {
                     setAnnualFee(juniorRate);
-                } else if (age < 60) {
+                } else if (age > 60) {
                     setAnnualFee(seniorDiscountedRate);
                 } else {
                     setAnnualFee(seniorRate);
@@ -45,14 +45,6 @@ public class Members {
         } catch (Exception e) {
             System.out.println("Input not valid!");
         }
-    }
-
-    public double sumMembershipFees() {
-        double sum = 0;
-        for(Members member : members) {
-            sum += getAnnualFee();
-        }
-        return sum;
     }
 
     public void setAnnualFee(double annualFee) {
@@ -90,7 +82,6 @@ public class Members {
     public void setCompetitive(boolean competitive) {
         isCompetitive = competitive;
     }
-
 
     public double getAnnualFee() {
         return annualFee;

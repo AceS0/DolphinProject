@@ -28,6 +28,10 @@ public class Controller {
         }
     }
 
+    public String sumMembershipFees() {
+        return members.sumMembershipFees();
+    }
+
     public String editMember(Members member, String command, String edit) {
         switch (command) {
             case "id":
