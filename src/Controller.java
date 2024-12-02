@@ -1,8 +1,7 @@
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 public class Controller {
-    private MemberHandling members = new MemberHandling();
+    private final MemberHandling members = new MemberHandling();
 
     public void addMemberToList(int ID, String name, int age, int number,
                                 String mail, boolean actitvity, boolean stage, boolean competitive){
@@ -10,14 +9,27 @@ public class Controller {
         members.addMember(new Members(ID, name, age, number, mail, actitvity, stage, competitive));
     }
 
-    public void setMembershipFee(String name,boolean isActive, int age){
+    public void removeMemberFromList(Members member){
+
+        members.removeMember(member);
+    }
+
+    public MemberHandling getMembers(){
+        return members;
+    }
+
+    public void setMembershipFee(int memberID,String name,boolean isActive, int age){
         ArrayList<Members> found = runSearch(name);
         if (found.size() == 1){
             found.getFirst().setMembershipFee(isActive,age);
         } else {
-            System.out.println("in progress");
+            ArrayList<Members> foundID = runSearch(String.valueOf(memberID));
+            foundID.getFirst().setMembershipFee(isActive,age);
         }
+    }
 
+    public String sumMembershipFees() {
+        return members.sumMembershipFees();
     }
 
     public String editMember(Members member, String command, String edit) {
@@ -59,7 +71,6 @@ public class Controller {
                 return null;
         }
     }
-
 
     public ArrayList<Members> runSearch(String search){
         ArrayList<Members> results = members.memberLookUp(search);
