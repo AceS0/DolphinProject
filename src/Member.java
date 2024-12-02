@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Members {
+public class Member {
     private int ID;
     private String name;
     private int age;
@@ -10,15 +10,16 @@ public class Members {
     private boolean isSenior;
     private boolean isCompetitive;
     private double annualFee;
-    private final ArrayList<Members> members = new ArrayList<>();
+    private double balance;
+    private final ArrayList<Member> members = new ArrayList<>();
     private final int juniorRate = 1000;
     private final int seniorRate = 1600;
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
 
-    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                   boolean isCompetitive) {
+    public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
+                  boolean isCompetitive) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -47,12 +48,12 @@ public class Members {
         }
     }
 
-    public double sumMembershipFees() {
-        double sum = 0;
-        for(Members member : members) {
-            sum += getAnnualFee();
-        }
-        return sum;
+    public void setBalance(double balance){
+        this.balance = balance;
+    }
+
+    public double getBalance(){
+        return balance;
     }
 
     public void setAnnualFee(double annualFee) {

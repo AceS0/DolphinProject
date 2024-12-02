@@ -4,31 +4,41 @@ public class Controller {
     private final MemberHandling members = new MemberHandling();
 
     public void addMemberToList(int ID, String name, int age, int number,
-                                String mail, boolean actitvity, boolean stage, boolean competitive){
+                                String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
 
-        members.addMember(new Members(ID, name, age, number, mail, actitvity, stage, competitive));
+        members.addMember(new Member(ID, name, age, number, mail, isActive, isSenior, isCompetitive));
     }
 
-    public void removeMemberFromList(Members member){
+    public void removeMemberFromList(Member member){
 
         members.removeMember(member);
+    }
+
+    public String sumMembershipFees() {
+        return members.sumMembershipFees();
+    }
+
+    public String getBalancePayment(Member member) {
+        return members.balancePaid(member);
     }
 
     public MemberHandling getMembers(){
         return members;
     }
 
-    public void setMembershipFee(int memberID,String name,boolean isActive, int age){
-        ArrayList<Members> found = runSearch(name);
+    public void setMembershipBalanceFee(int memberID,String name,boolean isActive, int age, double balance){
+        ArrayList<Member> found = runSearch(name);
         if (found.size() == 1){
             found.getFirst().setMembershipFee(isActive,age);
+            found.getFirst().setBalance(balance);
         } else {
-            ArrayList<Members> foundID = runSearch(String.valueOf(memberID));
+            ArrayList<Member> foundID = runSearch(String.valueOf(memberID));
             foundID.getFirst().setMembershipFee(isActive,age);
+            foundID.getFirst().setBalance(balance);
         }
     }
 
-    public String editMember(Members member, String command, String edit) {
+    public String editMember(Member member, String command, String edit) {
         switch (command) {
             case "id":
                 String editnum1 = edit.replaceAll("[^0-9]", "");
@@ -68,8 +78,8 @@ public class Controller {
         }
     }
 
-    public ArrayList<Members> runSearch(String search){
-        ArrayList<Members> results = members.memberLookUp(search);
+    public ArrayList<Member> runSearch(String search){
+        ArrayList<Member> results = members.memberLookUp(search);
         return results;
     }
 }
