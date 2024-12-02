@@ -30,6 +30,25 @@ public class MemberHandling {
              return results;
         }
     }
+
+    public String memberList() {
+        StringBuilder toPrint = new StringBuilder();
+        toPrint.append("\nHere is the list of members:");
+        for (Members member : members) {
+            toPrint.append("\n\n").append(member.toString());
+        }
+        return toPrint.toString();
+    }
+
+    public String memberListShort() {
+       StringBuilder toPrint = new StringBuilder();
+        for (Members member : members) {
+            toPrint.append("\nID: ").append(member.getID()).append("\nName: ").append(member.getName());
+        }
+        return toPrint.toString();
+    }
+
+
     public void addMember(Members member){
         members.add(member);
     }

@@ -9,6 +9,15 @@ public class Controller {
         members.addMember(new Members(ID, name, age, number, mail, actitvity, stage, competitive));
     }
 
+    public void removeMemberFromList(Members member){
+
+        members.removeMember(member);
+    }
+
+    public MemberHandling getMembers(){
+        return members;
+    }
+
     public void setMembershipFee(int memberID,String name,boolean isActive, int age){
         ArrayList<Members> found = runSearch(name);
         if (found.size() == 1){
