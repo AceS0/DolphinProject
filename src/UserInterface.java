@@ -1,10 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class UserInterface {
-    private Controller controller = new Controller();
+    private final Controller controller = new Controller();
 
     public void userInterface() {
 
@@ -98,6 +100,7 @@ public class UserInterface {
 
         }
         int memberId = sc.nextInt();
+
         sc.nextLine();
 
         System.out.print("Insert full name: ");
@@ -112,7 +115,6 @@ public class UserInterface {
             userInterface();
         }
         String memberName = sc.nextLine();
-
 
 
         System.out.print("Insert age: ");
@@ -190,6 +192,22 @@ public class UserInterface {
             System.out.println("The member's activity status has been set to passive ");
         }
         sc.nextLine();
+
+
+        System.out.print("Is the member a senior (+18): ");
+        String stage = sc.nextLine().toLowerCase();
+        boolean stage1 = true;
+        while (!stage.equals("yes") && !stage.equals("no")){
+            System.out.println("Invalid input, please try again");
+            System.out.print("Type yes/no here: ");
+            stage = sc.nextLine();
+        }
+        if (stage.equals("no")) {
+            stage1 = false;
+            System.out.println("The member has been assigned the junior status (<18)");
+
+        }
+
 
         System.out.print("Is the member competitive: ");
         String competitive = sc.nextLine().toLowerCase();
@@ -475,8 +493,5 @@ public class UserInterface {
 
     }
 }
-
-
-
 
 

@@ -2,11 +2,13 @@ import java.util.ArrayList;
 
 public class MemberHandling {
     private ArrayList<Members> members = new ArrayList();
+
     public MemberHandling(){
         Members enes = new Members(1,"enes",60,50102030,
                 "EnesZeki@dk",true,false,true);
         members.add(enes);
     }
+
     //Metode til at finde members
     public ArrayList<Members> memberLookUp(String search){
         ArrayList<Members> results = new ArrayList<>();
@@ -25,15 +27,9 @@ public class MemberHandling {
                     results.add(member);
                 }
             }
-            return results;
+             return results;
         }
     }
-
-
-
-
-
-
     public void addMember(Members member){
         members.add(member);
     }
