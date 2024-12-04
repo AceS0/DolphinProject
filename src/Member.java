@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Members {
+public class Member {
     private int ID;
     private String name;
     private int age;
@@ -10,15 +10,16 @@ public class Members {
     private boolean isSenior;
     private boolean isCompetitive;
     private double annualFee;
-    private final ArrayList<Members> members = new ArrayList<>();
+    private double balance;
+    private boolean hasPaid;
     private final int juniorRate = 1000;
     private final int seniorRate = 1600;
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
 
-    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                   boolean isCompetitive) {
+    public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
+                  boolean isCompetitive) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -28,16 +29,16 @@ public class Members {
         this.isSenior = isSenior;
         this.isCompetitive = isCompetitive;
     }
-  
+
     public void setMembershipFee (boolean isActive, int age) {
         try {
             if (isActive) {
                 if (age < 18) {
                     setAnnualFee(juniorRate);
                 } else if (age > 60) {
-                    setAnnualFee(seniorDiscountedRate);
-                } else {
                     setAnnualFee(seniorRate);
+                } else {
+                    setAnnualFee(seniorDiscountedRate);
                 }
             } else {
                 setAnnualFee(passiveRate);
@@ -45,6 +46,26 @@ public class Members {
         } catch (Exception e) {
             System.out.println("Input not valid!");
         }
+    }
+
+    public void setPaidStatus(boolean hasPaid){
+        this.hasPaid = hasPaid;
+    }
+
+    public String getPaidStatus(){
+        if (hasPaid){
+            return "has paid";
+        } else {
+            return "has not paid";
+        }
+    }
+
+    public void setBalance(double balance){
+        this.balance = balance;
+    }
+
+    public double getBalance(){
+        return balance;
     }
 
     public void setAnnualFee(double annualFee) {
@@ -82,6 +103,7 @@ public class Members {
     public void setCompetitive(boolean competitive) {
         isCompetitive = competitive;
     }
+
 
     public double getAnnualFee() {
         return annualFee;
@@ -128,6 +150,8 @@ public class Members {
                 "\nIs active: "+isActive+
                 "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
-                "\nAnnual fee: "+getAnnualFee()+" DKK";
+                "\nAnnual fee: "+getAnnualFee()+" DKK"+
+                "\nBalance: "+getBalance()+" DKK" +
+                "\nPayment status: "+getPaidStatus()+"\n";
     }
 }
