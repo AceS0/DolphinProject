@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserInterface {
     private final Controller controller = new Controller();
@@ -82,8 +79,9 @@ public class UserInterface {
                                 editMember(sc.next());
                             }
                     }
-                    case "5", "Sort" -> sortMembers();
-                    case "6", "sum" -> System.out.println(controller.sumMembershipFees());
+
+                    case "6", "sort" -> sortMembers();
+                    case "7", "sum" -> System.out.println(controller.sumMembershipFees());
                     case "10", "exit" -> running = false;
                     default -> System.out.println("Unknown request, please try again.");
 
@@ -139,9 +137,10 @@ public class UserInterface {
             }else {
                 System.out.println("Invalid input, please try again");
                 System.out.print("Type here: ");
-                sc.next();
+                sc.nextInt();
             }
         }
+
         int age = sc.nextInt();
         sc.nextLine();
 
@@ -152,7 +151,7 @@ public class UserInterface {
             }catch (InputMismatchException iME){
                 System.out.print("A person cannot be in this age, try again:");
                 sc.nextLine();
-                sc.next();
+                sc.nextInt();
             }
         }
 
@@ -164,6 +163,8 @@ public class UserInterface {
           System.out.println("The member has been assigned the junior status (<18)");
           stage = false;
         }
+
+
 
 
 
@@ -207,22 +208,6 @@ public class UserInterface {
         }
         sc.nextLine();
 
-
-        System.out.print("Is the member a senior (+18): ");
-        String stage = sc.nextLine().toLowerCase();
-        boolean stage1 = true;
-        while (!stage.equals("yes") && !stage.equals("no")){
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type yes/no here: ");
-            stage = sc.nextLine();
-        }
-        if (stage.equals("no")) {
-            stage1 = false;
-            System.out.println("The member has been assigned the junior status (<18)");
-
-        }
-
-
         System.out.print("Is the member competitive: ");
         String competitive = sc.nextLine().toLowerCase();
         boolean competitive1 = true;
@@ -240,17 +225,13 @@ public class UserInterface {
         if (competitive.equals("no")) {
             competitive1 = false;
             System.out.println("The members status has been changed to recreational");
-        }else if (!activity1) {
-            System.out.println("A member cannot be passive and competitive/recreational at the same time");
-            System.out.println("Edit the member status to active to continue");
-            editMember("");
         }
 
 
-
         controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage,competitive1);
-        controller.setMembershipFee(memberName,activity1,age);
         System.out.println("You have created a new membership for " + memberName);
+        controller.setMembershipFee(memberId,memberName,activity1,age);
+
     }
 
     public void removeMemberByUser(String inputs) {
@@ -488,16 +469,46 @@ public class UserInterface {
 
 
         switch (input) {
-            case "1", "id", "i" -> System.out.println("test");
-            case "2", "name", "n" -> System.out.println("test");
-            case "3", "age", "a" -> System.out.println("test");
-            case "4", "number" -> System.out.println("test");
-            case "5", "mail", "m" -> System.out.println("test");
-            case "6", "isactive" -> System.out.println("test");
-            case "7", "issenior" -> System.out.println("test");
-            case "8", "iscompetitive" -> System.out.println("test");
+            case "1", "id", "i" -> {
+                input = "id";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "2", "name", "n" -> {
+                input = "name";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "3", "age", "a" -> {
+                input = "age";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "4", "number" -> {
+                input = "number";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "5", "mail", "m" -> {
+                input = "mail";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "6", "isactive" -> {
+                input = "isactive";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "7", "issenior" -> {
+                input = "issenior";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "8", "iscompetitive" -> {
+                input = "iscompetitive";
+                controller.getMembers().sortedMemberList(input,"");
+            }
             case "9", "return", "exit" -> userInterface();
-            default -> sortMembers();
+            default -> {
+                input = "name";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+
+
+
 
 
 
@@ -528,18 +539,18 @@ public class UserInterface {
                     System.out.print("Type here: ");
                     String input3 = sc.next().toLowerCase();
                     switch (input3) {
-                        case "1", "id", "i" -> System.out.println("test");
-                        case "2", "name", "n" -> System.out.println("test");
-                        case "3", "age", "a" -> System.out.println("test");
-                        case "4", "number" -> System.out.println("test");
-                        case "5", "mail", "m" -> System.out.println("test");
-                        case "6", "isactive" -> System.out.println("test");
-                        case "7", "issenior" -> System.out.println("test");
-                        case "8", "iscompetitive" -> System.out.println("test");
+                        case "1", "id", "i" -> controller.getMembers().sortedMemberList(input,"");
+                        case "2", "name", "n" -> controller.getMembers().sortedMemberList(input,"");
+                        case "3", "age", "a" -> controller.getMembers().sortedMemberList(input,"");
+                        case "4", "number" -> controller.getMembers().sortedMemberList(input,"");
+                        case "5", "mail", "m" -> controller.getMembers().sortedMemberList(input,"");
+                        case "6", "isactive" -> controller.getMembers().sortedMemberList(input,"");
+                        case "7", "issenior" -> controller.getMembers().sortedMemberList(input,"");
+                        case "8", "iscompetitive" -> controller.getMembers().sortedMemberList(input,"");
                         case "9", "Return", "exit" -> userInterface();
                     }
                 }
-                case "no" -> System.out.println("test");
+                case "no" -> System.out.println(controller.getMembers().memberList());
                 case "9", "return", "exit" -> {
                     System.out.println("Returning back to menu");
                     userInterface();

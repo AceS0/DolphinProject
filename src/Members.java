@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Members {
+public class Members implements Comparable {
     private int ID;
     private String name;
     private int age;
@@ -16,6 +17,14 @@ public class Members {
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
+    public static Comparator<Members> ID_COMPARATOR = Comparator.comparing(Members::getID);
+    public static Comparator<Members> NAME_COMPARATOR = Comparator.comparing(Members::getName);
+    public static Comparator<Members> AGE_COMPARATOR = Comparator.comparing(Members::getAge);
+    public static Comparator<Members> NUMBER_COMPARATOR = Comparator.comparing(Members::getNumber);
+    public static Comparator<Members> MAIL_COMPARATOR = Comparator.comparing(Members::getMail);
+    public static Comparator<Members> ISACTIVE_COMPARATOR = Comparator.comparing(Members:: getIsActive);
+    public static Comparator<Members> ISSENIOR_COMPARATOR = Comparator.comparing(Members::getIsSenior);
+    public static Comparator<Members> ISCOMPETITIVE_COMPARATOR = Comparator.comparing(Members::getIsCompetitive);
 
     public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
                    boolean isCompetitive) {
@@ -129,5 +138,10 @@ public class Members {
                 "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
                 "\nAnnual fee: "+getAnnualFee()+" DKK";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }
