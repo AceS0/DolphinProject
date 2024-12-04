@@ -35,7 +35,7 @@ public class Member {
             if (isActive) {
                 if (age < 18) {
                     setAnnualFee(juniorRate);
-                } else if (age < 60) {
+                } else if (age > 60) {
                     setAnnualFee(seniorRate);
                 } else {
                     setAnnualFee(seniorDiscountedRate);

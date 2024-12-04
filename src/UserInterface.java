@@ -20,7 +20,7 @@ public class UserInterface {
                         3. Search for a member.
                         4. List the members.
                         5. Edit a member.
-                        6. Sum membership fee.
+                        6. Calculate total annual membership fee.
                         7. Check member's balance and pay fee.
                         8. Deposit balance for a member.
                         10. Exit""");
@@ -44,7 +44,7 @@ public class UserInterface {
                         Type "help", for a list of commands.\
                         
                         Choose an option:\s""");
-                //Dette splitter brugerens input, som vi gør brug af i bla search funktionen:
+                //Dette splitter brugerens input, som vi gør brug af i bl.a. search-funktionen:
                 String userInput = br.readLine().toLowerCase();
                 String[] splitPut = userInput.split(" ");
                 String command = splitPut[0];
@@ -63,7 +63,7 @@ public class UserInterface {
                             removeMemberByUser(sc.next());
                         }
                     }
-                    case "3", "search" -> {
+                    case "3","search","s" -> {
                         if (splitPut.length > 1) {
                             searchForMember(splitPut[1]);
                         } else {
