@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserInterface {
     private final Controller controller = new Controller();
@@ -24,7 +21,8 @@ public class UserInterface {
                         4. List the members.
                         5. Edit a member.
                         6. Sum membership fee.
-                        7. Check member's balance.
+                        7. Check member's balance and pay fee.
+                        8. Deposit balance for a member.
                         10. Exit""");
         /*"""
 
@@ -73,7 +71,7 @@ public class UserInterface {
                             searchForMember(sc.next());
                         }
                     }
-                    case "4", "list", "l" -> System.out.println(controller.getMembers().memberList());
+                    case "4", "list", "l" -> listMembers();
                     case "5", "edit", "e" -> {
                         if (splitPut.length > 1) {
                             editMember(splitPut[1]);
@@ -91,6 +89,7 @@ public class UserInterface {
                             runBalancePayment(sc.next());
                         }
                     }
+                    case "8", "deposit" -> depositMemberBalance();
                 }
             }catch(ArrayIndexOutOfBoundsException | IOException aioobe){
                             System.out.println("Unknown request, please try again.");
@@ -204,7 +203,7 @@ public class UserInterface {
 
                     controller.addMemberToList(memberId, memberName, age, number, mail, activity1, stage1, competitive1);
                     controller.setMembershipBalanceFee(memberId, memberName, activity1, age,balance);
-                    System.out.println("You have created a new membership");
+                    System.out.println("You have created a new member, and successfully connected a membership ID.");
                 }
 
                 public void removeMemberByUser (String inputs){
@@ -422,13 +421,93 @@ public class UserInterface {
                 }
 
                 public void runBalancePayment (String findMember){
+                    Scanner sc = new Scanner(System.in);
                     ArrayList<Member> found = controller.runSearch(findMember);
-                    for (Member member : found) {
-                        if (found.size() == 1) {
-                            System.out.println(controller.getBalancePayment(member));
-                            userInterface();
+                    System.out.println(controller.getBalancePayment(found.getFirst()));
+                        if (found.size() == 1 && found.getFirst().getPaidStatus().equals("has not paid")) {
+                                System.out.println("Would you like to pay the fee with your current balance?");
+                                System.out.print("Type yes or no: ");
+                                while(true) {
+                                    String input = sc.next().toLowerCase();
+                                    double remainingBalance = found.getFirst().getBalance() - found.getFirst().getAnnualFee();
+                                    double remainingFee = found.getFirst().getAnnualFee() - found.getFirst().getBalance();
+                                    if (input.equals("yes") && found.getFirst().getBalance() >= found.getFirst().getAnnualFee() && found.getFirst().getBalance() > 0.0) {
+                                        found.getFirst().setPaidStatus(true);
+                                        System.out.println(found.getFirst().getName() + "'s balance after the payment: " + remainingBalance +
+                                                " remaining fee after the payment: 0.0");
+                                        found.getFirst().setBalance(remainingBalance);
+                                        found.getFirst().setAnnualFee(0.0);
+                                        break;
+                                    } else if (input.equals("yes") && found.getFirst().getBalance() < found.getFirst().getAnnualFee() && found.getFirst().getBalance() > 0.0) {
+                                        System.out.println(found.getFirst().getName() + "'s balance after the payment: " + "0.0" +
+                                                " remaining fee after the payment: " + remainingFee);
+                                        found.getFirst().setBalance(0.0);
+                                        found.getFirst().setAnnualFee(remainingFee);
+                                        break;
+                                    } else if (input.equals("yes") && found.getFirst().getBalance() <= 0.0){
+                                        System.out.println("To proceed the payment, please deposit some money.\nYour balance: "
+                                                + found.getFirst().getBalance() +"\nYour fee: " + found.getFirst().getAnnualFee());
+                                        break;
+                                    } else if (input.equals("no")) {
+                                        System.out.println("-> Returning back to menu.");
+                                        break;
+                                    } else {
+                                        System.out.println("Unknown request, please try again.");
+                                    }
+                                }
+                        } else if (found.size() == 1 && found.getFirst().getPaidStatus().equals("has not paid")) {
+                            System.out.println(found.getFirst().getName() + " has already paid his fee for this year.");
+                        } else if (found.isEmpty()) {
+                            System.out.println("Couldn't find the member, try again or use ID instead.");
+                        } else {
+                            StringBuilder toPrint = new StringBuilder();
+                            toPrint.append("We found more than 1 member, please try again.\n");
+                            for (Member member : found){
+                                toPrint.append("\nID: ").append(member.getID()).append("\nName: ").append(member.getName());
+                            }
+                            toPrint.append("\n\"HINT\" Try to use ID instead of name.");
+                            System.out.println(toPrint);
                         }
-                    }
+                }
 
+                public void depositMemberBalance(){
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Which member deposited money?: ");
+                String name = sc.nextLine();
+                System.out.print("Register the amount that got deposited: ");
+                double balance = sc.nextDouble();
+                System.out.println(controller.depositMemberBalance(name, balance));
+                }
+
+                public void listMembers(){
+                    Scanner sc = new Scanner(System.in);
+                    System.out.println("You have 3 types of lists:\n1. Print a list of all members." +
+                            "\n2. Print a list of all members who paid their fees." +
+                            "\n3. Print a list of all members who didn't pay their fees.");
+                    String command = sc.next();
+                    switch (command){
+                        case "1" -> System.out.println(controller.getMembers().memberList());
+                        case "2" -> {
+                            ArrayList<Member> found = controller.paidSearch(true);
+                            if (!found.isEmpty()) {
+                                for (Member member : found) {
+                                    System.out.println(member.toString());
+                                }
+                            } else {
+                                System.out.println("No member has paid their fees yet.");
+                            }
+                        }
+                        case "3" -> {
+                            ArrayList<Member> found = controller.paidSearch(false);
+                            if (!found.isEmpty()) {
+                                for (Member member : found) {
+                                    System.out.println(member.toString());
+                                }
+                            } else {
+                                System.out.println("Every member has paid their fees.");
+                            }
+                        }
+                        default -> System.out.println("Unknown request, please try again.");
+                    }
                 }
 }
