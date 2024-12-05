@@ -17,6 +17,7 @@ public class Member {
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
+    private double debt = 0;
 
     public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
                   boolean isCompetitive) {
@@ -151,7 +152,21 @@ public class Member {
                 "\nIs senior: "+isSenior+
                 "\nIs competitive: "+isCompetitive+
                 "\nAnnual fee: "+getAnnualFee()+" DKK"+
+                "\ndebt: " + getDebt()+
                 "\nBalance: "+getBalance()+" DKK" +
                 "\nPayment status: "+getPaidStatus()+"\n";
+    }
+
+    public double getDebt() {
+        return debt;
+    }
+
+    public void setDebt(double debt) {
+        this.debt = debt;
+    }
+
+    public void yearpassed()
+    {
+        debt =+ annualFee;
     }
 }

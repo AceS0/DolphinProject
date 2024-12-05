@@ -1,12 +1,19 @@
 import java.util.ArrayList;
 
-public class MemberHandling {
+public class Members {
     private final ArrayList<Member> members = new ArrayList();
+    private int openId = 0;
     
-    public MemberHandling(){
-        Member enes = new Member(1,"enes",60,50102030,
+    public Members(){
+        Member enes = new Member(0,"enes",60,50102030,
                 "EnesZeki@dk",true,false,true);
         members.add(enes);
+    }
+
+    public int generateID()
+    {
+        openId++;
+        return openId;
     }
 
     //Metode til at finde members
@@ -50,13 +57,13 @@ public class MemberHandling {
 
     public String balancePaid(Member member){
         double balance = member.getBalance();
-        double annualFee = member.getAnnualFee();
-        if (balance >= annualFee){
+        double debt = member.getDebt();
+        if (balance >= debt){
             return member.getName() + "'s balance: " + balance + " the fee: " +
-                    annualFee;
+                    debt;
         } else {
             return member.getName() + "'s balance: " + balance + " the fee: " +
-                    annualFee +"\nPlease, deposit the needed balance to pay the full fee.\n";
+                    debt +"\nPlease, deposit the needed balance to pay the full fee.\n";
         }
     }
 
@@ -118,8 +125,11 @@ public class MemberHandling {
         return toPrint.toString();
     }
 
-    public void addMember(Member member){
-        members.add(member);
+    public Member addMember(String name, int age, int number,
+                          String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
+        Member added = new Member(generateID(), name, age, number, mail, isActive, isSenior, isCompetitive);
+        members.add(added);
+        return added;
     }
 
     public void removeMember(Member member){

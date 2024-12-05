@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class Controller {
-    private final MemberHandling members = new MemberHandling();
+    private final Members members = new Members();
 
-    public void addMemberToList(int ID, String name, int age, int number,
+    public Member addMemberToList(String name, int age, int number,
                                 String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
 
-        members.addMember(new Member(ID, name, age, number, mail, isActive, isSenior, isCompetitive));
+        return members.addMember(name, age, number, mail, isActive, isSenior, isCompetitive);
     }
 
     public void removeMemberFromList(Member member){
@@ -22,7 +22,7 @@ public class Controller {
         return members.balancePaid(member);
     }
 
-    public MemberHandling getMembers(){
+    public Members getMembers(){
         return members;
     }
 
