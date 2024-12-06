@@ -1,10 +1,15 @@
+package Controller;
+
+import Domain.MemberClasses.Member;
+import Domain.MemberClasses.Members;
+
 import java.util.ArrayList;
 
 public class Controller {
     private final Members members = new Members();
 
     public Member addMemberToList(String name, int age, int number,
-                                String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
+                                  String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
 
         return members.addMember(name, age, number, mail, isActive, isSenior, isCompetitive);
     }

@@ -1,3 +1,8 @@
+package UI;
+
+import Controller.Controller;
+import Domain.MemberClasses.Member;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +12,35 @@ public class UserInterface {
     private final Controller controller = new Controller();
 
     public void userInterface() {
+        frontPage();
 
+    }
+    public void frontPage()
+    {
+        boolean running = true;
+        while (running)
+        {
+            Scanner sc = new Scanner(System.in);
+            String userInput = reqString(
+                    """
+                            Welcome to your swimming club.
+                            choose what category to manage:\s
+                            1. members
+                            2. tourneys
+                            3. Exit
+                            Type here:\s""", sc);
+            switch (userInput)
+            {
+                case  "1", "members", "m" -> memberManagement();
+                case  "2", "tourney", "t" -> tourneyManagement();
+                case  "3", "exit" -> running = false;
+            }
+        }
+    }
+
+    //Metode til at tilføje en member
+
+    public void memberManagement() {
         boolean running = true;
         Scanner sc = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -89,14 +122,13 @@ public class UserInterface {
                         }
                     }
                     case "8", "deposit" -> depositMemberBalance();
+                    case "10", "exit" -> running = false;
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
             }
         }
     }
-
-    //Metode til at tilføje en member
 
     public void addMemberByUser() {
         Scanner sc = new Scanner(System.in);
@@ -212,11 +244,11 @@ public class UserInterface {
                     System.out.println(member.toString());
                 }
                 boolean input = reqBool("Do you want to edit " + found.getFirst().getName() + "? \nType here: ", sc);
-                    if (input) {
-                        editMemberSplit(found.getFirst());
-                    } else if (!input) {
-                        System.out.println("-> Returning back to menu.");
-                        userInterface();
+                if (input) {
+                    editMemberSplit(found.getFirst());
+                } else if (!input) {
+                    System.out.println("-> Returning back to menu.");
+                    userInterface();
                 }
 
             } else {
@@ -355,31 +387,31 @@ public class UserInterface {
         String name = foundMember.getName();
         System.out.println(controller.getBalancePayment(foundMember));
         if (found.size() == 1 && foundMember.getPaidStatus().equals("has not paid")) {
-                Scanner sc = new Scanner(System.in);
-                boolean input = reqBool("Would you like to pay the fee with your current balance?" + "\n" +  "Type yes or no: ", sc);
-                double debt = foundMember.getDebt();
-                double balance = foundMember.getBalance();
-                double remainingBalance = balance - debt;
-                double remainingFee = debt - balance;
-                if (input && balance >= debt && balance > 0) {
-                    foundMember.setPaidStatus(true);
-                    System.out.println(name + "'s balance after the payment: " + remainingBalance +
-                            " remaining fee after the payment: 0.0");
-                    foundMember.setBalance(remainingBalance);
-                    foundMember.setDebt(0);
-                } else if (input && balance < debt && balance > 0) {
-                    System.out.println(name + "'s balance after the payment: " + "0.0" +
-                            " remaining fee after the payment: " + remainingFee);
-                    foundMember.setBalance(0);
-                    foundMember.setDebt(remainingFee);
-                } else if (input && balance <= 0) {
-                    System.out.println("To proceed the payment, please deposit some money.\nYour balance: "
-                            + balance + "\nWhat you owe: " + debt);
-                } else if (!input) {
-                    System.out.println("-> Returning back to menu.");
-                }
+            Scanner sc = new Scanner(System.in);
+            boolean input = reqBool("Would you like to pay the fee with your current balance?" + "\n" + "Type yes or no: ", sc);
+            double debt = foundMember.getDebt();
+            double balance = foundMember.getBalance();
+            double remainingBalance = balance - debt;
+            double remainingFee = debt - balance;
+            if (input && balance >= debt && balance > 0) {
+                foundMember.setPaidStatus(true);
+                System.out.println(name + "'s balance after the payment: " + remainingBalance +
+                        " remaining fee after the payment: 0.0");
+                foundMember.setBalance(remainingBalance);
+                foundMember.setDebt(0);
+            } else if (input && balance < debt && balance > 0) {
+                System.out.println(name + "'s balance after the payment: " + "0.0" +
+                        " remaining fee after the payment: " + remainingFee);
+                foundMember.setBalance(0);
+                foundMember.setDebt(remainingFee);
+            } else if (input && balance <= 0) {
+                System.out.println("To proceed the payment, please deposit some money.\nYour balance: "
+                        + balance + "\nWhat you owe: " + debt);
+            } else if (!input) {
+                System.out.println("-> Returning back to menu.");
+            }
         } else if (found.size() == 1 && foundMember.getPaidStatus().equals("has not paid")) {
-            System.out.println( name + " has already paid his fee for this year.");
+            System.out.println(name + " has already paid his fee for this year.");
         } else if (found.isEmpty()) {
             System.out.println("Couldn't find the member, try again or use ID instead.");
         } else {
@@ -396,12 +428,11 @@ public class UserInterface {
     public void depositMemberBalance() {
         Scanner sc = new Scanner(System.in);
         Member found;
-        while(true) {
+        while (true) {
             ArrayList<Member> list = controller.runSearch(reqString("what member are you looking for: ", sc));
-            if (list.isEmpty())
-            {
+            if (list.isEmpty()) {
                 System.out.println("member was not found, please try again \n");
-            }else {
+            } else {
                 found = list.getFirst();
                 break;
             }
@@ -444,12 +475,17 @@ public class UserInterface {
         }
     }
 
+    public void tourneyManagement()
+    {
+        System.out.println("you're in tourneyManagement, bye");
+    }
+
     public int reqInt(String quote, Scanner sc) {
         System.out.print(quote);
         while (true) {
             String temp = sc.nextLine();
             String tempExclLetters = temp.replaceAll("[^0-9]", "");
-            if (!tempExclLetters.equals("")) {
+            if (!tempExclLetters.isEmpty()) {
                 return Integer.parseInt(tempExclLetters);
             } else System.out.println("no number was found");
         }
@@ -474,15 +510,14 @@ public class UserInterface {
         }
     }
 
-    public double reqDouble(String quote, Scanner sc)
-    {
+    public double reqDouble(String quote, Scanner sc) {
         System.out.print(quote);
-        while(true) {
+        while (true) {
             String input = sc.next();
             try {
                 return Double.parseDouble(input);
 
-            } catch (NumberFormatException nsee){
+            } catch (NumberFormatException nsee) {
                 System.out.println("invalid input, try again");
 
             }
