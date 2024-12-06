@@ -21,4 +21,9 @@ public class Competitor {
     public Double getTime() {
         return time;
     }
+
+    public String getCompact()
+    {
+        return name +";"+ id +";"+ time;
+    }
 }

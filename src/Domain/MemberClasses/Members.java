@@ -7,15 +7,20 @@ public class Members {
     private int openId = 0;
     
     public Members(){
-        Member enes = new Member(0,"enes",60,50102030,
+        /*Member enes = new Member(0,"enes",60,50102030,
                 "EnesZeki@dk",true,false,true);
-        members.add(enes);
+        members.add(enes);*/
     }
 
     public int generateID()
     {
         openId++;
         return openId;
+    }
+
+    public void setOpenID(int id)
+    {
+        openId = id;
     }
 
     //Metode til at finde members
@@ -176,5 +181,24 @@ public class Members {
             default:
                 return null;
         }
+    }
+
+    public ArrayList<Member> getMembers() {
+        return members;
+    }
+
+    public String compactMembers() {
+        StringBuilder result = new StringBuilder();
+        result.append(openId+"\n");
+        for(Member member : members)
+        {
+            result.append(member.getCompact() + "\n");
+        }
+        return (result.toString());
+    }
+
+    public void addMemberByObject(Member member)
+    {
+        members.add(member);
     }
 }

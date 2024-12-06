@@ -8,17 +8,26 @@ public class Tournament {
     private String date;
     private String place;
     private String category;
+    private int id;
 
-    public Tournament(String name, String date, String place, ArrayList<Competitor> competitors, String category)
+    public Tournament(int id,String name, String date, String place, String category, ArrayList<Competitor> competitors)
     {
         this.name = name;
         this.date = date;
         this.place = place;
         this.competitors = competitors;
         this.category = category;
+        this.id = id;
 
     }
 
+    public String getCompact() {
+        StringBuilder competitorsCompact = new StringBuilder();
+        for (Competitor competitor:competitors) {
+            competitorsCompact.append(competitor.getCompact());
+        }
+        return id +";"+ name +";"+ date +";"+ place +";"+ category +";"+ competitorsCompact;
+    }
 
     public String getName() {
         return name;
@@ -39,4 +48,19 @@ public class Tournament {
     public ArrayList<Competitor> getCompetitors() {
         return competitors;
     }
+
+    public int getID() {
+        return id;
+    }
+
+    public String getShortDescription() {
+        return "ID: " + id +
+                "\nName: " + name +
+                "\nTook place:" + place +
+                "\nDate: " + date +
+                "\nNumber of competitors: " + competitors.size() +
+                "\nCategory" + category;
+    }
+
+
 }

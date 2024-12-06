@@ -7,17 +7,20 @@ public class Member {
     private int number;
     private String mail;
     private boolean isActive;
-    private boolean isSenior;
     private boolean isCompetitive;
-    private double annualFee;
+    private double debt = 0;
     private double balance;
+
+    //separation for what can be done automatically or as a final
+    private double annualFee;
+    private boolean isSenior;
     private boolean hasPaid;
     private final int juniorRate = 1000;
     private final int seniorRate = 1600;
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
-    private double debt = 0;
+
 
     public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
                   boolean isCompetitive) {
@@ -29,8 +32,31 @@ public class Member {
         this.isActive = isActive;
         this.isSenior = isSenior;
         this.isCompetitive = isCompetitive;
+        setMembershipFee(isActive, age);
+    }
+    //overload for the save files
+    public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
+                  boolean isCompetitive, double debt, double balance) {
+        this.ID = ID;
+        this.name = name;
+        this.age = age;
+        this.number = number;
+        this.mail = mail;
+        this.isActive = isActive;
+        this.isSenior = isSenior;
+        this.isCompetitive = isCompetitive;
+        this.debt = debt;
+        this.balance = balance;
+        setMembershipFee(isActive, age);
+        if (debt == 0)
+        {
+            this.hasPaid = true;
+        }else this.hasPaid = false;
     }
 
+    public String getCompact() {
+        return ID+";"+ name +";"+ age +";"+ number +";"+ mail +";"+ isActive +";"+ isSenior +";"+ isCompetitive +";"+ debt +";"+ balance;
+    }
     public void setMembershipFee (boolean isActive, int age) {
         try {
             if (isActive) {
@@ -45,7 +71,6 @@ public class Member {
                 setAnnualFee(passiveRate);
             }
         } catch (Exception e) {
-            System.out.println("Input not valid!");
         }
     }
 
@@ -118,29 +143,6 @@ public class Member {
         return name;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public boolean getIsSenior() {
-        return isSenior;
-    }
-
-    public boolean getIsCompetitive() {
-        return isCompetitive;
-    }
 
     public String toString() {
         return  "ID: "+ID+
@@ -169,4 +171,6 @@ public class Member {
     {
         debt =+ annualFee;
     }
+
+
 }

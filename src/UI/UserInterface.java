@@ -2,6 +2,8 @@ package UI;
 
 import Controller.Controller;
 import Domain.MemberClasses.Member;
+import Domain.TournamentClasses.Competitor;
+import Domain.TournamentClasses.Tournament;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +14,8 @@ public class UserInterface {
     private final Controller controller = new Controller();
 
     public void userInterface() {
+        System.out.println(controller.loadMembers() + "\n");
+        System.out.println(controller.loadTourneys());
         frontPage();
 
     }
@@ -23,6 +27,7 @@ public class UserInterface {
             Scanner sc = new Scanner(System.in);
             String userInput = reqString(
                     """
+                            
                             Welcome to your swimming club.
                             choose what category to manage:\s
                             1. members
@@ -46,7 +51,8 @@ public class UserInterface {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(
                 """
-                        Welcome to your swimming club.
+                        
+                        You're managing members.
                         Below is your options:\s
                         1. Create a member.
                         2. Remove a member.
@@ -174,22 +180,23 @@ public class UserInterface {
         int balance = reqInt("How much did the member deposit?: ", sc);
 
         Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage1, competitive1);
+        //tilføjer ikke balance, check helst på et tidspunkt
         controller.setMembershipBalanceFee(m.getID(), memberName, activity, age, balance);
         System.out.println("You have created a new member, and successfully connected a membership ID.");
     }
 
-    public void removeMemberByUser(String inputs) {
+    public String removeMemberByUser(String inputs) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Member> found = controller.runSearch(inputs);
         if (found.isEmpty()) {
             System.out.println("\nThe member doesn't exist, please create the member if needed.\n");
-            userInterface();
+            return null;
         } else {
             for (Member member : found) {
                 if (found.size() == 1) {
                     System.out.println("You have successfully removed " + member.getName() + "\n");
                     controller.removeMemberFromList(member);
-                    userInterface();
+                    return null;
                 }
             }
             while (true) {
@@ -206,7 +213,7 @@ public class UserInterface {
                         if (found.size() == 1) {
                             System.out.println("You have successfully removed " + member.getName());
                             controller.removeMemberFromList(member);
-                            return;
+                            return null;
                         }
                     }
                     if (found.isEmpty()) {
@@ -214,7 +221,7 @@ public class UserInterface {
                         System.out.print("Type here: ");
                         String input = reqString("The member doesn't exist, please try again or to leave type exit or quit \n Type here: ", sc);
                         if (input.equals("quit") || input.equals("exit")) {
-                            return;
+                            return null;
                         } else {
                             removeMemberByUser(input);
                         }
@@ -232,7 +239,7 @@ public class UserInterface {
         }
     }
 
-    public void searchForMember(String thisMember) {
+    public String searchForMember(String thisMember) {
         ArrayList<Member> found = controller.runSearch(thisMember);
         Scanner sc = new Scanner(System.in);
         if (found.isEmpty()) {
@@ -248,7 +255,7 @@ public class UserInterface {
                     editMemberSplit(found.getFirst());
                 } else if (!input) {
                     System.out.println("-> Returning back to menu.");
-                    userInterface();
+                    return null;
                 }
 
             } else {
@@ -271,13 +278,14 @@ public class UserInterface {
                     System.out.print("Type here: ");
                     input = sc.nextLine();
                     if (input.equals("quit") || input.equals("exit")) {
-                        userInterface();
+                        return null;
                     } else {
                         searchForMember(input);
                     }
                 }
             }
         }
+        return null;
     }
 
     public void editMember(String thisMember) {
@@ -475,10 +483,108 @@ public class UserInterface {
         }
     }
 
-    public void tourneyManagement()
-    {
-        System.out.println("you're in tourneyManagement, bye");
+    public void tourneyManagement() {
+        boolean running = true;
+        while (running)
+        {
+            Scanner sc = new Scanner(System.in);
+            String userInput = reqString(
+                    """
+                            
+                            you're currently managing tournaments
+                            
+                            choose what to do:\s
+                            1. create tourney
+                            2. list tourneys
+                            3. search for tourneys
+                            10. exit
+                            Type here:\s""", sc);
+            String[] splitPut = userInput.split(" ");
+            String command = splitPut[0];
+            switch (command)
+            {
+                case  "1", "create":
+                    createTournament();
+                    break;
+                case  "2", "list":
+                    if (splitPut.length>1) {
+                        workInProgress();
+                    }else workInProgress();
+                    break;
+                case  "3", "search":
+                   if (splitPut.length>1) {
+                       tourneySearcher(splitPut[1]);
+                   }else tourneySearcher(null);
+                   break;
+                case "10", "exit":
+                {
+                 running = false;
+                }
+            }
+        }
     }
+
+    private void createTournament() {
+        Scanner sc = new Scanner(System.in);
+        String name = reqString("enter tournament name: ", sc);
+        String date = reqString("enter tournament date: ", sc);
+        String place = reqString("enter tournament placement: ", sc);
+        String category = reqString("enter tournament category: ", sc);
+        ArrayList<Competitor> competitors = new ArrayList<Competitor>();
+        while(true)
+        {
+
+            reqBool("do you wish to add more competitors")
+        }
+        controller.createTournament(name, date, place, category, competitors);
+    }
+
+    private void workInProgress() {
+        System.out.println("work in progress \n");
+    }
+
+    public void tourneySearcher(String input) {
+        Scanner sc = new Scanner(System.in);
+        if (input == null)
+        {
+            input = reqString("what is either the ID or name of the tourney: ", sc);
+        }
+        ArrayList<Tournament> found = controller.runTournamentSearch(input);
+        if (found != null) {
+            if (found.isEmpty()) {
+                System.out.println("The tourney you searched for does not exist, please try again.");
+            } else {
+
+                if (found.size() == 1) {
+                    for (Tournament tournament : found) {
+                        System.out.println(tournament.getShortDescription());
+                    }
+
+                } else {
+                    for (Tournament tournament : found) {
+                        System.out.println(tournament.getShortDescription());
+                    }
+                    input = reqString("Which tourney do you want to get more details about? \nType here: ", sc);
+                    found = controller.runTournamentSearch(input);
+
+                    for (Tournament ignored : found) {
+                        if (!found.isEmpty()) {
+                            tourneySearcher(input);
+                        }
+                    }
+
+                    if (found.isEmpty()) {
+                        input = reqString("Couldn't find the Tournament, please try again or to leave type exit or quit. \nType here: ", sc);
+                        if (input.equals("quit") || input.equals("exit")) {
+                        } else {
+                            tourneySearcher(input);
+                        }
+                    }
+                }
+            }
+        }else System.out.println("there are no tournaments available at the moment. please create a tournament before searching.");
+    }
+
 
     public int reqInt(String quote, Scanner sc) {
         System.out.print(quote);
@@ -517,7 +623,7 @@ public class UserInterface {
             try {
                 return Double.parseDouble(input);
 
-            } catch (NumberFormatException nsee) {
+            } catch (NumberFormatException e) {
                 System.out.println("invalid input, try again");
 
             }
