@@ -5,7 +5,7 @@ import Domain.MemberClasses.Member;
 import java.util.ArrayList;
 public class Tournaments {
 
-    private ArrayList<Tournament> tournamentList;
+    private ArrayList<Tournament> tournamentList = new ArrayList<Tournament>();
     private int openID = 0;
 
     public void createTournament(String name, String date, String place, String category, ArrayList<Competitor> competitors)

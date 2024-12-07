@@ -8,15 +8,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
 public class FileHandler {
+    private final File memberFile;
+    private final File tourneyFile ;
+
+    public FileHandler()
+    {
+        memberFile = new File("src/Files/MembersFile.txt");
+        tourneyFile = new File("src/Files/TourneysFile.txt");
+    }
 
     public String saveToMembersFile(Members members) {
-        File file = new File("Files/MembersFile.txt");
+
         try {
-            FileWriter writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(memberFile);
             writer.write("contains all members \n");
             writer.write(members.compactMembers());
             writer.close();
@@ -28,7 +37,7 @@ public class FileHandler {
     }
 
     public String saveToTournamentsFile(Tournaments tournaments) {//wip
-        File file = new File("Files/TournamentsFile.txt");
+        File file = tourneyFile;
         try {
             FileWriter writer = new FileWriter(file);
             writer.write("\n");
@@ -43,11 +52,10 @@ public class FileHandler {
 
 
     public String loadMembersFile(Members members) {
-        File file = new File("Files/MembersFile.txt");
         Scanner sc = null;
         int x = 0;
         try {
-            sc = new Scanner(file);
+            sc = new Scanner(memberFile);
             sc.nextLine();
 
             Member checkFile = null;
@@ -75,7 +83,7 @@ public class FileHandler {
                 }
             }
             sc.close();
-        } catch (NullPointerException | FileNotFoundException ignored) {
+        } catch (NullPointerException | FileNotFoundException | NoSuchElementException ignored) {
             return "\nload failed";
         }
         return ("\n" + x + " members Loaded successfully.");
@@ -83,11 +91,11 @@ public class FileHandler {
 
 
     public String deleteFile() {
-        File file = new File("save.txt");
-        if (file.delete()) {
-            return "You have deleted a file ";
+
+        if (memberFile.delete()) {
+            return "You have deleted a Memberfile ";
         } else {
-            return "You need a file, before you can delete.";
+            return "You need a Memberfile, before you can delete.";
         }
     }
 

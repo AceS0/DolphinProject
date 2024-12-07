@@ -19,11 +19,10 @@ public class UserInterface {
         frontPage();
 
     }
-    public void frontPage()
-    {
+
+    public void frontPage() {
         boolean running = true;
-        while (running)
-        {
+        while (running) {
             Scanner sc = new Scanner(System.in);
             String userInput = reqString(
                     """
@@ -34,11 +33,10 @@ public class UserInterface {
                             2. tourneys
                             3. Exit
                             Type here:\s""", sc);
-            switch (userInput)
-            {
-                case  "1", "members", "m" -> memberManagement();
-                case  "2", "tourney", "t" -> tourneyManagement();
-                case  "3", "exit" -> running = false;
+            switch (userInput) {
+                case "1", "members", "m" -> memberManagement();
+                case "2", "tourney", "t" -> tourneyManagement();
+                case "3", "exit" -> running = false;
             }
         }
     }
@@ -485,8 +483,7 @@ public class UserInterface {
 
     public void tourneyManagement() {
         boolean running = true;
-        while (running)
-        {
+        while (running) {
             Scanner sc = new Scanner(System.in);
             String userInput = reqString(
                     """
@@ -501,24 +498,22 @@ public class UserInterface {
                             Type here:\s""", sc);
             String[] splitPut = userInput.split(" ");
             String command = splitPut[0];
-            switch (command)
-            {
-                case  "1", "create":
+            switch (command) {
+                case "1", "create":
                     createTournament();
                     break;
-                case  "2", "list":
-                    if (splitPut.length>1) {
+                case "2", "list":
+                    if (splitPut.length > 1) {
                         workInProgress();
-                    }else workInProgress();
+                    } else workInProgress();
                     break;
-                case  "3", "search":
-                   if (splitPut.length>1) {
-                       tourneySearcher(splitPut[1]);
-                   }else tourneySearcher(null);
-                   break;
-                case "10", "exit":
-                {
-                 running = false;
+                case "3", "search":
+                    if (splitPut.length > 1) {
+                        tourneySearcher(splitPut[1]);
+                    } else tourneySearcher(null);
+                    break;
+                case "10", "exit": {
+                    running = false;
                 }
             }
         }
@@ -531,12 +526,30 @@ public class UserInterface {
         String place = reqString("enter tournament placement: ", sc);
         String category = reqString("enter tournament category: ", sc);
         ArrayList<Competitor> competitors = new ArrayList<Competitor>();
-        while(true)
-        {
+        while (true) {
+            Member competitorMember = searchSpecificMember(reqString("please enter the name or id of a competitor", sc), sc);
+            System.out.println("added " + competitorMember.getShortDescription() + " to the tournament");
+            competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc)));
+            if (!reqBool("do you wish to add more competitors: ", sc)) {
+                break;
+            }
 
-            reqBool("do you wish to add more competitors")
         }
         controller.createTournament(name, date, place, category, competitors);
+    }
+
+    private Member searchSpecificMember(String input, Scanner sc)
+    {
+        ArrayList<Member> toNarrow = controller.runSearch(input);
+
+         if (toNarrow.size() == 1)
+        {
+            return toNarrow.getFirst();
+        }else {
+            System.out.println("the following members were found" + "\n" + controller.getMembers().memberListShort());
+             return searchSpecificMember(reqString("please try to specify the member using the id's of the listed members, or type quit to stop " +
+                    "\ntype here: ", sc),sc);
+        }
     }
 
     private void workInProgress() {
@@ -545,8 +558,7 @@ public class UserInterface {
 
     public void tourneySearcher(String input) {
         Scanner sc = new Scanner(System.in);
-        if (input == null)
-        {
+        if (input == null) {
             input = reqString("what is either the ID or name of the tourney: ", sc);
         }
         ArrayList<Tournament> found = controller.runTournamentSearch(input);
@@ -582,7 +594,8 @@ public class UserInterface {
                     }
                 }
             }
-        }else System.out.println("there are no tournaments available at the moment. please create a tournament before searching.");
+        } else
+            System.out.println("there are no tournaments available at the moment. please create a tournament before searching.");
     }
 
 
@@ -605,10 +618,10 @@ public class UserInterface {
     public Boolean reqBool(String quote, Scanner sc) {
         System.out.print(quote);
         while (true) {
-            switch (sc.nextLine().toLowerCase()) {
-                case "true", "yes":
+            switch (sc.next().toLowerCase()) {
+                case "true", "yes", "1":
                     return true;
-                case "false", "no":
+                case "false", "no", "2":
                     return false;
                 default:
                     System.out.println("that's not a true or false, try again");

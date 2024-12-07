@@ -97,4 +97,9 @@ public class Controller {
     public void createTournament(String name, String date, String place, String category, ArrayList<Competitor> competitors) {
         tournaments.createTournament(name, date, place, category, competitors);
     }
+
+    public Competitor createCompetitor(Member member, double time)
+    {
+        return tournaments.createCompetitor(member, time);
+    }
 }

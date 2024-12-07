@@ -171,6 +171,10 @@ public class Member {
     {
         debt =+ annualFee;
     }
+    public String getShortDescription()
+    {
+        return name+ "\n"+ mail;
+    }
 
 
 }
