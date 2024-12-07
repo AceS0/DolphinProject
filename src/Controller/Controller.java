@@ -24,6 +24,14 @@ public class Controller {
     public Controller() {
     }
 
+    public String loadMembers()
+    {
+        return fileHandler.loadMembersFile(members);
+    }
+
+    public String loadTourneys() {
+        return  fileHandler.loadTournamentFile(tournaments);
+    }
 
     public void removeMemberFromList(Member member){
 
@@ -85,21 +93,26 @@ public class Controller {
         String text = fileHandler.saveToMembersFile(members);
     }
 
-    public String loadMembers()
-    {
-        return fileHandler.loadMembersFile(members);
-    }
-
-    public String loadTourneys() {
-        return  fileHandler.loadTournamentFile(tournaments);
-    }
 
     public void createTournament(String name, String date, String place, String category, ArrayList<Competitor> competitors) {
         tournaments.createTournament(name, date, place, category, competitors);
+        fileHandler.saveToTournamentsFile(tournaments);
     }
 
     public Competitor createCompetitor(Member member, double time)
     {
         return tournaments.createCompetitor(member, time);
+    }
+
+    public Tournaments getTournaments() {
+        return tournaments;
+    }
+
+    public String wipeMembers() {
+        return fileHandler.wipeMemberFile();
+    }
+
+    public String  wipeTourneys() {
+        return fileHandler.wipeTournamentFile();
     }
 }

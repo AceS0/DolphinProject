@@ -4,6 +4,7 @@ import Controller.Controller;
 import Domain.MemberClasses.Member;
 import Domain.TournamentClasses.Competitor;
 import Domain.TournamentClasses.Tournament;
+import Domain.TournamentClasses.Tournaments;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,8 +41,6 @@ public class UserInterface {
             }
         }
     }
-
-    //Metode til at tilføje en member
 
     public void memberManagement() {
         boolean running = true;
@@ -104,8 +103,7 @@ public class UserInterface {
                         if (splitPut.length > 1) {
                             searchForMember(splitPut[1]);
                         } else {
-                            System.out.print("insert search term: ");
-                            searchForMember(sc.next());
+                            searchForMember(reqString("insert search term: ", sc));
                         }
                     }
                     case "4", "list", "l" -> listMembers();
@@ -126,12 +124,32 @@ public class UserInterface {
                         }
                     }
                     case "8", "deposit" -> depositMemberBalance();
+                    case "9", "wipe" ->wipeMembers();
+                    case "help" -> System.out.println(
+                            """
+                                    
+                                    You're managing members.
+                                    Below is your options:\s
+                                    1. Create a member.
+                                    2. Remove a member.
+                                    3. Search for a member.
+                                    4. List the members.
+                                    5. Edit a member.
+                                    6. Calculate total annual membership fee.
+                                    7. Check member's balance and pay fee.
+                                    8. Deposit balance for a member.
+                                    10. Exit""");
                     case "10", "exit" -> running = false;
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
             }
         }
+    }
+
+    private void wipeMembers() {
+        Scanner sc = new Scanner(System.in);
+        if (reqBool("are you sure you want to wipe all tournaments from the saved files?",sc)) System.out.println(controller.wipeMembers());
     }
 
     public void addMemberByUser() {
@@ -183,18 +201,17 @@ public class UserInterface {
         System.out.println("You have created a new member, and successfully connected a membership ID.");
     }
 
-    public String removeMemberByUser(String inputs) {
+    public void removeMemberByUser(String inputs) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Member> found = controller.runSearch(inputs);
         if (found.isEmpty()) {
             System.out.println("\nThe member doesn't exist, please create the member if needed.\n");
-            return null;
         } else {
             for (Member member : found) {
                 if (found.size() == 1) {
                     System.out.println("You have successfully removed " + member.getName() + "\n");
                     controller.removeMemberFromList(member);
-                    return null;
+                    return;
                 }
             }
             while (true) {
@@ -211,7 +228,7 @@ public class UserInterface {
                         if (found.size() == 1) {
                             System.out.println("You have successfully removed " + member.getName());
                             controller.removeMemberFromList(member);
-                            return null;
+                            return;
                         }
                     }
                     if (found.isEmpty()) {
@@ -219,7 +236,7 @@ public class UserInterface {
                         System.out.print("Type here: ");
                         String input = reqString("The member doesn't exist, please try again or to leave type exit or quit \n Type here: ", sc);
                         if (input.equals("quit") || input.equals("exit")) {
-                            return null;
+                            return;
                         } else {
                             removeMemberByUser(input);
                         }
@@ -237,10 +254,18 @@ public class UserInterface {
         }
     }
 
-    public String searchForMember(String thisMember) {
-        ArrayList<Member> found = controller.runSearch(thisMember);
+    public void searchForMember(String thisMember) {
         Scanner sc = new Scanner(System.in);
-        if (found.isEmpty()) {
+        Member found = searchSpecificMember(thisMember, sc);
+        if (found == null) {
+            System.out.println("Returning back to menu.");
+            return;
+        }
+        //System.out.println(found.getShortDescription());
+        editMember(String.valueOf(found.getID()));
+
+        //forkortet så meget kode jeg næsten får et angstanfald
+        /* (found.isEmpty()) {
             System.out.println("The member you searched for does not exist, please try again.");
         } else {
 
@@ -281,33 +306,22 @@ public class UserInterface {
                         searchForMember(input);
                     }
                 }
-            }
-        }
-        return null;
+            }*/
     }
 
     public void editMember(String thisMember) {
-        try {
-            ArrayList<Member> found = controller.runSearch(thisMember);
-            Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        Member found = searchSpecificMember(thisMember, sc);
+        if (found == null) {
+            System.out.println("Returning back to menu.");
+            return;
+        }
 
-
-            System.out.println("Do you want to edit '" + found.getFirst().getName() + "'? (yes/no)");
-            String input = sc.next().toLowerCase();
-            while (true) {
-                if (input.equals("yes") || input.equals("y")) {
-                    editMemberSplit(found.getFirst());
-                    return;
-                } else if (input.equals("no") || input.equals("n")) {
-                    System.out.println("-> Returning back to menu.");
-                    return;
-                } else {
-                    System.out.print("Couldn't interpret the input, please enter Yes or No: ");
-                    input = sc.next().toLowerCase();
-                }
-            }
-        } catch (NoSuchElementException nsee) {
-            System.out.println("The member was either not found or the members collection is empty, please try again.");
+        Boolean input = reqBool("found member: \n" + found+  "do you wish to edit this member?:", sc);
+        if (input) {
+            editMemberSplit(found);
+        } else {
+            System.out.println("-> Returning back to menu.");
         }
     }
 
@@ -388,62 +402,51 @@ public class UserInterface {
     }
 
     public void runBalancePayment(String findMember) {
-        ArrayList<Member> found = controller.runSearch(findMember);
-        Member foundMember = found.getFirst();
-        String name = foundMember.getName();
-        System.out.println(controller.getBalancePayment(foundMember));
-        if (found.size() == 1 && foundMember.getPaidStatus().equals("has not paid")) {
-            Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        Member found = searchSpecificMember(findMember, sc);
+        if (found == null) {
+            System.out.println("Returning back to menu.");
+            return;
+        }
+        String name = found.getName();
+        System.out.println(controller.getBalancePayment(found));
+        if (found.getPaidStatus().equals("has not paid")) {
             boolean input = reqBool("Would you like to pay the fee with your current balance?" + "\n" + "Type yes or no: ", sc);
-            double debt = foundMember.getDebt();
-            double balance = foundMember.getBalance();
+            double debt = found.getDebt();
+            double balance = found.getBalance();
             double remainingBalance = balance - debt;
             double remainingFee = debt - balance;
             if (input && balance >= debt && balance > 0) {
-                foundMember.setPaidStatus(true);
+                found.setPaidStatus(true);
                 System.out.println(name + "'s balance after the payment: " + remainingBalance +
                         " remaining fee after the payment: 0.0");
-                foundMember.setBalance(remainingBalance);
-                foundMember.setDebt(0);
+                found.setBalance(remainingBalance);
+                found.setDebt(0);
             } else if (input && balance < debt && balance > 0) {
                 System.out.println(name + "'s balance after the payment: " + "0.0" +
                         " remaining fee after the payment: " + remainingFee);
-                foundMember.setBalance(0);
-                foundMember.setDebt(remainingFee);
+                found.setBalance(0);
+                found.setDebt(remainingFee);
             } else if (input && balance <= 0) {
                 System.out.println("To proceed the payment, please deposit some money.\nYour balance: "
                         + balance + "\nWhat you owe: " + debt);
             } else if (!input) {
                 System.out.println("-> Returning back to menu.");
             }
-        } else if (found.size() == 1 && foundMember.getPaidStatus().equals("has not paid")) {
+        } else if (found.getPaidStatus().equals("has not paid")) {
             System.out.println(name + " has already paid his fee for this year.");
-        } else if (found.isEmpty()) {
-            System.out.println("Couldn't find the member, try again or use ID instead.");
-        } else {
-            StringBuilder toPrint = new StringBuilder();
-            toPrint.append("We found more than 1 member, please try again.\n");
-            for (Member member : found) {
-                toPrint.append("\nID: ").append(member.getID()).append("\nName: ").append(name);
-            }
-            toPrint.append("\nHINT Try to use ID instead of name.");
-            System.out.println(toPrint);
         }
     }
 
     public void depositMemberBalance() {
         Scanner sc = new Scanner(System.in);
         Member found;
-        while (true) {
-            ArrayList<Member> list = controller.runSearch(reqString("what member are you looking for: ", sc));
-            if (list.isEmpty()) {
-                System.out.println("member was not found, please try again \n");
-            } else {
-                found = list.getFirst();
-                break;
-            }
+        found = searchSpecificMember(reqString("what member are you looking for: ", sc), sc);
+        if (found == null) {
+            System.out.println("Returning back to menu.");
+            return;
         }
-
+        System.out.println("found member: "+ found.getShortDescription());
         double balance = reqDouble("Register the amount that got deposited:", sc);
 
         System.out.println(controller.depositMemberBalance(found.getName(), balance));
@@ -481,6 +484,26 @@ public class UserInterface {
         }
     }
 
+    private Member searchSpecificMember(String input, Scanner sc) {
+        ArrayList<Member> toNarrow = controller.runSearch(input.toLowerCase());
+
+        if (input.equals("quit")) {
+            return null;
+        }
+
+        if (toNarrow.isEmpty()) {
+            System.out.println();
+            return searchSpecificMember(reqString("no result found, try to write something different, \n or type quit to return to tournament management:", sc), sc);
+        }
+        if (toNarrow.size() == 1) {
+            return toNarrow.getFirst();
+        } else {
+            System.out.println("the following members were found" + "\n" + controller.getMembers().memberListShort());
+            return searchSpecificMember(reqString("please try to specify the member using the id's of the listed members, or type quit to stop " +
+                    "\ntype here: ", sc), sc);
+        }
+    }
+
     public void tourneyManagement() {
         boolean running = true;
         while (running) {
@@ -503,21 +526,31 @@ public class UserInterface {
                     createTournament();
                     break;
                 case "2", "list":
-                    if (splitPut.length > 1) {
-                        workInProgress();
-                    } else workInProgress();
+                {
+                    listTourneys();
                     break;
+                }
                 case "3", "search":
                     if (splitPut.length > 1) {
-                        tourneySearcher(splitPut[1]);
-                    } else tourneySearcher(null);
+                        searchForTourney(splitPut[1]);
+                    } else searchForTourney(reqString("enter search term: ", sc));
                     break;
+                    case "9", "wipe":
+                    {
+                        wipeTourneys();
+                    }
                 case "10", "exit": {
                     running = false;
                 }
             }
         }
     }
+
+    private void wipeTourneys() {
+        Scanner sc = new Scanner(System.in);
+        if (reqBool("are you sure you want to wipe all tournaments from the saved files?",sc)) System.out.println(controller.wipeTourneys());
+    }
+
 
     private void createTournament() {
         Scanner sc = new Scanner(System.in);
@@ -527,75 +560,59 @@ public class UserInterface {
         String category = reqString("enter tournament category: ", sc);
         ArrayList<Competitor> competitors = new ArrayList<Competitor>();
         while (true) {
+            boolean sameMember = false;
             Member competitorMember = searchSpecificMember(reqString("please enter the name or id of a competitor", sc), sc);
-            System.out.println("added " + competitorMember.getShortDescription() + " to the tournament");
-            competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc)));
-            if (!reqBool("do you wish to add more competitors: ", sc)) {
-                break;
+            if (competitorMember == null) break;
+            for (Competitor m: competitors)
+            {
+                if (m.getName().equals(competitorMember.getName())) sameMember = true;
             }
+            if (!sameMember) {
+                System.out.println("added " + "\n" + competitorMember.getShortDescription() + "\n" + "to the tournament");
+                competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc)));
+            }else System.out.println("this member has already been added\n");
+            if (!reqBool("do you wish to add more competitors: ", sc)) break;
 
         }
         controller.createTournament(name, date, place, category, competitors);
     }
 
-    private Member searchSpecificMember(String input, Scanner sc)
-    {
-        ArrayList<Member> toNarrow = controller.runSearch(input);
-
-         if (toNarrow.size() == 1)
-        {
-            return toNarrow.getFirst();
-        }else {
-            System.out.println("the following members were found" + "\n" + controller.getMembers().memberListShort());
-             return searchSpecificMember(reqString("please try to specify the member using the id's of the listed members, or type quit to stop " +
-                    "\ntype here: ", sc),sc);
-        }
+    private void listTourneys() {
+        Tournaments tournaments = controller.getTournaments();
+        System.out.println("tourneys:\n" +tournaments.listOfShortDescriptions());
     }
+
 
     private void workInProgress() {
         System.out.println("work in progress \n");
     }
 
-    public void tourneySearcher(String input) {
+    public void searchForTourney(String thisTourney) {
         Scanner sc = new Scanner(System.in);
-        if (input == null) {
-            input = reqString("what is either the ID or name of the tourney: ", sc);
+        Tournament found = searchSpecificTourney(thisTourney, sc);
+        if (found == null) {
+            System.out.println("Returning back to menu.");
+            return;
         }
-        ArrayList<Tournament> found = controller.runTournamentSearch(input);
-        if (found != null) {
-            if (found.isEmpty()) {
-                System.out.println("The tourney you searched for does not exist, please try again.");
-            } else {
+        System.out.println(found.getLongDescription());
+    }
 
-                if (found.size() == 1) {
-                    for (Tournament tournament : found) {
-                        System.out.println(tournament.getShortDescription());
-                    }
-
-                } else {
-                    for (Tournament tournament : found) {
-                        System.out.println(tournament.getShortDescription());
-                    }
-                    input = reqString("Which tourney do you want to get more details about? \nType here: ", sc);
-                    found = controller.runTournamentSearch(input);
-
-                    for (Tournament ignored : found) {
-                        if (!found.isEmpty()) {
-                            tourneySearcher(input);
-                        }
-                    }
-
-                    if (found.isEmpty()) {
-                        input = reqString("Couldn't find the Tournament, please try again or to leave type exit or quit. \nType here: ", sc);
-                        if (input.equals("quit") || input.equals("exit")) {
-                        } else {
-                            tourneySearcher(input);
-                        }
-                    }
-                }
-            }
-        } else
-            System.out.println("there are no tournaments available at the moment. please create a tournament before searching.");
+    private Tournament searchSpecificTourney(String input, Scanner sc) {
+        ArrayList<Tournament> toNarrow = controller.runTournamentSearch(input);
+        if (input.equals("quit")) {
+            return null;
+        }
+        if (toNarrow.isEmpty()) {
+            System.out.println();
+            return searchSpecificTourney(reqString("no result found, try to write something different, \n or type quit to return to tournament management:", sc), sc);
+        }
+        if (toNarrow.size() == 1) {
+            return toNarrow.getFirst();
+        } else {
+            System.out.println("the following tourneys were found" + "\n" + controller.getTournaments().listToShortDescriptions(toNarrow));
+            return searchSpecificTourney(reqString("please try to specify the tourney using the id's of the listed tourneys, or type quit to stop searching" +
+                    "\ntype here: ", sc), sc);
+        }
     }
 
 
@@ -617,14 +634,18 @@ public class UserInterface {
 
     public Boolean reqBool(String quote, Scanner sc) {
         System.out.print(quote);
+
         while (true) {
-            switch (sc.next().toLowerCase()) {
+            String next = sc.next().toLowerCase();
+            switch (next) {
                 case "true", "yes", "1":
                     return true;
                 case "false", "no", "2":
                     return false;
+                case"":
+                    break;
                 default:
-                    System.out.println("that's not a true or false, try again");
+                    System.out.println("that's not yes or no, try again");
             }
         }
     }

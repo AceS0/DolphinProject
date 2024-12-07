@@ -26,4 +26,9 @@ public class Competitor {
     {
         return name +";"+ id +";"+ time;
     }
+
+    public String toString()
+    {
+        return name + " time: " + time;
+    }
 }

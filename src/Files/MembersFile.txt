@@ -1,5 +1,4 @@
 contains all members 
-3
-1;1;1;1;1;true;true;true;0.0;100.0
-2;jon;230;220235285;xxxaasf@igke.gk;false;false;false;0.0;2022.0
-3;NO;2;2202358;SOMONE@GGUHH.DJ;true;true;true;0.0;2.0224022E7
+4
+2;jon;230;220235285;xxxaasf@igke.gk;false;false;false;0.0;2122.0
+4;sand mand;22;51521512;Sov@godt.dk;true;true;true;0.0;1557053.0

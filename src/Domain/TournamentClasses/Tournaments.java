@@ -2,6 +2,7 @@ package Domain.TournamentClasses;
 
 import Domain.MemberClasses.Member;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 public class Tournaments {
 
@@ -49,22 +50,40 @@ public class Tournaments {
 
     public String compactTourneys() {
         StringBuilder result = new StringBuilder();
-        result.append("Contains all tournaments on record\n");
         result.append(openID+"\n");
         for (Tournament tournament:tournamentList)
         {
             result.append(tournament.getCompact()+ "\n");
         }
-        return null;
+        return result.toString();
     }
 
-   public String listToShortDescriptions(ArrayList<Tournament> list)
+   public String listOfShortDescriptions()
    {
        StringBuilder result = new StringBuilder();
-       for (Tournament t: list)
+       for (Tournament t: tournamentList)
        {
-           result.append(t.getName() +  );
+           result.append(t.getName() + " " + t.getDate() + "\namount of contestants: " + t.getCompetitors().size() );
        }
-       return result;
+       return result.toString();
    }
+
+    public String listToShortDescriptions(ArrayList<Tournament> list) {
+        StringBuilder result = new StringBuilder();
+        for (Tournament t: list)
+        {
+            result.append(t.getName() + " " + t.getDate()+ "\namount of contestants: " + t.getCompetitors().size());
+            result.append("\n");
+        }
+        return result.toString();
+    }
+
+    public void setOpenID(int id)
+    {
+        openID=id;
+    }
+
+    public void addTournamentByObject(Tournament checkFile) {
+        tournamentList.add(checkFile);
+    }
 }

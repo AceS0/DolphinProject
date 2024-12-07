@@ -24,7 +24,7 @@ public class Tournament {
     public String getCompact() {
         StringBuilder competitorsCompact = new StringBuilder();
         for (Competitor competitor:competitors) {
-            competitorsCompact.append(competitor.getCompact());
+            competitorsCompact.append(competitor.getCompact() + ";");
         }
         return id +";"+ name +";"+ date +";"+ place +";"+ category +";"+ competitorsCompact;
     }
@@ -62,5 +62,28 @@ public class Tournament {
                 "\nCategory" + category;
     }
 
+    public String getLongDescription()
+    {
+
+        return "ID: " + id +
+                "\nName: " + name +
+                "\nTook place:" + place +
+                "\nDate: " + date +
+                "\nNumber of competitors: " + competitors.size() +
+                "\nCategory" + category +
+                "\nCompetitors" + competitorsToString();
+
+    }
+
+    public String competitorsToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Competitors:");
+        for (Competitor c : competitors)
+        {
+            sb.append(c.toString()+ "\n");
+        }
+        return sb.toString();
+    }
 
 }
