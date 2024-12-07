@@ -1,3 +1,7 @@
+package Controller;
+
+import Domain.MemberClasses.Member;
+import Domain.MemberClasses.MemberHandling;
 import java.util.ArrayList;
 
 public class Controller {

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package Domain.MemberClasses;
 
 public class Member {
     private int ID;

@@ -1,3 +1,5 @@
+package Domain.MemberClasses;
+
 import java.util.ArrayList;
 
 public class MemberHandling {
