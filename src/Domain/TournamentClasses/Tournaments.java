@@ -57,4 +57,14 @@ public class Tournaments {
         }
         return null;
     }
+
+   public String listToShortDescriptions(ArrayList<Tournament> list)
+   {
+       StringBuilder result = new StringBuilder();
+       for (Tournament t: list)
+       {
+           result.append(t.getName() +  );
+       }
+       return result;
+   }
 }
