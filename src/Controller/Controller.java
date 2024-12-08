@@ -1,29 +1,33 @@
+package Controller;
+
+import Domain.MemberClasses.Member;
+
 import java.util.ArrayList;
 
 public class Controller {
-    private final MemberHandling members = new MemberHandling();
+    private final Members members = new Members();
 
     public void addMemberToList(int ID, String name, int age, int number,
                                 String mail, boolean actitvity, boolean stage, boolean competitive){
 
-        members.addMember(new Members(ID, name, age, number, mail, actitvity, stage, competitive));
+        members.addMember(new Member(ID, name, age, number, mail, actitvity, stage, competitive));
     }
 
-    public void removeMemberFromList(Members member){
+    public void removeMemberFromList(Member member){
 
         members.removeMember(member);
     }
 
-    public MemberHandling getMembers(){
+    public Members getMembers(){
         return members;
     }
 
     public void setMembershipFee(int memberID,String name,boolean isActive, int age){
-        ArrayList<Members> found = runSearch(name);
+        ArrayList<Member> found = runSearch(name);
         if (found.size() == 1){
             found.getFirst().setMembershipFee(isActive,age);
         } else {
-            ArrayList<Members> foundID = runSearch(String.valueOf(memberID));
+            ArrayList<Member> foundID = runSearch(String.valueOf(memberID));
             foundID.getFirst().setMembershipFee(isActive,age);
         }
     }
@@ -32,7 +36,7 @@ public class Controller {
         return members.sumMembershipFees();
     }
 
-    public String editMember(Members member, String command, String edit) {
+    public String editMember(Member member, String command, String edit) {
         switch (command) {
             case "id":
                 String editnum1 = edit.replaceAll("[^0-9]", "");
@@ -72,8 +76,8 @@ public class Controller {
         }
     }
 
-    public ArrayList<Members> runSearch(String search){
-        ArrayList<Members> results = members.memberLookUp(search);
+    public ArrayList<Member> runSearch(String search){
+        ArrayList<Member> results = members.memberLookUp(search);
         return results;
     }
 }

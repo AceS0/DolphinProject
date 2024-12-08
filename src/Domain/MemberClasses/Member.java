@@ -1,7 +1,9 @@
+package Domain.MemberClasses;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Members implements Comparable {
+public class Member implements Comparable {
     private int ID;
     private String name;
     private int age;
@@ -11,23 +13,23 @@ public class Members implements Comparable {
     private boolean isSenior;
     private boolean isCompetitive;
     private double annualFee;
-    private final ArrayList<Members> members = new ArrayList<>();
+    private final ArrayList<Member> members = new ArrayList<>();
     private final int juniorRate = 1000;
     private final int seniorRate = 1600;
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
-    public static Comparator<Members> ID_COMPARATOR = Comparator.comparing(Members::getID);
-    public static Comparator<Members> NAME_COMPARATOR = Comparator.comparing(Members::getName);
-    public static Comparator<Members> AGE_COMPARATOR = Comparator.comparing(Members::getAge);
-    public static Comparator<Members> NUMBER_COMPARATOR = Comparator.comparing(Members::getNumber);
-    public static Comparator<Members> MAIL_COMPARATOR = Comparator.comparing(Members::getMail);
-    public static Comparator<Members> ISACTIVE_COMPARATOR = Comparator.comparing(Members:: getIsActive);
-    public static Comparator<Members> ISSENIOR_COMPARATOR = Comparator.comparing(Members::getIsSenior);
-    public static Comparator<Members> ISCOMPETITIVE_COMPARATOR = Comparator.comparing(Members::getIsCompetitive);
+    public static Comparator<Member> ID_COMPARATOR = Comparator.comparing(Member::getID);
+    public static Comparator<Member> NAME_COMPARATOR = Comparator.comparing(Member::getName);
+    public static Comparator<Member> AGE_COMPARATOR = Comparator.comparing(Member::getAge);
+    public static Comparator<Member> NUMBER_COMPARATOR = Comparator.comparing(Member::getNumber);
+    public static Comparator<Member> MAIL_COMPARATOR = Comparator.comparing(Member::getMail);
+    public static Comparator<Member> ISACTIVE_COMPARATOR = Comparator.comparing(Member:: getIsActive);
+    public static Comparator<Member> ISSENIOR_COMPARATOR = Comparator.comparing(Member::getIsSenior);
+    public static Comparator<Member> ISCOMPETITIVE_COMPARATOR = Comparator.comparing(Member::getIsCompetitive);
 
-    public Members(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                   boolean isCompetitive) {
+    public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
+                  boolean isCompetitive) {
         this.ID = ID;
         this.name = name;
         this.age = age;

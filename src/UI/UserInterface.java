@@ -1,3 +1,5 @@
+package UI;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -240,12 +242,12 @@ public class UserInterface {
 
     public void removeMemberByUser(String inputs) {
         Scanner sc = new Scanner(System.in);
-        ArrayList<Members> found = controller.runSearch(inputs);
+        ArrayList<Member> found = controller.runSearch(inputs);
         if (found.isEmpty()) {
             System.out.println("\nThe member doesn't exist, please create the member if needed.\n");
             userInterface();
         } else {
-            for (Members member : found) {
+            for (Member member : found) {
                 if (found.size() == 1) {
                     System.out.println("You have successfully removed " + member.getName() + "\n");
                     controller.removeMemberFromList(member);
@@ -256,7 +258,7 @@ public class UserInterface {
                 if (found.size() >= 2) {
                     System.out.println("\nHere is a list of the members you searched for: ");
                     StringBuilder toPrint = new StringBuilder();
-                    for (Members member : found) {
+                    for (Member member : found) {
                         toPrint.append("\nID: ").append(member.getID()).append(": \nName: ").append(member.getName());
                     }
                     System.out.println(toPrint);
@@ -264,7 +266,7 @@ public class UserInterface {
                     System.out.print("Type here: ");
                     inputs = sc.nextLine();
                     found = controller.runSearch(inputs);
-                    for (Members member : found) {
+                    for (Member member : found) {
                         if (found.size() == 1) {
                             System.out.println("You have successfully removed " + member.getName());
                             controller.removeMemberFromList(member);
@@ -295,14 +297,14 @@ public class UserInterface {
     }
 
     public void searchForMember(String thisMember){
-        ArrayList<Members> found = controller.runSearch(thisMember);
+        ArrayList<Member> found = controller.runSearch(thisMember);
         Scanner sc = new Scanner(System.in);
         if (found.isEmpty()) {
             System.out.println("The member you searched for does not exist, please try again.");
         } else {
 
             if (found.size() == 1) {
-                for (Members member : found) {
+                for (Member member : found) {
                     System.out.println(member.toString());
                 }
                 System.out.println("Do you want to edit " + found.getFirst().getName() + "? HINT \"Yes\" or \"No\"");
@@ -323,7 +325,7 @@ public class UserInterface {
                 }
 
             } else {
-                for (Members member : found) {
+                for (Member member : found) {
                     System.out.println(member.toString());
                 }
                 System.out.println("Which member do you want to get more details about?");
@@ -331,7 +333,7 @@ public class UserInterface {
                 String input = sc.nextLine();
                 found = controller.runSearch(input);
 
-                for (Members ignored : found) {
+                for (Member ignored : found) {
                     if (!found.isEmpty()) {
                         searchForMember(input);
                     }
@@ -352,14 +354,14 @@ public class UserInterface {
     }
 
     public void recordSearch(String thisMember1){
-        ArrayList<Members> found = controller.runSearch(thisMember1);
+        ArrayList<Member> found = controller.runSearch(thisMember1);
         Scanner sc = new Scanner(System.in);
         if (found.isEmpty()) {
             System.out.println("The member you searched for does not exist, please try again.");
         } else {
 
             if (found.size() == 1) {
-                for (Members member : found) {
+                for (Member member : found) {
                     System.out.println(member.toString());
                 }
                 System.out.println("Do you want to record best time performance for " + found.getFirst().getName() + "? HINT \"Yes\" or \"No\"");
@@ -380,7 +382,7 @@ public class UserInterface {
                 }
 
             } else {
-                for (Members member : found) {
+                for (Member member : found) {
                     System.out.println(member.toString());
                 }
                 System.out.println("Which member do you want to get more details about?");
@@ -388,7 +390,7 @@ public class UserInterface {
                 String input = sc.nextLine();
                 found = controller.runSearch(input);
 
-                for (Members ignored : found) {
+                for (Member ignored : found) {
                     if (!found.isEmpty()) {
                         recordSearch(input);
                     }
@@ -411,7 +413,7 @@ public class UserInterface {
 
     public void editMember(String thisMember) {
         try {
-            ArrayList<Members> found = controller.runSearch(thisMember);
+            ArrayList<Member> found = controller.runSearch(thisMember);
             Scanner sc = new Scanner(System.in);
 
 
@@ -434,7 +436,7 @@ public class UserInterface {
         }
     }
 
-    public void editMemberSplit(Members thisMember) {
+    public void editMemberSplit(Member thisMember) {
         boolean running = true;
         while (running) {
             System.out.println(thisMember.toString());
@@ -510,7 +512,7 @@ public class UserInterface {
         }
     }
 
-   public void recordEdit(Members thisMember){
+   public void recordEdit(Member thisMember){
        Scanner sc = new Scanner(System.in);
        boolean running = true;
        while (running) {
