@@ -1,14 +1,26 @@
-package Domain;
+package Domain.MemberClasses;
 
 import java.util.ArrayList;
 
 public class Members {
     private final ArrayList<Member> members = new ArrayList();
+    private int openId = 0;
     
     public Members(){
-        Member enes = new Member(1,"enes",60,50102030,
+        /*Member enes = new Member(0,"enes",60,50102030,
                 "EnesZeki@dk",true,false,true);
-        members.add(enes);
+        members.add(enes);*/
+    }
+
+    public int generateID()
+    {
+        openId++;
+        return openId;
+    }
+
+    public void setOpenID(int id)
+    {
+        openId = id;
     }
 
     //Metode til at finde members
@@ -52,13 +64,13 @@ public class Members {
 
     public String balancePaid(Member member){
         double balance = member.getBalance();
-        double annualFee = member.getAnnualFee();
-        if (balance >= annualFee){
+        double debt = member.getDebt();
+        if (balance >= debt){
             return member.getName() + "'s balance: " + balance + " the fee: " +
-                    annualFee;
+                    debt;
         } else {
             return member.getName() + "'s balance: " + balance + " the fee: " +
-                    annualFee +"\nPlease, deposit the needed balance to pay the full fee.\n";
+                    debt +"\nPlease, deposit the needed balance to pay the full fee.\n";
         }
     }
 
@@ -120,8 +132,11 @@ public class Members {
         return toPrint.toString();
     }
 
-    public void addMember(Member member){
-        members.add(member);
+    public Member addMember(String name, int age, int number,
+                          String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
+        Member added = new Member(generateID(), name, age, number, mail, isActive, isSenior, isCompetitive);
+        members.add(added);
+        return added;
     }
 
     public void removeMember(Member member){
@@ -166,5 +181,24 @@ public class Members {
             default:
                 return null;
         }
+    }
+
+    public ArrayList<Member> getMembers() {
+        return members;
+    }
+
+    public String compactMembers() {
+        StringBuilder result = new StringBuilder();
+        result.append(openId+"\n");
+        for(Member member : members)
+        {
+            result.append(member.getCompact() + "\n");
+        }
+        return (result.toString());
+    }
+
+    public void addMemberByObject(Member member)
+    {
+        members.add(member);
     }
 }
