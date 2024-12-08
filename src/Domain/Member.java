@@ -1,4 +1,4 @@
-package Domain.Members;
+package Domain;
 
 public class Member {
     private int ID;
