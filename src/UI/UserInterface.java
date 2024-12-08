@@ -1,7 +1,7 @@
 package UI;
 
 import Controller.Controller;
-import Domain.Member;
+import Domain.Members.Member;
 
 import java.io.BufferedReader;
 import java.io.IOException;

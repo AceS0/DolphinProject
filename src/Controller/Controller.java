@@ -1,7 +1,7 @@
 package Controller;
 
-import Domain.Member;
-import Domain.Members;
+import Domain.Members.Member;
+import Domain.Members.Members;
 import java.util.ArrayList;
 
 public class Controller {

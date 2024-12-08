@@ -1,4 +1,4 @@
-package Domain;
+package Domain.Members;
 
 import java.util.ArrayList;
 
