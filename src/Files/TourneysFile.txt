@@ -1,0 +1,4 @@
+contains all tourneys 
+2
+1;1;1;1;1;jon;2;3.0;sand mand;4;2.0
+2;1;1;1;1;jon;2;4.0;sand mand;4;43.0
