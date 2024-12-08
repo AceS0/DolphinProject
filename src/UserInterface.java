@@ -22,6 +22,7 @@ public class UserInterface {
                         5. Sort memberlist.
                         6. Edit a member.
                         7. Calculate total annual membership fee.
+                        8. Record, Update, Display member performance.
                         10. Exit""");
         /*"""
 
@@ -71,7 +72,8 @@ public class UserInterface {
                         }
                     }
                     case "4", "list", "l" -> System.out.println(controller.getMembers().memberList());
-                    case "5","edit","e" -> {
+                    case "5", "sort" -> sortMembers();
+                    case "6","edit","e" -> {
                             if (splitPut.length > 1) {
                                 editMember(splitPut[1]);
                             } else {
@@ -79,9 +81,8 @@ public class UserInterface {
                                 editMember(sc.next());
                             }
                     }
-
-                    case "6", "sort" -> sortMembers();
                     case "7", "sum" -> System.out.println(controller.sumMembershipFees());
+                    case "8", "record" -> recordTime();
                     case "10", "exit" -> running = false;
                     default -> System.out.println("Unknown request, please try again.");
 
@@ -137,12 +138,13 @@ public class UserInterface {
             }else {
                 System.out.println("Invalid input, please try again");
                 System.out.print("Type here: ");
-                sc.nextInt();
+                sc.nextLine();
             }
-        }
 
+        }
         int age = sc.nextInt();
-        sc.nextLine();
+
+
 
         while (age <= 0){
             try {
@@ -176,7 +178,7 @@ public class UserInterface {
             }else {
                 System.out.println("Invalid input, please try again");
                 System.out.print("Type here: ");
-                sc.next();
+                sc.nextLine();
             }
         }
         int number = sc.nextInt();
@@ -190,9 +192,9 @@ public class UserInterface {
         String mail = sc.nextLine();
 
         System.out.print("Is the member active: ");
-        String activity = sc.next().toLowerCase();
+        String activity = sc.next();
         boolean activity1 = true;
-        while (!activity.equals("yes") && !activity.equals("no")){
+        while (!activity.equalsIgnoreCase("yes") && !activity.equalsIgnoreCase("no")){
             if (activity.equals("exit")) {
                 System.out.println("Returning back to menu");
                 userInterface();
@@ -226,6 +228,8 @@ public class UserInterface {
             competitive1 = false;
             System.out.println("The members status has been changed to recreational");
         }
+
+
 
 
         controller.addMemberToList(memberId,memberName,age,number,mail,activity1,stage,competitive1);
@@ -347,6 +351,64 @@ public class UserInterface {
         }
     }
 
+    public void recordSearch(String thisMember1){
+        ArrayList<Members> found = controller.runSearch(thisMember1);
+        Scanner sc = new Scanner(System.in);
+        if (found.isEmpty()) {
+            System.out.println("The member you searched for does not exist, please try again.");
+        } else {
+
+            if (found.size() == 1) {
+                for (Members member : found) {
+                    System.out.println(member.toString());
+                }
+                System.out.println("Do you want to record best time performance for " + found.getFirst().getName() + "? HINT \"Yes\" or \"No\"");
+                System.out.print("Type here: ");
+                String input = sc.next().toLowerCase();
+
+                while (true) {
+                    if (input.equals("yes") || input.equals("y")) {
+                        recordEdit(found.getFirst());
+                        return;
+                    } else if (input.equals("no") || input.equals("n")) {
+                        System.out.println("-> Returning back to menu.");
+                        userInterface();
+                    } else {
+                        System.out.print("Couldn't interpret the input, please enter \"Yes\" or \"No\": ");
+                        input = sc.next().toLowerCase();
+                    }
+                }
+
+            } else {
+                for (Members member : found) {
+                    System.out.println(member.toString());
+                }
+                System.out.println("Which member do you want to get more details about?");
+                System.out.print("Type here: ");
+                String input = sc.nextLine();
+                found = controller.runSearch(input);
+
+                for (Members ignored : found) {
+                    if (!found.isEmpty()) {
+                        recordSearch(input);
+                    }
+                }
+
+                if (found.isEmpty()) {
+                    System.out.println("Couldn't find the member, please try again or to leave type \"exit\" or \"quit\". ");
+                    System.out.print("Type here: ");
+                    input = sc.nextLine();
+                    if (input.equals("quit") || input.equals("exit")) {
+                        userInterface();
+                    } else {
+                        recordSearch(input);
+                    }
+                }
+            }
+        }
+    }
+
+
     public void editMember(String thisMember) {
         try {
             ArrayList<Members> found = controller.runSearch(thisMember);
@@ -447,7 +509,69 @@ public class UserInterface {
             }
         }
     }
+
+   public void recordEdit(Members thisMember){
+       Scanner sc = new Scanner(System.in);
+       boolean running = true;
+       while (running) {
+           System.out.println("Current status on the member: ");
+           System.out.println(thisMember.toString());
+           System.out.println("In which discipline do you want to add performance record.");
+           System.out.println("0. exit, 1. butterfly, 2. crawl, 3. backstroke, 4. breaststroke.");
+
+            switch (sc.nextInt()) {
+                case 0 -> {
+                    System.out.println("-> Returning back to menu.");
+                    running = false;
+                }
+                case 1 -> {
+                    System.out.println("Discipline: butterfly.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    System.out.print("What was the members best time performance ");
+                    String recordTime = sc.next();
+                }
+                case 2 -> {
+                    System.out.println("Discipline: crawl.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    System.out.print("What was the members best time performance ");
+                    String recordTime = sc.next();
+
+
+                }
+                case 3 -> {
+                    System.out.println("Discipline: backstroke.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    System.out.print("What was the members best time performance ");
+                    String recordTime = sc.next();
+
+                }
+                case 4 -> {
+                    System.out.println("Discipline: breaststroke.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    System.out.print("What was the members best time performance ");
+                    String recordTime = sc.next();
+
+                }
+            }
+
+       }
+   }
+
+
+
     public void sortMembers() {
+        if (controller.getMembers().memberList().isEmpty()) {
+            System.out.println("\nThere is no member list to be sorted.\n");
+            userInterface();
+        }
         Scanner sc = new Scanner(System.in);
          System.out.println(
                 """ 
@@ -501,24 +625,23 @@ public class UserInterface {
                 input = "iscompetitive";
                 controller.getMembers().sortedMemberList(input,"");
             }
-            case "9", "return", "exit" -> userInterface();
+            case "9", "return", "exit" -> {
+                System.out.println("Returning back to menu");
+                userInterface();
+            }
             default -> {
                 input = "name";
                 controller.getMembers().sortedMemberList(input,"");
             }
-
-
-
-
-
-
-
         }
+
+
+
         System.out.println("Do you want to have secondary sort?");
         System.out.print("Type (yes/no): ");
-        String input2 = sc.next().toLowerCase();
-        while (true) {
 
+        while (true) {
+            String input2 = sc.next().toLowerCase();
              switch (input2) {
                 case "yes" -> {
                     System.out.println(
@@ -539,30 +662,58 @@ public class UserInterface {
                     System.out.print("Type here: ");
                     String input3 = sc.next().toLowerCase();
                     switch (input3) {
-                        case "1", "id", "i" -> controller.getMembers().sortedMemberList(input,"");
-                        case "2", "name", "n" -> controller.getMembers().sortedMemberList(input,"");
-                        case "3", "age", "a" -> controller.getMembers().sortedMemberList(input,"");
-                        case "4", "number" -> controller.getMembers().sortedMemberList(input,"");
-                        case "5", "mail", "m" -> controller.getMembers().sortedMemberList(input,"");
-                        case "6", "isactive" -> controller.getMembers().sortedMemberList(input,"");
-                        case "7", "issenior" -> controller.getMembers().sortedMemberList(input,"");
-                        case "8", "iscompetitive" -> controller.getMembers().sortedMemberList(input,"");
-                        case "9", "Return", "exit" -> userInterface();
+                        case "1", "id", "i" -> controller.getMembers().sortedMemberList(input,"id");
+                        case "2", "name", "n" -> controller.getMembers().sortedMemberList(input,"name");
+                        case "3", "age", "a" -> controller.getMembers().sortedMemberList(input,"age");
+                        case "4", "number" -> controller.getMembers().sortedMemberList(input,"number");
+                        case "5", "mail", "m" -> controller.getMembers().sortedMemberList(input,"mail");
+                        case "6", "isactive" -> controller.getMembers().sortedMemberList(input,"isactive");
+                        case "7", "issenior" -> controller.getMembers().sortedMemberList(input,"issenior");
+                        case "8", "iscompetitive" -> controller.getMembers().sortedMemberList(input,"iscompetitive");
+                        case "9", "return", "exit" -> {
+                            System.out.println("Returning back to menu");
+                            userInterface();
+                        }
                     }
                 }
                 case "no" -> System.out.println(controller.getMembers().memberList());
-                case "9", "return", "exit" -> {
-                    System.out.println("Returning back to menu");
-                    userInterface();
-                }
                 default -> System.out.print("Invalid input, please try again: ");
 
+            }
+        }
+    }
+
+    public void recordTime() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println
+                ("""
+                Below is your options: 
+                
+                1. Record best time.              
+                2. Update best time.              
+                3. Display best time for one member.
+                4. Display best time for all members.         
+                """);
+        System.out.print("Type here: ");
+
+        switch (sc.nextInt()){
+            case 1 ->{
+                System.out.print("which member do you want to record time for: ");
+                recordSearch(sc.next());
 
             }
 
         }
 
+
+
     }
 }
+
+
+
+
+
+
 
 

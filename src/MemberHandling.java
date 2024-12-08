@@ -1,13 +1,27 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Scanner;
 
 public class MemberHandling {
     private final ArrayList<Members> members = new ArrayList();
     
     public MemberHandling(){
-        Members enes = new Members(1,"enes",60,50102030,
-                "EnesZeki@dk",true,false,true);
+        Members enes = new Members(5,"enes",50,50102030,
+                "EnesZeki@dk",true,true,true);
+
+        Members enes1 = new Members(3,"anes",10,50102030,
+        "EnesZeki@dk",false,false,true);
+
+        Members enes2 = new Members(1,"cnes",5,50102030,
+        "EnesZeki@dk",false,false,true);
+
+        Members enes3 = new Members(4,"dnes",7,50102030,
+        "EnesZeki@dk",false,false,true);
+
         members.add(enes);
+        members.add(enes1);
+        members.add(enes2);
+        members.add(enes3);
     }
 
     //Metode til at finde members
@@ -87,7 +101,7 @@ public class MemberHandling {
                     case "isActive" -> Members.ID_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.ID_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.ID_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.ID_COMPARATOR.thenComparing(ID);
+                    default -> members.sort(ID);
                 }
 
             }
@@ -101,7 +115,7 @@ public class MemberHandling {
                     case "isActive" -> Members.NAME_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.NAME_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.NAME_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.NAME_COMPARATOR.thenComparing(name);
+                    default -> members.sort(name);
                 }
             }
 
@@ -114,7 +128,7 @@ public class MemberHandling {
                     case "isActive" -> Members.AGE_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.AGE_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.AGE_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.AGE_COMPARATOR.thenComparing(age);
+                    default -> members.sort(age);
                 }
             }
 
@@ -127,7 +141,7 @@ public class MemberHandling {
                     case "isActive" -> Members.NUMBER_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.NUMBER_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.NUMBER_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.NUMBER_COMPARATOR.thenComparing(number);
+                    default -> members.sort(number);
                 }
             }
             case "mail" -> {
@@ -139,7 +153,7 @@ public class MemberHandling {
                     case "isActive" -> Members.MAIL_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.MAIL_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.MAIL_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.MAIL_COMPARATOR.thenComparing(mail);
+                    default -> members.sort(mail);
                 }
 
             }
@@ -153,7 +167,7 @@ public class MemberHandling {
                     case "mail" -> Members.ISACTIVE_COMPARATOR.thenComparing(mail);
                     case "isSenior" -> Members.ISACTIVE_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.ISACTIVE_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.ISACTIVE_COMPARATOR.thenComparing(isActive);
+                    default -> members.sort(isActive);
                 }
 
             }
@@ -167,7 +181,7 @@ public class MemberHandling {
                     case "mail" -> Members.ISSENIOR_COMPARATOR.thenComparing(mail);
                     case "isActive" -> Members.ISSENIOR_COMPARATOR.thenComparing(isActive);
                     case "isCompetitve" -> Members.ISSENIOR_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.ISSENIOR_COMPARATOR.thenComparing(isSenior);
+                    default -> members.sort(isSenior);
                 }
             }
 
@@ -180,7 +194,7 @@ public class MemberHandling {
                     case "mail" -> Members.ISCOMPETITIVE_COMPARATOR.thenComparing(mail);
                     case "isActive" -> Members.ISCOMPETITIVE_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.ISCOMPETITIVE_COMPARATOR.thenComparing(isSenior);
-                    default -> Members.ISCOMPETITIVE_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(isCompetitve);
                 }
             }
             default -> {
@@ -192,7 +206,7 @@ public class MemberHandling {
                     case "isActive" -> Members.NAME_COMPARATOR.thenComparing(isActive);
                     case "isSenior" -> Members.NAME_COMPARATOR.thenComparing(isSenior);
                     case "isCompetitve" -> Members.NAME_COMPARATOR.thenComparing(isCompetitve);
-                    default -> Members.NAME_COMPARATOR.thenComparing(name);
+                    default -> members.sort(name);
 
                 }
             }
@@ -204,7 +218,6 @@ public class MemberHandling {
 
         }
     }
-
 
 
     public void addMember(Members member){
