@@ -1,11 +1,11 @@
-package Domain.MemberClasses;
+package Domain;
 
 import java.util.ArrayList;
 
-public class MemberHandling {
+public class Members {
     private final ArrayList<Member> members = new ArrayList();
     
-    public MemberHandling(){
+    public Members(){
         Member enes = new Member(1,"enes",60,50102030,
                 "EnesZeki@dk",true,false,true);
         members.add(enes);

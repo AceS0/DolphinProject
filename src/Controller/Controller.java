@@ -1,11 +1,11 @@
 package Controller;
 
-import Domain.MemberClasses.Member;
-import Domain.MemberClasses.MemberHandling;
+import Domain.Member;
+import Domain.Members;
 import java.util.ArrayList;
 
 public class Controller {
-    private final MemberHandling members = new MemberHandling();
+    private final Members members = new Members();
 
     public void addMemberToList(int ID, String name, int age, int number,
                                 String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
@@ -26,7 +26,7 @@ public class Controller {
         return members.balancePaid(member);
     }
 
-    public MemberHandling getMembers(){
+    public Members getMembers(){
         return members;
     }
 
