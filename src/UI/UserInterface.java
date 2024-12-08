@@ -42,6 +42,7 @@ public class UserInterface {
         }
     }
 
+    //member page
     public void memberManagement() {
         boolean running = true;
         Scanner sc = new Scanner(System.in);
@@ -146,7 +147,7 @@ public class UserInterface {
             }
         }
     }
-
+    //deletes members
     private void wipeMembers() {
         Scanner sc = new Scanner(System.in);
         if (reqBool("are you sure you want to wipe all tournaments from the saved files?",sc)) System.out.println(controller.wipeMembers());
@@ -484,6 +485,7 @@ public class UserInterface {
         }
     }
 
+    //finds all members that contain the input, if there's more than one, it asks to specify and returns a singular member
     private Member searchSpecificMember(String input, Scanner sc) {
         ArrayList<Member> toNarrow = controller.runSearch(input.toLowerCase());
 
@@ -615,7 +617,7 @@ public class UserInterface {
         }
     }
 
-
+    //request user inputs
     public int reqInt(String quote, Scanner sc) {
         System.out.print(quote);
         while (true) {
