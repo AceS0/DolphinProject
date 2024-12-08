@@ -177,6 +177,8 @@ public class UserInterface {
 
         Boolean activity = reqBool("Is the member active: ", sc);
 
+        sc.nextLine();
+
         System.out.print("Is the member a senior (+18): ");
         String stage = sc.nextLine().toLowerCase();
         boolean stage1 = true;
@@ -192,6 +194,7 @@ public class UserInterface {
         }
 
         boolean competitive1 = reqBool("Is the member competitive: ", sc);
+        sc.nextLine();
 
         int balance = reqInt("How much did the member deposit?: ", sc);
 
@@ -493,7 +496,7 @@ public class UserInterface {
 
         if (toNarrow.isEmpty()) {
             System.out.println();
-            return searchSpecificMember(reqString("no result found, try to write something different, \n or type quit to return to tournament management:", sc), sc);
+            return searchSpecificMember(reqString("no result found, try to write something different, \n or type quit to return to member management:", sc), sc);
         }
         if (toNarrow.size() == 1) {
             return toNarrow.getFirst();
