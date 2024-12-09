@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Members {
     private final ArrayList<Member> members = new ArrayList();
     private int openId = 0;
+
     
     public Members(){
         /*Member enes = new Member(0,"enes",60,50102030,

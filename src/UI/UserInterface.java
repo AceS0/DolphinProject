@@ -666,4 +666,55 @@ public class UserInterface {
             }
         }
     }
+
+    public void addMemberToDiscipline () {
+        System.out.println("You are adding the member to one or more disciplines.");
+        Scanner sc = new Scanner(System.in);
+        boolean boolTrue = true;
+            while(boolTrue) {
+                System.out.println(
+                        "These are the disciplines you can choose from:\n"+
+                                "For butterfly write: \"bu\" or \"butterfly\"" +
+                                "For crawl write: \"c\" or \"crawl\"" +
+                                "For backstroke write: \"ba\" or \"backstroke\"" +
+                                "For breaststroke write: \"br\" or \"breaststroke\"" +
+                                "Which discipline do you want to add the member to:");
+
+                String command = sc.next().toLowerCase();
+                switch (command) {
+                    case "bu", "butterfly" -> {
+                        controller.addMemberToDiscipline("butterfly");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    case "c", "crawl" -> {
+                        controller.addMemberToDiscipline("crawl");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    case "ba", "backstroke" -> {
+                        controller.addMemberToDiscipline("backstroke");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    case "br", "breaststroke" -> {
+                        controller.addMemberToDiscipline("breaststroke");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    default -> System.out.println("Invalid command. Try again.");
+                }
+        }
+            sc.close();
+    }
+
+    public boolean wantToAddToMoreDisciplines() {
+        System.out.println("Do you want to add member to more disciplines (\"yes\" or \"no\")? ");
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next();
+        if(input.equalsIgnoreCase("yes")) {
+            return true;
+        }else if(input.equalsIgnoreCase("no")) {
+            return false;
+        }else {
+            System.out.println("Invalid input. You have to answer either \"yes\" or \"no\".\nTry again");
+            return wantToAddToMoreDisciplines();
+        }
+    }
 }
