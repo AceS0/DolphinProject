@@ -55,11 +55,14 @@ public class UserInterface {
                         2. Remove a member.
                         3. Search for a member.
                         4. List the members.
-                        5. Edit a member.
-                        6. Calculate total annual membership fee.
-                        7. Check member's balance and pay fee.
-                        8. Deposit balance for a member.
-                        10. Exit""");
+                        5. Sort member list
+                        6. Edit a member.
+                        7. Calculate total annual membership fee.
+                        8. Record, Update, Display member performance.
+                        9. Check member's balance and pay fee.
+                        10. Deposit balance for a member.
+                        11. Wipe members
+                        12. Exit""");
         /*"""
 
                         1. Create a member.
@@ -107,15 +110,17 @@ public class UserInterface {
                         }
                     }
                     case "4", "list", "l" -> listMembers();
-                    case "5", "edit", "e" -> {
+                    case "5", "sort" -> sortMembers();
+                    case "6", "edit", "e" -> {
                         if (splitPut.length > 1) {
                             editMember(splitPut[1]);
                         } else {
                             editMember(reqString("Type the member you want to edit: ", sc));
                         }
                     }
-                    case "6", "sum" -> System.out.println(controller.sumMembershipFees());
-                    case "7", "balance" -> {
+                    case "7", "sum" -> System.out.println(controller.sumMembershipFees());
+                    case "8", "record" -> recordTime();
+                    case "9", "balance" -> {
                         if (splitPut.length > 1) {
                             runBalancePayment(splitPut[1]);
                         } else {
@@ -123,8 +128,8 @@ public class UserInterface {
                             runBalancePayment(sc.next());
                         }
                     }
-                    case "8", "deposit" -> depositMemberBalance();
-                    case "9", "wipe" ->wipeMembers();
+                    case "10", "deposit" -> depositMemberBalance();
+                    case "11", "wipe" ->wipeMembers();
                     case "help" -> System.out.println(
                             """
                                     
@@ -134,12 +139,15 @@ public class UserInterface {
                                     2. Remove a member.
                                     3. Search for a member.
                                     4. List the members.
-                                    5. Edit a member.
-                                    6. Calculate total annual membership fee.
-                                    7. Check member's balance and pay fee.
-                                    8. Deposit balance for a member.
-                                    10. Exit""");
-                    case "10", "exit" -> running = false;
+                                    5. sort member list
+                                    6. Edit a member.
+                                    7. Calculate total annual membership fee.
+                                    8. Record, Update, Display member performance.
+                                    9. Check member's balance and pay fee.
+                                    10. Deposit balance for a member.
+                                    11. Wipe members
+                                    12. Exit""");
+                    case "12", "exit" -> running = false;
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -311,6 +319,155 @@ public class UserInterface {
                 }
             }*/
     }
+
+    public void recordEdit(Member thisMember){
+        Scanner sc = new Scanner(System.in);
+        boolean running = true;
+        while (running) {
+            System.out.println("Current status on the member: ");
+            System.out.println(thisMember.toString());
+            System.out.println("In which discipline do you want to add performance record.");
+            System.out.println("0. exit, 1. butterfly, 2. crawl, 3. backstroke, 4. breaststroke.");
+
+
+            switch (sc.nextInt()) {
+                case 0 -> {
+                    System.out.println("-> Returning back to menu.");
+                    running = false;
+                }
+                case 1 -> {
+                    System.out.println("Discipline: butterfly.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    thisMember.setRecordDate(recordDate);
+                    System.out.print("What was the members best time performance ");
+                    double recordTime = sc.nextInt();
+                    thisMember.setTimeInMinutes(recordTime);
+
+
+
+                }
+                case 2 -> {
+                    System.out.println("Discipline: crawl.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    thisMember.setRecordDate(recordDate);
+                    System.out.print("What was the members best time performance ");
+                    int recordTime = sc.nextInt();
+                    thisMember.setTimeInMinutes(recordTime);
+                }
+                case 3 -> {
+                    System.out.println("Discipline: backstroke.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    thisMember.setRecordDate(recordDate);
+                    System.out.print("What was the members best time performance ");
+                    int recordTime = sc.nextInt();
+                    thisMember.setTimeInMinutes(recordTime);
+
+                }
+                case 4 -> {
+                    System.out.println("Discipline: breaststroke.");
+
+                    System.out.print("What is the date of the record: ");
+                    String recordDate = sc.next();
+                    thisMember.setRecordDate(recordDate);
+                    System.out.print("What was the members best time performance ");
+                    int recordTime = sc.nextInt();
+                    thisMember.setTimeInMinutes(recordTime);
+
+                }
+            }
+        }
+    }
+
+    public void recordTime() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println
+                ("""
+                Below is your options: 
+                
+                1. Record/Update record time.             
+                2. Display record time for one member.
+                3. Display record time for all members.         
+                """);
+        System.out.print("Type here: ");
+        int command = sc.nextInt();
+        switch (command){
+            case 1 ->{
+                System.out.print("which member do you want to record time for: ");
+                String thisMember = sc.next();
+                Member found = searchSpecificMember(thisMember,sc);
+                System.out.println(
+                """
+                Which discipline do you want to record time for
+                
+                1. Butterfly.
+                2. Crawl.
+                3. backstroke.
+                4. breaststroke.
+                """);
+                System.out.print("Type here:");
+
+
+
+                String command2 = sc.next();
+                switch (command2){
+                    case "1","butterfly" -> command2 = "Butterfly.";
+                    case "2","crawl" -> command2 = "Crawl.";
+                    case "3","backstroke"-> command2 = "Backstroke.";
+                    case "4","breaststroke"-> command2 = "Breaststroke.";
+                    default -> System.out.println("Please, try again.");
+                }
+
+                System.out.println("Discipline: " + command2);
+
+                System.out.print("What is the date of the record: ");
+                String recordDate = sc.next();
+                System.out.print("What was the members best time performance (in minutes): ");
+                double recordTime = sc.nextDouble();
+
+
+                switch (command2){
+                    case "Butterfly." -> found.setButterfly("Butterfly -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    case "Crawl." -> found.setCrawl("Crawl -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    case "Backstroke."-> found.setBackstroke("Backstroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    case "Breaststroke."-> found.setBreaststroke("Breaststroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                }
+
+                System.out.println("You have Added/Updated record time for " + found.getName());
+            }
+
+            case 2 -> {
+                System.out.println("Which member do you want to get info about");
+                String thisMember = sc.next();
+                Member found = searchSpecificMember(thisMember,sc);
+                System.out.println("ID: " +found.getID() +
+                                    "\nName: " + found.getName() +
+                                "\nDiscipline info: "
+                                + found.getButterfly()
+                                + found.getCrawl()
+                                + found.getBackstroke()
+                                + found.getBreaststroke());
+
+            }
+
+            case 3 ->  {
+                System.out.println(controller.getMembers().memberListShortRecord());
+            }
+
+        }
+
+
+
+    }
+
+
+
+
 
     public void editMember(String thisMember) {
         Scanner sc = new Scanner(System.in);
@@ -666,4 +823,120 @@ public class UserInterface {
             }
         }
     }
+    public void sortMembers() {
+        if (controller.getMembers().memberList().isEmpty()) {
+            System.out.println("\nThere is no member list to be sorted.\n");
+            userInterface();
+        }
+        Scanner sc = new Scanner(System.in);
+        System.out.println(
+                """ 
+                        How do you want to list the members?
+                        
+                        Sorted by: 
+                        1. ID?
+                        2. Name?
+                        3. Age?
+                        4. Number?
+                        5. Mail?
+                        6. IsActive?
+                        7. IsSenior?
+                        8. IsCompetitive?
+                        9. Return to menu
+                        """);
+        System.out.print("Type here: ");
+        String input = sc.next().toLowerCase();
+
+
+        switch (input) {
+            case "1", "id", "i" -> {
+                input = "id";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "2", "name", "n" -> {
+                input = "name";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "3", "age", "a" -> {
+                input = "age";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "4", "number" -> {
+                input = "number";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "5", "mail", "m" -> {
+                input = "mail";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "6", "isactive" -> {
+                input = "isactive";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "7", "issenior" -> {
+                input = "issenior";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "8", "iscompetitive" -> {
+                input = "iscompetitive";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "9", "return", "exit" -> {
+                System.out.println("Returning back to menu");
+                userInterface();
+            }
+            default -> {
+                input = "name";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+        }
+
+
+
+        System.out.println("Do you want to have secondary sort?");
+        System.out.print("Type (yes/no): ");
+
+        while (true) {
+            String input2 = sc.next().toLowerCase();
+            switch (input2) {
+                case "yes" -> {
+                    System.out.println(
+                            """ 
+                                    How do you want to list the members?
+                                    
+                                    Sorted by: 
+                                    1. ID?
+                                    2. Name?
+                                    3. Age?
+                                    4. Number?
+                                    5. Mail?
+                                    6. IsActive?
+                                    7. IsSenior?
+                                    8. IsCompetitive?
+                                    9. Return to menu
+                                    """);
+                    System.out.print("Type here: ");
+                    String input3 = sc.next().toLowerCase();
+                    switch (input3) {
+                        case "1", "id", "i" -> controller.getMembers().sortedMemberList(input,"id");
+                        case "2", "name", "n" -> controller.getMembers().sortedMemberList(input,"name");
+                        case "3", "age", "a" -> controller.getMembers().sortedMemberList(input,"age");
+                        case "4", "number" -> controller.getMembers().sortedMemberList(input,"number");
+                        case "5", "mail", "m" -> controller.getMembers().sortedMemberList(input,"mail");
+                        case "6", "isactive" -> controller.getMembers().sortedMemberList(input,"isactive");
+                        case "7", "issenior" -> controller.getMembers().sortedMemberList(input,"issenior");
+                        case "8", "iscompetitive" -> controller.getMembers().sortedMemberList(input,"iscompetitive");
+                        case "9", "return", "exit" -> {
+                            System.out.println("Returning back to menu");
+                            userInterface();
+                        }
+                    }
+                }
+                case "no" -> System.out.println(controller.getMembers().memberList());
+                default -> System.out.print("Invalid input, please try again: ");
+
+            }
+        }
+    }
+
 }
