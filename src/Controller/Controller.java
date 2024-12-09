@@ -117,7 +117,7 @@ public class Controller {
         return fileHandler.wipeTournamentFile();
     }
 
-    public void addMemberToDiscipline(String command) {
-        member.addMemberToDiscipline(command);
+    public void addMemberToDiscipline(Member member, String command) {
+        members.addMemberToDiscipline(member, command);
     }
 }

@@ -22,10 +22,6 @@ public class Member {
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
-    private ArrayList<Member> butterflyList = new ArrayList<>();
-    private ArrayList<Member> crawlList = new ArrayList<>();
-    private ArrayList<Member> backstrokeList = new ArrayList<>();
-    private ArrayList<Member> breaststrokList = new ArrayList<>();
 
 
     public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
@@ -184,28 +180,5 @@ public class Member {
         return name+ "\n"+ mail;
     }
 
-    public void addMemberToDiscipline(String command) {
-        switch (command) {
-            case "bu", "butterfly"-> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                butterflyList.add();
-                System.out.println("Member successfully added to butterfly discipline.");
-            }
-            case "c", "crawl" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                crawlList.add();
-                System.out.println("Member successfully added to butterfly discipline.");
-            }
-            case "ba", "backstroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                backstrokeList.add();
-                System.out.println("Member successfully added to butterfly discipline.");
-            }
-            case "br", "breaststroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                breaststrokList.add();
-                System.out.println("Member successfully added to butterfly discipline.");
-            }
-        }
-    }
+
 }
