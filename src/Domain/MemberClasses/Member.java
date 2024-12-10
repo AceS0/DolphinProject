@@ -1,6 +1,8 @@
 package Domain.MemberClasses;
 
 import java.util.Comparator;
+import java.util.ArrayList;
+
 
 public class Member implements Comparable {
     private int ID;
@@ -72,6 +74,8 @@ public class Member implements Comparable {
         {
             this.hasPaid = true;
         }else this.hasPaid = false;
+    }
+    public Member() {
     }
 
     public String getCompact() {

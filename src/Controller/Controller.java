@@ -13,6 +13,7 @@ public class Controller {
     private final Members members = new Members();
     private final Tournaments tournaments = new Tournaments();
     private final FileHandler fileHandler = new FileHandler();
+    private Member member = new Member();
 
     public Member addMemberToList(String name, int age, int number,
                                   String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
@@ -114,5 +115,9 @@ public class Controller {
 
     public String  wipeTourneys() {
         return fileHandler.wipeTournamentFile();
+    }
+
+    public void addMemberToDiscipline(Member member, String command) {
+        members.addMemberToDiscipline(member, command);
     }
 }
