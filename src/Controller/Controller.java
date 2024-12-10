@@ -34,6 +34,10 @@ public class Controller {
         }
     }
 
+    public void getDisciplinesList(Member member){
+        members.disciplinesList(member);
+    }
+
     public String loadMembers()
     {
         return fileHandler.loadMembersFile(members);
@@ -124,5 +128,9 @@ public class Controller {
 
     public String  wipeTourneys() {
         return fileHandler.wipeTournamentFile();
+    }
+
+    public void addMemberToDiscipline(Member member, String command) {
+        members.addMemberToDiscipline(member, command);
     }
 }

@@ -67,7 +67,7 @@ public class UserInterface {
             try {
                 System.out.print("""
                         
-                        Type "help", for a list of commands.\
+                        Type "help", for a list of commands.
                         
                         Choose an option:\s""");
                 //Dette splitter brugerens input, som vi gør brug af i bl.a. search-funktionen:
@@ -151,24 +151,12 @@ public class UserInterface {
 
     public void addMemberByUser() {
         Scanner sc = new Scanner(System.in);
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-
         System.out.println("You are creating a member");
-        //udkommenteret pga. autoID
-                    /*System.out.print("Insert MemberID: ");
-                    while (!sc.hasNextInt()) {
-                        System.out.println("Invalid input, please try again");
-                        System.out.print("Type here: ");
-                        sc.next();
-                    }
-                    int memberId = sc.nextInt();*/
-
         String memberName = reqString("Insert full name: ", sc);
 
         int age = reqInt("Insert age: ", sc);
 
-        boolean stage = true;
+        boolean stage;
         if (age < 18){
             stage = false;
             System.out.println("The member status has been set to junior");
@@ -259,52 +247,7 @@ public class UserInterface {
             System.out.println("Returning back to menu.");
             return;
         }
-        //System.out.println(found.getShortDescription());
         editMember(String.valueOf(found.getID()));
-
-        //forkortet så meget kode jeg næsten får et angstanfald
-        /* (found.isEmpty()) {
-            System.out.println("The member you searched for does not exist, please try again.");
-        } else {
-
-            if (found.size() == 1) {
-                for (Member member : found) {
-                    System.out.println(member.toString());
-                }
-                boolean input = reqBool("Do you want to edit " + found.getFirst().getName() + "? \nType here: ", sc);
-                if (input) {
-                    editMemberSplit(found.getFirst());
-                } else if (!input) {
-                    System.out.println("-> Returning back to menu.");
-                    return null;
-                }
-
-            } else {
-                for (Member member : found) {
-                    System.out.println(member.toString());
-                }
-                System.out.println("Which member do you want to get more details about?");
-                System.out.print("Type here: ");
-                String input = sc.nextLine();
-                found = controller.runSearch(input);
-
-                for (Member ignored : found) {
-                    if (!found.isEmpty()) {
-                        searchForMember(input);
-                    }
-                }
-
-                if (found.isEmpty()) {
-                    System.out.println("Couldn't find the member, please try again or to leave type exit or quit. ");
-                    System.out.print("Type here: ");
-                    input = sc.nextLine();
-                    if (input.equals("quit") || input.equals("exit")) {
-                        return null;
-                    } else {
-                        searchForMember(input);
-                    }
-                }
-            }*/
     }
 
 
@@ -384,9 +327,6 @@ public class UserInterface {
             }
 
         }
-
-
-
     }
 
 
@@ -520,7 +460,6 @@ public class UserInterface {
         } else if (found.getPaidStatus().equals("has not paid")) {
             System.out.println(name + " has already paid his fee for this year.");
         }
-
     }
 
     public void depositMemberBalance() {
@@ -872,30 +811,30 @@ public class UserInterface {
         Scanner sc = new Scanner(System.in);
         boolean boolTrue = true;
             while(boolTrue) {
-                System.out.println(
+                System.out.print(
                         """
                                 These are the disciplines you can choose from:
-                                For butterfly write: \"bu\" or \"butterfly\"
-                                For crawl write: \"c\" or \"crawl\"
-                                For backstroke write: \"ba\" or \"backstroke\"
-                                For breaststroke write: \"br\" or \"breaststroke\"
-                                Which discipline do you want to add the member to:
-                        """);
+                                1. if butterfly write: \"bu\" or \"butterfly\"
+                                2. if crawl write: \"c\" or \"crawl\"
+                                3. if backstroke write: \"ba\" or \"backstroke\"
+                                4. if breaststroke write: \"br\" or \"breaststroke\"
+                                
+                                Which discipline do you want to add the member to: """);
                 String command = sc.next().toLowerCase();
                 switch (command) {
-                    case "bu", "butterfly" -> {
+                    case "bu", "butterfly","1" -> {
                         controller.addMemberToDiscipline(member, "butterfly");
                         boolTrue = wantToAddToMoreDisciplines();
                     }
-                    case "c", "crawl" -> {
+                    case "c", "crawl","2" -> {
                         controller.addMemberToDiscipline(member, "crawl");
                         boolTrue = wantToAddToMoreDisciplines();
                     }
-                    case "ba", "backstroke" -> {
+                    case "ba", "backstroke","3" -> {
                         controller.addMemberToDiscipline(member, "backstroke");
                         boolTrue = wantToAddToMoreDisciplines();
                     }
-                    case "br", "breaststroke" -> {
+                    case "br", "breaststroke","4" -> {
                         controller.addMemberToDiscipline(member, "breaststroke");
                         boolTrue = wantToAddToMoreDisciplines();
                     }
@@ -925,6 +864,7 @@ public class UserInterface {
         Member found = searchSpecificMember(thisMember, sc);
 
         System.out.println(found);
+        controller.getDisciplinesList(found);
         addMemberToDiscipline(found);
     }
 }

@@ -12,19 +12,14 @@ public class Members {
     private final ArrayList<Member> breaststrokeList = new ArrayList<>();
     
     public Members(){
-        /*Member enes = new Member(0,"enes",60,50102030,
-                "EnesZeki@dk",true,false,true);
-        members.add(enes);*/
     }
 
-    public int generateID()
-    {
+    public int generateID() {
         openId++;
         return openId;
     }
 
-    public void setOpenID(int id)
-    {
+    public void setOpenID(int id) {
         openId = id;
     }
 
@@ -383,10 +378,38 @@ public class Members {
         members.add(member);
     }
 
+    public void disciplinesList(Member member){
+
+        System.out.println(member.getName() + " has these disciplines: ");
+        int counter = 0;
+
+        if (butterflyList.contains(member)){
+            counter++;
+            System.out.println(counter + ". Butterfly");
+        }
+
+        if (crawlList.contains(member)){
+            counter++;
+            System.out.println(counter + ". Crawl");
+        }
+
+        if (backstrokeList.contains(member)){
+            counter++;
+            System.out.println(counter + ". Backstroke");
+        }
+
+        if (breaststrokeList.contains(member)){
+            counter++;
+            System.out.println(counter + ". Breaststroke");
+        }
+
+        System.out.println();
+    }
+
     public void addMemberToDiscipline(Member member, String command) {
         switch (command) {
             case "butterfly"-> {
-                //Possibility: Coding a checker-method to see if the member is already added
+                //A checker-method to see if the member is already added
                 if(butterflyList.contains(member)) {
                     System.out.println("This member is already added to the butterfly list.");
                 } else {
@@ -395,7 +418,7 @@ public class Members {
                 }
             }
             case "crawl" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
+                //A checker-method to see if the member is already added
                 if(crawlList.contains(member)) {
                     System.out.println("This member is already added to the crawl list.");
                 } else {
@@ -404,7 +427,7 @@ public class Members {
                 }
             }
             case "backstroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
+                //A checker-method to see if the member is already added
                 if(backstrokeList.contains(member)) {
                     System.out.println("This member is already added to the backstroke list.");
                 } else {
@@ -413,7 +436,7 @@ public class Members {
                 }
             }
             case "breaststroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
+                //A checker-method to see if the member is already added
                 if(breaststrokeList.contains(member)) {
                     System.out.println("This member is already added to the breaststroke list.");
                 } else {
