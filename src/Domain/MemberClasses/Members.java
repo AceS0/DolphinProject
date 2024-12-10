@@ -10,21 +10,16 @@ public class Members {
     private final ArrayList<Member> crawlList = new ArrayList<>();
     private final ArrayList<Member> backstrokeList = new ArrayList<>();
     private final ArrayList<Member> breaststrokeList = new ArrayList<>();
-    
+
     public Members(){
-        /*Member enes = new Member(0,"enes",60,50102030,
-                "EnesZeki@dk",true,false,true);
-        members.add(enes);*/
     }
 
-    public int generateID()
-    {
+    public int generateID() {
         openId++;
         return openId;
     }
 
-    public void setOpenID(int id)
-    {
+    public void setOpenID(int id) {
         openId = id;
     }
 
@@ -87,6 +82,19 @@ public class Members {
             return member.getName() + "'s balance: " + balance + " the fee: " +
                     debt +"\nPlease, deposit the needed balance to pay the full fee.\n";
         }
+    }
+
+    public ArrayList<Member> getUnpaid()
+    {
+        ArrayList<Member> result = new ArrayList<Member>();
+        for (Member m: members)
+        {
+            if (!m.gethasPaid())
+            {
+                result.add(m);
+            }
+        }
+        return result;
     }
 
     public String depositMemberBalance(String name, double balance){
@@ -370,44 +378,151 @@ public class Members {
         members.add(member);
     }
 
-    public void addMemberToDiscipline(Member member, String command) {
-        switch (command) {
-            case "butterfly"-> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(butterflyList.contains(member)) {
-                    System.out.println("This member is already added to the butterfly list.");
-                } else {
-                    butterflyList.add(member);
-                    System.out.println("Member successfully added to butterfly discipline.");
+    public String disciplinesList(Member member){
+        StringBuilder toPrint = new StringBuilder();
+
+        toPrint.append(member.getName()).append(" has these disciplines: \n");
+        int counter = 0;
+
+        if (butterflyList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Butterfly\n");
+        }
+
+        if (crawlList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Crawl\n");
+        }
+
+        if (backstrokeList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Backstroke\n");
+        }
+
+        if (breaststrokeList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Breaststroke\n");
+        }
+        return String.valueOf(toPrint);
+    }
+
+    public String topDisciplinesList(String command, String command2){
+        //Sorting not finished yet.
+        switch(command) {
+            case "1","butterfly", "bu" -> {
+                for (Member thisMember : butterflyList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getButterfly();
+                        } else {
+                           return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getButterfly();
+                        } else {
+                           return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
-            case "crawl" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(crawlList.contains(member)) {
-                    System.out.println("This member is already added to the crawl list.");
-                } else {
-                    crawlList.add(member);
-                    System.out.println("Member successfully added to crawl discipline.");
+
+            case "2", "crawl", "c" -> {
+                for (Member thisMember : crawlList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getCrawl();
+                        } else {
+                            return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getCrawl();
+                        } else {
+                            return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
-            case "backstroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(backstrokeList.contains(member)) {
-                    System.out.println("This member is already added to the backstroke list.");
-                } else {
-                    backstrokeList.add(member);
-                    System.out.println("Member successfully added to backstroke discipline.");
+
+            case "3","backstroke", "ba" -> {
+                for (Member thisMember : backstrokeList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBackstroke();
+                        } else {
+                            return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBackstroke();
+                        } else {
+                            return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
-            case "breaststroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(breaststrokeList.contains(member)) {
-                    System.out.println("This member is already added to the breaststroke list.");
-                } else {
-                    breaststrokeList.add(member);
-                    System.out.println("Member successfully added to breaststroke discipline.");
+            case "4","breaststroke", "br" -> {
+                for (Member thisMember : breaststrokeList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBreaststroke();
+                        } else {
+                            return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBreaststroke();
+                        } else {
+                            return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
         }
+        return "An error occured.";
     }
+
+    public String addMemberToDiscipline(Member member, String command) {
+        switch (command) {
+            case "butterfly"-> {
+                //A checker-method to see if the member is already added
+                if(butterflyList.contains(member)) {
+                   return "This member is already added to the butterfly list.";
+                } else {
+                    butterflyList.add(member);
+                   return "Member successfully added to butterfly discipline.";
+                }
+            }
+            case "crawl" -> {
+                //A checker-method to see if the member is already added
+                if(crawlList.contains(member)) {
+                    return "This member is already added to the crawl list.";
+                } else {
+                    crawlList.add(member);
+                    return "Member successfully added to crawl discipline.";
+                }
+            }
+            case "backstroke" -> {
+                //A checker-method to see if the member is already added
+                if(backstrokeList.contains(member)) {
+                    return "This member is already added to the backstroke list.";
+                } else {
+                    backstrokeList.add(member);
+                    return "Member successfully added to backstroke discipline.";
+                }
+            }
+            case "breaststroke" -> {
+                //A checker-method to see if the member is already added
+                if(breaststrokeList.contains(member)) {
+                    return "This member is already added to the breaststroke list.";
+                } else {
+                    breaststrokeList.add(member);
+                    return "Member successfully added to breaststroke discipline.";
+                }
+            }
+        }
+        return "An error occurred";
+    }
+
 }

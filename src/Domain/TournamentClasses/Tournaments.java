@@ -19,9 +19,18 @@ public class Tournaments {
         openID++;
         return openID;
     }
-    public Competitor createCompetitor(Member member, double time)
+    public Competitor createCompetitor(Member member, double time, String date, String category)
     {
+
+        switch (category){
+            case "Butterfly." -> member.setButterfly("Butterfly -> Time: " + time + " min. || Date: " + date);
+            case "Crawl." -> member.setCrawl("Crawl -> Time: " + time + " min. || Date: " + date);
+            case "Backstroke."-> member.setBackstroke("Backstroke -> Time: " + time + " min. || Date: " +date);
+            case "Breaststroke."-> member.setBreaststroke("Breaststroke -> Time: " + time + " min. || Date: " + date);
+        }
+
         return new Competitor(member.getName(), member.getID(), time);
+
     }
 
     public ArrayList<Tournament> tourneyLookUp(String search){
@@ -63,7 +72,7 @@ public class Tournaments {
        StringBuilder result = new StringBuilder();
        for (Tournament t: tournamentList)
        {
-           result.append(t.getName() + " " + t.getDate() + "\namount of contestants: " + t.getCompetitors().size() );
+           result.append(t.getName() + " " + t.getDate() + "\namount of contestants: " + t.getCompetitors().size() + "\n");
        }
        return result.toString();
    }

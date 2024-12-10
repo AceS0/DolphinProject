@@ -1,7 +1,7 @@
 package Domain.MemberClasses;
 
 import java.util.Comparator;
-import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Member implements Comparable {
@@ -108,6 +108,17 @@ public class Member implements Comparable {
         } else {
             return "has not paid";
         }
+    }
+
+    public Boolean gethasPaid()
+    {
+        checkpaid();
+        return hasPaid;
+    }
+
+    private void checkpaid() {
+        if (debt<=0) hasPaid=true;
+        else hasPaid=false;
     }
 
     public void setBalance(double balance){
@@ -223,20 +234,53 @@ public class Member implements Comparable {
         return name+ "\n"+ mail;
     }
 
-    public void setButterfly(String butterfly){
-        this.butterfly = butterfly;
+    public void setButterfly(String newString){
+        if (Objects.equals(butterfly, "Nothing")) {
+            butterfly = newString;
+            return;
+        }
+        double newTime = getTimeFromSTring(newString);
+        double oldTime = getTimeFromSTring(butterfly);
+        if (newTime < oldTime) butterfly= newString;
+
     }
 
-    public void setCrawl(String crawl){
-        this.crawl = crawl;
+    public double getTimeFromSTring(String timeString)
+    {
+        String[] splitTime1 = timeString.split(" ");
+        return Double.parseDouble(splitTime1[3]);
     }
 
-    public void setBackstroke(String backstroke){
-        this.backstroke = backstroke;
+    public void setCrawl(String timeString){
+        if (Objects.equals(crawl, "Nothing")) {
+            crawl = crawl;
+            return;
+        }
+        double newTime = getTimeFromSTring(timeString);
+        double oldTime = getTimeFromSTring(crawl);
+        if (newTime < oldTime) this.crawl=crawl;
+
     }
 
-    public void setBreaststroke(String breaststroke){
-        this.breaststroke = breaststroke;
+    public void setBackstroke(String timeString){
+        if (Objects.equals(backstroke, "Nothing")) {
+            backstroke = timeString;
+            return;
+        }
+        double newTime = getTimeFromSTring(timeString);
+        double oldTime = getTimeFromSTring(backstroke);
+        if (newTime < oldTime) backstroke=timeString;
+
+    }
+
+    public void setBreaststroke(String timeString){
+        if (Objects.equals(breaststroke, "Nothing")) {
+            breaststroke = timeString;
+            return;
+        }
+        double newTime =getTimeFromSTring(timeString);
+        double oldTime = getTimeFromSTring(breaststroke);
+        if (newTime < oldTime) this.breaststroke=breaststroke;
     }
 
     public String getButterfly(){
