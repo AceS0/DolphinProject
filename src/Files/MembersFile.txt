@@ -1,6 +1,0 @@
-contains all members 
-6
-2;jon;230;220235285;xxxaasf@igke.gk;false;false;false;0.0;2122.0
-4;sand mand;22;51521512;Sov@godt.dk;true;true;true;0.0;1557053.0
-5;enes;23;232;e;true;true;true;0.0;1000.0
-6;tester;121;12;e;true;true;true;0.0;10000.0

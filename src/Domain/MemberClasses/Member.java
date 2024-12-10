@@ -1,8 +1,10 @@
 package Domain.MemberClasses;
 
+import java.util.Comparator;
 import java.util.ArrayList;
 
-public class Member {
+
+public class Member implements Comparable {
     private int ID;
     private String name;
     private int age;
@@ -12,6 +14,10 @@ public class Member {
     private boolean isCompetitive;
     private double debt = 0;
     private double balance;
+    private String butterfly = "Nothing";
+    private String crawl = "Nothing";
+    private String backstroke = "Nothing";
+    private String breaststroke = "Nothing";
 
     //separation for what can be done automatically or as a final
     private double annualFee;
@@ -22,6 +28,16 @@ public class Member {
     private final double seniorDiscount = 25;
     private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
     private final int passiveRate = 500;
+
+    //sort function:
+    public static Comparator<Member> ID_COMPARATOR = Comparator.comparing(Member::getID);
+    public static Comparator<Member> NAME_COMPARATOR = Comparator.comparing(Member::getName);
+    public static Comparator<Member> AGE_COMPARATOR = Comparator.comparing(Member::getAge);
+    public static Comparator<Member> NUMBER_COMPARATOR = Comparator.comparing(Member::getNumber);
+    public static Comparator<Member> MAIL_COMPARATOR = Comparator.comparing(Member::getMail);
+    public static Comparator<Member> ISACTIVE_COMPARATOR = Comparator.comparing(Member:: getIsActive);
+    public static Comparator<Member> ISSENIOR_COMPARATOR = Comparator.comparing(Member::getIsSenior);
+    public static Comparator<Member> ISCOMPETITIVE_COMPARATOR = Comparator.comparing(Member::getIsCompetitive);
 
 
     public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
@@ -38,7 +54,7 @@ public class Member {
     }
     //overload for the save files
     public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                  boolean isCompetitive, double debt, double balance) {
+                  boolean isCompetitive, double debt, double balance, String butterfly, String crawl, String backstroke, String breaststroke) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -49,6 +65,10 @@ public class Member {
         this.isCompetitive = isCompetitive;
         this.debt = debt;
         this.balance = balance;
+        this.butterfly = butterfly;
+        this.crawl = crawl;
+        this.backstroke = backstroke;
+        this.breaststroke = breaststroke;
         setMembershipFee(isActive, age);
         if (debt == 0)
         {
@@ -59,7 +79,7 @@ public class Member {
     }
 
     public String getCompact() {
-        return ID+";"+ name +";"+ age +";"+ number +";"+ mail +";"+ isActive +";"+ isSenior +";"+ isCompetitive +";"+ debt +";"+ balance;
+        return ID+";"+ name +";"+ age +";"+ number +";"+ mail +";"+ isActive +";"+ isSenior +";"+ isCompetitive +";"+ debt +";"+ balance + ";" + butterfly + ";" + crawl + ";" + backstroke + ";" + breaststroke + ";";
     }
     public void setMembershipFee (boolean isActive, int age) {
         try {
@@ -134,7 +154,6 @@ public class Member {
         isCompetitive = competitive;
     }
 
-
     public double getAnnualFee() {
         return annualFee;
     }
@@ -146,6 +165,31 @@ public class Member {
     public String getName() {
         return name;
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public boolean getIsSenior() {
+        return isSenior;
+    }
+
+    public boolean getIsCompetitive() {
+        return isCompetitive;
+    }
+
 
 
     public String toString() {
@@ -171,14 +215,67 @@ public class Member {
         this.debt = debt;
     }
 
-    public void yearpassed()
-    {
+    public void yearpassed() {
         debt =+ annualFee;
     }
-    public String getShortDescription()
-    {
+
+    public String getShortDescription() {
         return name+ "\n"+ mail;
     }
 
+    public void setButterfly(String butterfly){
+        this.butterfly = butterfly;
+    }
 
+    public void setCrawl(String crawl){
+        this.crawl = crawl;
+    }
+
+    public void setBackstroke(String backstroke){
+        this.backstroke = backstroke;
+    }
+
+    public void setBreaststroke(String breaststroke){
+        this.breaststroke = breaststroke;
+    }
+
+    public String getButterfly(){
+        if (butterfly == null) {
+            return "Butterfly: There is no record.";
+        } else {
+            return butterfly;
+        }
+    }
+
+    public String getCrawl(){
+        if (crawl == null) {
+            return "Crawl: There is no record.";
+        } else {
+            return crawl;
+        }
+    }
+
+    public String getBackstroke(){
+        if (backstroke == null) {
+            return "Backstroke: There is no record.";
+        } else {
+            return backstroke;
+        }
+    }
+
+    public String getBreaststroke(){
+        if (breaststroke == null) {
+            return "Breaststroke: There is no record.";
+        } else {
+            return breaststroke;
+        }
+    }
+
+
+
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }
