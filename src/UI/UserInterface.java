@@ -520,6 +520,7 @@ public class UserInterface {
         } else if (found.getPaidStatus().equals("has not paid")) {
             System.out.println(name + " has already paid his fee for this year.");
         }
+
     }
 
     public void depositMemberBalance() {
@@ -560,6 +561,8 @@ public class UserInterface {
                     for (Member member : found) {
                         System.out.println(member.toString());
                     }
+                    boolean b = reqBool("do you wish to send invoices to these members: ", sc);
+                    if (b) controller.writeInvoices();
                 } else {
                     System.out.println("Every member has paid their fees.");
                 }
