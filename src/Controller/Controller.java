@@ -113,9 +113,9 @@ public class Controller {
         fileHandler.saveToTournamentsFile(tournaments);
     }
 
-    public Competitor createCompetitor(Member member, double time)
+    public Competitor createCompetitor(Member member, double time,String date , String category)
     {
-        return tournaments.createCompetitor(member, time);
+        return tournaments.createCompetitor(member, time, date, category);
     }
 
     public Tournaments getTournaments() {

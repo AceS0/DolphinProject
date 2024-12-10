@@ -181,7 +181,6 @@ public class UserInterface {
         int balance = reqInt("How much did the member deposit?: ", sc);
 
         Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage, competitive1);
-        //tilføjer ikke balance, check helst på et tidspunkt
         controller.setMembershipBalanceFee(m.getID(), memberName, activity, age, balance);
         addMemberToDiscipline(m);
         System.out.println("You have created a new member, and successfully connected a membership ID.");
@@ -583,7 +582,19 @@ public class UserInterface {
         String name = reqString("enter tournament name: ", sc);
         String date = reqString("enter tournament date: ", sc);
         String place = reqString("enter tournament placement: ", sc);
-        String category = reqString("enter tournament category: ", sc);
+        String category = null;
+        while(category == null){
+            System.out.println("enter category:");
+            String command = sc.nextLine();
+            switch (command){
+                case "1","butterfly" -> category = "Butterfly.";
+                case "2","crawl" -> category = "Crawl.";
+                case "3","backstroke"-> category = "Backstroke.";
+                case "4","breaststroke"-> category = "Breaststroke.";
+                default -> System.out.println("Please, try again.");
+            }
+        }
+
         ArrayList<Competitor> competitors = new ArrayList<Competitor>();
         while (true) {
             boolean sameMember = false;
@@ -595,7 +606,7 @@ public class UserInterface {
             }
             if (!sameMember) {
                 System.out.println("added " + "\n" + competitorMember.getShortDescription() + "\n" + "to the tournament");
-                competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc)));
+                competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc), date, category));
             }else System.out.println("this member has already been added\n");
             if (!reqBool("do you wish to add more competitors: ", sc)) break;
 
