@@ -33,7 +33,7 @@ public class Competitor {
 
     public String toString()
     {
-        return name + " time: " + time;
+        return name + ", time: " + time;
     }
 
 

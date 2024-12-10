@@ -59,7 +59,9 @@ public class UserInterface {
                         6. Calculate total annual membership fee.
                         7. Check member's balance and pay fee.
                         8. Deposit balance for a member.
-                        10. Exit""");
+                        9. 
+                        10.List disciplines of the member.
+                        0. Exit""");
         /*"""
 
                         1. Create a member.
@@ -125,6 +127,7 @@ public class UserInterface {
                     }
                     case "8", "deposit" -> depositMemberBalance();
                     case "9", "wipe" ->wipeMembers();
+                    case "10", "discipline" -> listMemberDisciplines();
                     case "help" -> System.out.println(
                             """
                                     
@@ -138,8 +141,10 @@ public class UserInterface {
                                     6. Calculate total annual membership fee.
                                     7. Check member's balance and pay fee.
                                     8. Deposit balance for a member.
-                                    10. Exit""");
-                    case "10", "exit" -> running = false;
+                                    9. 
+                                    10.List disciplines of the member.
+                                    0. Exit""");
+                    case "0", "exit" -> running = false;
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -201,6 +206,7 @@ public class UserInterface {
         Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage1, competitive1);
         //tilføjer ikke balance, check helst på et tidspunkt
         controller.setMembershipBalanceFee(m.getID(), memberName, activity, age, balance);
+        addMemberToDiscipline(m);
         System.out.println("You have created a new member, and successfully connected a membership ID.");
     }
 
@@ -668,5 +674,66 @@ public class UserInterface {
 
             }
         }
+    }
+
+    public void addMemberToDiscipline (Member member) {
+        System.out.println("You are adding the member to one or more disciplines.");
+        Scanner sc = new Scanner(System.in);
+        boolean boolTrue = true;
+            while(boolTrue) {
+                System.out.println(
+                        """
+                                These are the disciplines you can choose from:
+                                For butterfly write: \"bu\" or \"butterfly\"
+                                For crawl write: \"c\" or \"crawl\"
+                                For backstroke write: \"ba\" or \"backstroke\"
+                                For breaststroke write: \"br\" or \"breaststroke\"
+                                Which discipline do you want to add the member to:
+                        """);
+                String command = sc.next().toLowerCase();
+                switch (command) {
+                    case "bu", "butterfly" -> {
+                        controller.addMemberToDiscipline(member, "butterfly");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    case "c", "crawl" -> {
+                        controller.addMemberToDiscipline(member, "crawl");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    case "ba", "backstroke" -> {
+                        controller.addMemberToDiscipline(member, "backstroke");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    case "br", "breaststroke" -> {
+                        controller.addMemberToDiscipline(member, "breaststroke");
+                        boolTrue = wantToAddToMoreDisciplines();
+                    }
+                    default -> System.out.println("Invalid command. Try again.");
+                }
+        }
+    }
+
+    public boolean wantToAddToMoreDisciplines() {
+        System.out.println("Do you want to add member to more disciplines (\"yes\" or \"no\")? ");
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next();
+        if(input.equalsIgnoreCase("yes")) {
+            return true;
+        }else if(input.equalsIgnoreCase("no")) {
+            return false;
+        }else {
+            System.out.println("Invalid input. You have to answer either \"yes\" or \"no\".\nTry again");
+            return wantToAddToMoreDisciplines();
+        }
+    }
+
+    public void listMemberDisciplines() {
+        System.out.println("Which members disciplines do you want to look up?");
+        Scanner sc = new Scanner(System.in);
+        String thisMember = sc.next();
+        Member found = searchSpecificMember(thisMember, sc);
+
+        System.out.println(found);
+        addMemberToDiscipline(found);
     }
 }

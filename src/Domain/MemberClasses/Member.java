@@ -1,5 +1,7 @@
 package Domain.MemberClasses;
 
+import java.util.ArrayList;
+
 public class Member {
     private int ID;
     private String name;
@@ -52,6 +54,8 @@ public class Member {
         {
             this.hasPaid = true;
         }else this.hasPaid = false;
+    }
+    public Member() {
     }
 
     public String getCompact() {

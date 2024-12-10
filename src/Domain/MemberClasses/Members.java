@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Members {
     private final ArrayList<Member> members = new ArrayList();
     private int openId = 0;
+    private final ArrayList<Member> butterflyList = new ArrayList<>();
+    private final ArrayList<Member> crawlList = new ArrayList<>();
+    private final ArrayList<Member> backstrokeList = new ArrayList<>();
+    private final ArrayList<Member> breaststrokeList = new ArrayList<>();
     
     public Members(){
         /*Member enes = new Member(0,"enes",60,50102030,
@@ -213,5 +217,46 @@ public class Members {
     public void addMemberByObject(Member member)
     {
         members.add(member);
+    }
+
+    public void addMemberToDiscipline(Member member, String command) {
+        switch (command) {
+            case "butterfly"-> {
+                //Possibility: Coding a checker-method to see if the member is already added
+                if(butterflyList.contains(member)) {
+                    System.out.println("This member is already added to the butterfly list.");
+                } else {
+                    butterflyList.add(member);
+                    System.out.println("Member successfully added to butterfly discipline.");
+                }
+            }
+            case "crawl" -> {
+                //Possibility: Coding a checker-method to see if the member is already added
+                if(crawlList.contains(member)) {
+                    System.out.println("This member is already added to the crawl list.");
+                } else {
+                    crawlList.add(member);
+                    System.out.println("Member successfully added to crawl discipline.");
+                }
+            }
+            case "backstroke" -> {
+                //Possibility: Coding a checker-method to see if the member is already added
+                if(backstrokeList.contains(member)) {
+                    System.out.println("This member is already added to the backstroke list.");
+                } else {
+                    backstrokeList.add(member);
+                    System.out.println("Member successfully added to backstroke discipline.");
+                }
+            }
+            case "breaststroke" -> {
+                //Possibility: Coding a checker-method to see if the member is already added
+                if(breaststrokeList.contains(member)) {
+                    System.out.println("This member is already added to the breaststroke list.");
+                } else {
+                    breaststrokeList.add(member);
+                    System.out.println("Member successfully added to breaststroke discipline.");
+                }
+            }
+        }
     }
 }
