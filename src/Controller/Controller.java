@@ -6,6 +6,7 @@ import Domain.TournamentClasses.Competitor;
 import Domain.TournamentClasses.Tournament;
 import Domain.TournamentClasses.Tournaments;
 import FileHandling.FileHandler;
+import FileHandling.InvoiceWriter;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class Controller {
     private final Members members = new Members();
     private final Tournaments tournaments = new Tournaments();
     private final FileHandler fileHandler = new FileHandler();
+    private InvoiceWriter invoiceWriter = new InvoiceWriter();
 
     public Member addMemberToList(String name, int age, int number,
                                   String mail, boolean isActive, boolean isSenior, boolean isCompetitive){
@@ -22,6 +24,14 @@ public class Controller {
     }
 
     public Controller() {
+    }
+
+    public void writeInvoices()
+    {
+        ArrayList<Member> mList = members.getUnpaid();
+        for (Member member : mList) {
+            invoiceWriter.debtInvoice(member);
+        }
     }
 
     public String loadMembers()

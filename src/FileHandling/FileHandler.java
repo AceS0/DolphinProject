@@ -20,12 +20,11 @@ public class FileHandler {
     private File tourneyFile;
 
     public FileHandler() {
-        memberFile = new File("src/Files/MembersFile.txt");
-        tourneyFile = new File("src/Files/TourneysFile.txt");/*catch
-        {
-            memberFile = new File("MembersFile.txt");
-            tourneyFile = new File("TourneysFile.txt");
-        }*/
+        //memberFile = new File("src/Files/MembersFile.txt");
+        //tourneyFile = new File("src/Files/TourneysFile.txt");
+            memberFile = new File("Files/MembersFile.txt");
+            tourneyFile = new File("Files/TourneysFile.txt");
+
     }
 
     public String saveToMembersFile(Members members) {

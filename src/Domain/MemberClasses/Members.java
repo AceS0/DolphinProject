@@ -74,6 +74,19 @@ public class Members {
         }
     }
 
+    public ArrayList<Member> getUnpaid()
+    {
+        ArrayList<Member> result = new ArrayList<Member>();
+        for (Member m: members)
+        {
+            if (!m.gethasPaid())
+            {
+                result.add(m);
+            }
+        }
+        return result;
+    }
+
     public String depositMemberBalance(String name, double balance){
         ArrayList<Member> found = memberLookUp(name);
         if (found.isEmpty()) {

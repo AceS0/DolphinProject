@@ -86,6 +86,17 @@ public class Member {
         }
     }
 
+    public Boolean gethasPaid()
+    {
+        checkpaid();
+        return hasPaid;
+    }
+
+    private void checkpaid() {
+        if (debt<=0) hasPaid=true;
+        else hasPaid=false;
+    }
+
     public void setBalance(double balance){
         this.balance = balance;
     }
