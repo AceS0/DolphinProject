@@ -316,7 +316,7 @@ public class UserInterface {
                         found.setBreaststroke("Breaststroke -> Time: " + recordTime + " min. || Date: " + recordDate);
                     }
                 }
-
+                controller.saveMembers();
                 System.out.println("You have Added/Updated record time for " + found.getName());
             }
 

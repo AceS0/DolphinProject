@@ -1,6 +1,6 @@
 contains all members 
 5
-1;jon;20;4442422;xavfgfw;true;true;true;0.0;1000.0;Nothing;Nothing;Nothing;Nothing;
+1;jon;20;4442422;xavfgfw;true;true;true;0.0;1000.0;Butterfly -> Time: 1.0 min. || Date: today;Nothing;Nothing;Nothing;
 2;ley;156;2045;5125;true;true;true;0.0;10124.0;Nothing;Nothing;Nothing;Nothing;
 3;Enes;23;23;e;true;true;true;0.0;1500.0;Nothing;Nothing;Nothing;Nothing;
 4;Abdul;28;24;ab;true;true;true;0.0;2000.0;Nothing;Nothing;Nothing;Nothing;
