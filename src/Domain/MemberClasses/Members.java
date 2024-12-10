@@ -1,6 +1,7 @@
 package Domain.MemberClasses;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Members {
     private final ArrayList<Member> members = new ArrayList();
@@ -9,21 +10,16 @@ public class Members {
     private final ArrayList<Member> crawlList = new ArrayList<>();
     private final ArrayList<Member> backstrokeList = new ArrayList<>();
     private final ArrayList<Member> breaststrokeList = new ArrayList<>();
-    
+
     public Members(){
-        /*Member enes = new Member(0,"enes",60,50102030,
-                "EnesZeki@dk",true,false,true);
-        members.add(enes);*/
     }
 
-    public int generateID()
-    {
+    public int generateID() {
         openId++;
         return openId;
     }
 
-    public void setOpenID(int id)
-    {
+    public void setOpenID(int id) {
         openId = id;
     }
 
@@ -66,6 +62,16 @@ public class Members {
         return results;
     }
 
+    public String sortedMemberList(String term1, String term2){
+        StringBuilder toPrint = new StringBuilder();
+        toPrint.append("\nHere is the list of members:");
+        sortBy(term1,term2);
+        for (Member member : members) {
+            toPrint.append("\n\n").append(member.toString());
+        }
+        return toPrint.toString();
+    }
+
     public String balancePaid(Member member){
         double balance = member.getBalance();
         double debt = member.getDebt();
@@ -76,6 +82,19 @@ public class Members {
             return member.getName() + "'s balance: " + balance + " the fee: " +
                     debt +"\nPlease, deposit the needed balance to pay the full fee.\n";
         }
+    }
+
+    public ArrayList<Member> getUnpaid()
+    {
+        ArrayList<Member> result = new ArrayList<Member>();
+        for (Member m: members)
+        {
+            if (!m.gethasPaid())
+            {
+                result.add(m);
+            }
+        }
+        return result;
     }
 
     public String depositMemberBalance(String name, double balance){
@@ -132,6 +151,20 @@ public class Members {
        StringBuilder toPrint = new StringBuilder();
         for (Member member : members) {
             toPrint.append("\nID: ").append(member.getID()).append("\nName: ").append(member.getName());
+        }
+        return toPrint.toString();
+    }
+
+    public String memberListShortRecord() {
+        StringBuilder toPrint = new StringBuilder();
+        for (Member member : members) {
+            toPrint.append("\nID: ").append(member.getID()).append("\nName: ").append(member.getName())
+                    .append("\nDiscipline: ").append(member.getButterfly())
+                    .append("\nDiscipline: ").append(member.getCrawl())
+                    .append("\nDiscipline: ").append(member.getBackstroke())
+                    .append("\nDiscipline: ").append(member.getBreaststroke());
+
+
         }
         return toPrint.toString();
     }
@@ -201,49 +234,295 @@ public class Members {
         return (result.toString());
     }
 
+
+    public void sortBy(String term1, String term2) {
+        Comparator<Member> ID = Member.ID_COMPARATOR;
+        Comparator<Member> name = Member.NAME_COMPARATOR;
+        Comparator<Member> age = Member.AGE_COMPARATOR;
+        Comparator<Member> number = Member.NUMBER_COMPARATOR;
+        Comparator<Member> mail = Member.MAIL_COMPARATOR;
+        Comparator<Member> isActive = Member.ISACTIVE_COMPARATOR;
+        Comparator<Member> isSenior = Member.ISSENIOR_COMPARATOR;
+        Comparator<Member> isCompetitve = Member.ISCOMPETITIVE_COMPARATOR;
+
+        switch (term1) {
+            case "id" -> {
+                switch (term2) {
+                    case "name" -> Member.ID_COMPARATOR.thenComparing(name);
+                    case "age" -> Member.ID_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.ID_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.ID_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.ID_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.ID_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.ID_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(ID);
+                }
+
+            }
+
+            case "name" -> {
+                switch (term2) {
+                    case "id" -> Member.NAME_COMPARATOR.thenComparing(ID);
+                    case "age" -> Member.NAME_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.NAME_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.NAME_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.NAME_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.NAME_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.NAME_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(name);
+                }
+            }
+
+            case "age" -> {
+                switch (term2) {
+                    case "id" -> Member.AGE_COMPARATOR.thenComparing(ID);
+                    case "name" -> Member.AGE_COMPARATOR.thenComparing(name);
+                    case "number" -> Member.AGE_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.AGE_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.AGE_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.AGE_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.AGE_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(age);
+                }
+            }
+
+            case "number" -> {
+                switch (term2) {
+                    case "id" -> Member.NUMBER_COMPARATOR.thenComparing(ID);
+                    case "name" -> Member.NUMBER_COMPARATOR.thenComparing(name);
+                    case "age" -> Member.NUMBER_COMPARATOR.thenComparing(age);
+                    case "mail" -> Member.NUMBER_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.NUMBER_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.NUMBER_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.NUMBER_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(number);
+                }
+            }
+            case "mail" -> {
+                switch (term2) {
+                    case "id" -> Member.MAIL_COMPARATOR.thenComparing(ID);
+                    case "name" -> Member.MAIL_COMPARATOR.thenComparing(name);
+                    case "age" -> Member.MAIL_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.MAIL_COMPARATOR.thenComparing(number);
+                    case "isActive" -> Member.MAIL_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.MAIL_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.MAIL_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(mail);
+                }
+
+            }
+
+            case "isactive" -> {
+                switch (term2) {
+                    case "id" -> Member.ISACTIVE_COMPARATOR.thenComparing(ID);
+                    case "name" -> Member.ISACTIVE_COMPARATOR.thenComparing(name);
+                    case "age" -> Member.ISACTIVE_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.ISACTIVE_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.ISACTIVE_COMPARATOR.thenComparing(mail);
+                    case "isSenior" -> Member.ISACTIVE_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.ISACTIVE_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(isActive);
+                }
+
+            }
+
+            case "issenior" -> {
+                switch (term2) {
+                    case "id" -> Member.ISSENIOR_COMPARATOR.thenComparing(ID);
+                    case "name" -> Member.ISSENIOR_COMPARATOR.thenComparing(name);
+                    case "age" -> Member.ISSENIOR_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.ISSENIOR_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.ISSENIOR_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.ISSENIOR_COMPARATOR.thenComparing(isActive);
+                    case "isCompetitve" -> Member.ISSENIOR_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(isSenior);
+                }
+            }
+
+            case "iscompetitive" -> {
+                switch (term2) {
+                    case "id" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(ID);
+                    case "name" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(name);
+                    case "age" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.ISCOMPETITIVE_COMPARATOR.thenComparing(isSenior);
+                    default -> members.sort(isCompetitve);
+                }
+            }
+            default -> {
+                switch (term2) {
+                    case "id" -> Member.NAME_COMPARATOR.thenComparing(ID);
+                    case "age" -> Member.NAME_COMPARATOR.thenComparing(age);
+                    case "number" -> Member.NAME_COMPARATOR.thenComparing(number);
+                    case "mail" -> Member.NAME_COMPARATOR.thenComparing(mail);
+                    case "isActive" -> Member.NAME_COMPARATOR.thenComparing(isActive);
+                    case "isSenior" -> Member.NAME_COMPARATOR.thenComparing(isSenior);
+                    case "isCompetitve" -> Member.NAME_COMPARATOR.thenComparing(isCompetitve);
+                    default -> members.sort(name);
+
+                }
+            }
+
+
+
+
+
+
+        }
+    }
+
     public void addMemberByObject(Member member)
     {
         members.add(member);
     }
 
-    public void addMemberToDiscipline(Member member, String command) {
-        switch (command) {
-            case "butterfly"-> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(butterflyList.contains(member)) {
-                    System.out.println("This member is already added to the butterfly list.");
-                } else {
-                    butterflyList.add(member);
-                    System.out.println("Member successfully added to butterfly discipline.");
+    public String disciplinesList(Member member){
+        StringBuilder toPrint = new StringBuilder();
+
+        toPrint.append(member.getName()).append(" has these disciplines: \n");
+        int counter = 0;
+
+        if (butterflyList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Butterfly\n");
+        }
+
+        if (crawlList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Crawl\n");
+        }
+
+        if (backstrokeList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Backstroke\n");
+        }
+
+        if (breaststrokeList.contains(member)){
+            counter++;
+            toPrint.append(counter).append(". Breaststroke\n");
+        }
+        return String.valueOf(toPrint);
+    }
+
+    public String topDisciplinesList(String command, String command2){
+        //Sorting not finished yet.
+        switch(command) {
+            case "1","butterfly", "bu" -> {
+                for (Member thisMember : butterflyList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getButterfly();
+                        } else {
+                           return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getButterfly();
+                        } else {
+                           return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
-            case "crawl" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(crawlList.contains(member)) {
-                    System.out.println("This member is already added to the crawl list.");
-                } else {
-                    crawlList.add(member);
-                    System.out.println("Member successfully added to crawl discipline.");
+
+            case "2", "crawl", "c" -> {
+                for (Member thisMember : crawlList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getCrawl();
+                        } else {
+                            return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getCrawl();
+                        } else {
+                            return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
-            case "backstroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(backstrokeList.contains(member)) {
-                    System.out.println("This member is already added to the backstroke list.");
-                } else {
-                    backstrokeList.add(member);
-                    System.out.println("Member successfully added to backstroke discipline.");
+
+            case "3","backstroke", "ba" -> {
+                for (Member thisMember : backstrokeList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBackstroke();
+                        } else {
+                            return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBackstroke();
+                        } else {
+                            return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
-            case "breaststroke" -> {
-                //Possibility: Coding a checker-method to see if the member is already added
-                if(breaststrokeList.contains(member)) {
-                    System.out.println("This member is already added to the breaststroke list.");
-                } else {
-                    breaststrokeList.add(member);
-                    System.out.println("Member successfully added to breaststroke discipline.");
+            case "4","breaststroke", "br" -> {
+                for (Member thisMember : breaststrokeList) {
+                    if (command2.equals("1")) {
+                        if (thisMember.getIsSenior()) {
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBreaststroke();
+                        } else {
+                            return "There is no senior recorded.";
+                        }
+                    } else if (command2.equals("2")){
+                        if (!thisMember.getIsSenior()){
+                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBreaststroke();
+                        } else {
+                            return "There is no junior recorded.";
+                        }
+                    }
                 }
             }
         }
+        return "An error occured.";
     }
+
+    public String addMemberToDiscipline(Member member, String command) {
+        switch (command) {
+            case "butterfly"-> {
+                //A checker-method to see if the member is already added
+                if(butterflyList.contains(member)) {
+                   return "This member is already added to the butterfly list.";
+                } else {
+                    butterflyList.add(member);
+                   return "Member successfully added to butterfly discipline.";
+                }
+            }
+            case "crawl" -> {
+                //A checker-method to see if the member is already added
+                if(crawlList.contains(member)) {
+                    return "This member is already added to the crawl list.";
+                } else {
+                    crawlList.add(member);
+                    return "Member successfully added to crawl discipline.";
+                }
+            }
+            case "backstroke" -> {
+                //A checker-method to see if the member is already added
+                if(backstrokeList.contains(member)) {
+                    return "This member is already added to the backstroke list.";
+                } else {
+                    backstrokeList.add(member);
+                    return "Member successfully added to backstroke discipline.";
+                }
+            }
+            case "breaststroke" -> {
+                //A checker-method to see if the member is already added
+                if(breaststrokeList.contains(member)) {
+                    return "This member is already added to the breaststroke list.";
+                } else {
+                    breaststrokeList.add(member);
+                    return "Member successfully added to breaststroke discipline.";
+                }
+            }
+        }
+        return "An error occurred";
+    }
+
 }

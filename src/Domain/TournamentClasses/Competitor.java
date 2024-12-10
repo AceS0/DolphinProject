@@ -1,6 +1,10 @@
 package Domain.TournamentClasses;
 
+import java.util.Comparator;
+
 public class Competitor {
+    public static Comparator<Competitor> TIME_COMPARATOR = Comparator.comparing(Competitor::getTime);
+
     private String name;
     private int id;
     private Double time;
@@ -29,6 +33,8 @@ public class Competitor {
 
     public String toString()
     {
-        return name + " time: " + time;
+        return name + ", time: " + time;
     }
+
+
 }

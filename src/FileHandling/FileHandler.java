@@ -21,11 +21,10 @@ public class FileHandler {
 
     public FileHandler() {
         memberFile = new File("src/Files/MembersFile.txt");
-        tourneyFile = new File("src/Files/TourneysFile.txt");/*catch
-        {
-            memberFile = new File("MembersFile.txt");
-            tourneyFile = new File("TourneysFile.txt");
-        }*/
+        tourneyFile = new File("src/Files/TourneysFile.txt");
+            //memberFile = new File("Files/MembersFile.txt");
+            //tourneyFile = new File("Files/TourneysFile.txt");
+
     }
 
     public String saveToMembersFile(Members members) {
@@ -79,7 +78,11 @@ public class FileHandler {
                     boolean isCompetitive = Boolean.parseBoolean(attributes[7]);
                     double debt = Double.parseDouble(attributes[8]);
                     double balance = Double.parseDouble(attributes[9]);
-                    checkFile = new Member(ID, name, age, number, mail, isActive, isSenior, isCompetitive, debt, balance);
+                    String butterfly = (attributes[10]);
+                    String crawl = (attributes[11]);
+                    String backstroke = (attributes[12]);
+                    String breaststroke = (attributes[13]);
+                    checkFile = new Member(ID, name, age, number, mail, isActive, isSenior, isCompetitive, debt, balance, butterfly, crawl, backstroke, breaststroke);
 
                     members.addMemberByObject(checkFile);
                 }

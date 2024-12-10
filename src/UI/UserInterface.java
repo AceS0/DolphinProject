@@ -55,31 +55,19 @@ public class UserInterface {
                         2. Remove a member.
                         3. Search for a member.
                         4. List the members.
-                        5. Edit a member.
-                        6. Calculate total annual membership fee.
-                        7. Check member's balance and pay fee.
-                        8. Deposit balance for a member.
-                        9. 
-                        10.List disciplines of the member.
-                        0. Exit""");
-        /*"""
-
-                        1. Create a member.
-                        2. Remove a member.
-                        3. Search for a member.
-                        4. List the members.
-                        5. Get a help list.
+                        5. Sort member list
                         6. Edit a member.
-                        7. Save members to a file.
-                        8. Load members from a file.
-                        9. Delete a file.
-                        10. Exit"""*/
-
+                        7. Calculate total annual membership fee.
+                        8. Record, Update, Display member performance.
+                        9. Check member's balance and pay fee.
+                        10. Deposit balance for a member.
+                        12. List disciplines of the member.
+                        13. Exit""");
         while (running) {
             try {
                 System.out.print("""
                         
-                        Type "help", for a list of commands.\
+                        Type "help", for a list of commands.
                         
                         Choose an option:\s""");
                 //Dette splitter brugerens input, som vi gør brug af i bl.a. search-funktionen:
@@ -109,15 +97,17 @@ public class UserInterface {
                         }
                     }
                     case "4", "list", "l" -> listMembers();
-                    case "5", "edit", "e" -> {
+                    case "5", "sort" -> sortMembers();
+                    case "6", "edit", "e" -> {
                         if (splitPut.length > 1) {
                             editMember(splitPut[1]);
                         } else {
                             editMember(reqString("Type the member you want to edit: ", sc));
                         }
                     }
-                    case "6", "sum" -> System.out.println(controller.sumMembershipFees());
-                    case "7", "balance" -> {
+                    case "7", "sum" -> System.out.println(controller.sumMembershipFees());
+                    case "8", "record" -> recordTime();
+                    case "9", "balance" -> {
                         if (splitPut.length > 1) {
                             runBalancePayment(splitPut[1]);
                         } else {
@@ -125,9 +115,10 @@ public class UserInterface {
                             runBalancePayment(sc.next());
                         }
                     }
-                    case "8", "deposit" -> depositMemberBalance();
-                    case "9", "wipe" ->wipeMembers();
-                    case "10", "discipline" -> listMemberDisciplines();
+                    case "10", "deposit" -> depositMemberBalance();
+                    case "11", "wipe" ->wipeMembers();
+                    case "12", "discipline" -> listMemberDisciplines();
+                    case "14" -> topDisciplinesList();
                     case "help" -> System.out.println(
                             """
                                     
@@ -137,14 +128,16 @@ public class UserInterface {
                                     2. Remove a member.
                                     3. Search for a member.
                                     4. List the members.
-                                    5. Edit a member.
-                                    6. Calculate total annual membership fee.
-                                    7. Check member's balance and pay fee.
-                                    8. Deposit balance for a member.
-                                    9. 
-                                    10.List disciplines of the member.
-                                    0. Exit""");
-                    case "0", "exit" -> running = false;
+                                    5. sort member list
+                                    6. Edit a member.
+                                    7. Calculate total annual membership fee.
+                                    8. Record, Update, Display member performance.
+                                    9. Check member's balance and pay fee.
+                                    10. Deposit balance for a member.
+                                    11. Wipe members
+                                    12. List disciplines of the member.
+                                    13. Exit""");
+                    case "13", "exit" -> running = false;
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -159,24 +152,22 @@ public class UserInterface {
 
     public void addMemberByUser() {
         Scanner sc = new Scanner(System.in);
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-
         System.out.println("You are creating a member");
-        //udkommenteret pga. autoID
-                    /*System.out.print("Insert MemberID: ");
-                    while (!sc.hasNextInt()) {
-                        System.out.println("Invalid input, please try again");
-                        System.out.print("Type here: ");
-                        sc.next();
-                    }
-                    int memberId = sc.nextInt();*/
-
         String memberName = reqString("Insert full name: ", sc);
 
         int age = reqInt("Insert age: ", sc);
 
+        boolean stage;
+        if (age < 18){
+            stage = false;
+            System.out.println("The member status has been set to junior");
+        } else {
+            stage = true;
+            System.out.println("The member status has been set to senior");
+        }
+
         int number = reqInt("Insert telephone number: ", sc);
+
 
         String mail = reqString("Insert mail: ", sc);
 
@@ -184,27 +175,13 @@ public class UserInterface {
 
         sc.nextLine();
 
-        System.out.print("Is the member a senior (+18): ");
-        String stage = sc.nextLine().toLowerCase();
-        boolean stage1 = true;
-        while (!stage.equals("yes") && !stage.equals("no")) {
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type yes/no here: ");
-            stage = sc.nextLine();
-        }
-        if (stage.equals("no")) {
-            stage1 = false;
-            System.out.println("The member has been assigned the junior status (<18)");
-
-        }
 
         boolean competitive1 = reqBool("Is the member competitive: ", sc);
         sc.nextLine();
 
         int balance = reqInt("How much did the member deposit?: ", sc);
 
-        Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage1, competitive1);
-        //tilføjer ikke balance, check helst på et tidspunkt
+        Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage, competitive1);
         controller.setMembershipBalanceFee(m.getID(), memberName, activity, age, balance);
         addMemberToDiscipline(m);
         System.out.println("You have created a new member, and successfully connected a membership ID.");
@@ -270,53 +247,103 @@ public class UserInterface {
             System.out.println("Returning back to menu.");
             return;
         }
-        //System.out.println(found.getShortDescription());
         editMember(String.valueOf(found.getID()));
-
-        //forkortet så meget kode jeg næsten får et angstanfald
-        /* (found.isEmpty()) {
-            System.out.println("The member you searched for does not exist, please try again.");
-        } else {
-
-            if (found.size() == 1) {
-                for (Member member : found) {
-                    System.out.println(member.toString());
-                }
-                boolean input = reqBool("Do you want to edit " + found.getFirst().getName() + "? \nType here: ", sc);
-                if (input) {
-                    editMemberSplit(found.getFirst());
-                } else if (!input) {
-                    System.out.println("-> Returning back to menu.");
-                    return null;
-                }
-
-            } else {
-                for (Member member : found) {
-                    System.out.println(member.toString());
-                }
-                System.out.println("Which member do you want to get more details about?");
-                System.out.print("Type here: ");
-                String input = sc.nextLine();
-                found = controller.runSearch(input);
-
-                for (Member ignored : found) {
-                    if (!found.isEmpty()) {
-                        searchForMember(input);
-                    }
-                }
-
-                if (found.isEmpty()) {
-                    System.out.println("Couldn't find the member, please try again or to leave type exit or quit. ");
-                    System.out.print("Type here: ");
-                    input = sc.nextLine();
-                    if (input.equals("quit") || input.equals("exit")) {
-                        return null;
-                    } else {
-                        searchForMember(input);
-                    }
-                }
-            }*/
     }
+
+
+    public void recordTime() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println
+                ("""
+                Below is your options: 
+                
+                1. Record/Update record time.             
+                2. Display record time for one member.
+                3. Display record time for all members.         
+                """);
+        System.out.print("Type here: ");
+        int command = sc.nextInt();
+        switch (command){
+            case 1 ->{
+                System.out.print("which member do you want to record time for: ");
+                String thisMember = sc.next();
+                Member found = searchSpecificMember(thisMember,sc);
+                System.out.println(
+                """
+                Which discipline do you want to record time for
+                
+                1. Butterfly.
+                2. Crawl.
+                3. backstroke.
+                4. breaststroke.
+                """);
+                System.out.print("Type here:");
+
+
+
+                String command2 = sc.next();
+                switch (command2){
+                    case "1","butterfly" -> command2 = "Butterfly.";
+                    case "2","crawl" -> command2 = "Crawl.";
+                    case "3","backstroke"-> command2 = "Backstroke.";
+                    case "4","breaststroke"-> command2 = "Breaststroke.";
+                    default -> System.out.println("Please, try again.");
+                }
+
+                System.out.println("Discipline: " + command2);
+
+                System.out.print("What is the date of the record: ");
+                String recordDate = sc.next();
+                System.out.print("What was the members best time performance (in minutes): ");
+                double recordTime = sc.nextDouble();
+
+
+                switch (command2){
+                    case "Butterfly." -> {
+                        controller.addMemberToDiscipline(found, "butterfly");
+                        found.setButterfly("Butterfly -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                    case "Crawl." -> {
+                        controller.addMemberToDiscipline(found, "crawl");
+                        found.setCrawl("Crawl -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                    case "Backstroke."-> {
+                        controller.addMemberToDiscipline(found, "backstroke");
+                        found.setBackstroke("Backstroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                    case "Breaststroke."-> {
+                        controller.addMemberToDiscipline(found, "breaststroke");
+                        found.setBreaststroke("Breaststroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                }
+
+                System.out.println("You have Added/Updated record time for " + found.getName());
+            }
+
+            case 2 -> {
+                System.out.println("Which member do you want to get info about");
+                String thisMember = sc.next();
+                Member found = searchSpecificMember(thisMember,sc);
+                System.out.println("ID: " +found.getID() +
+                                    "\nName: " + found.getName() +
+                                "\nDiscipline info: "
+                                + found.getButterfly()
+                                + found.getCrawl()
+                                + found.getBackstroke()
+                                + found.getBreaststroke());
+
+            }
+
+            case 3 ->  {
+                System.out.println(controller.getMembers().memberListShortRecord());
+            }
+
+        }
+    }
+
+
+
+
 
     public void editMember(String thisMember) {
         Scanner sc = new Scanner(System.in);
@@ -485,6 +512,8 @@ public class UserInterface {
                     for (Member member : found) {
                         System.out.println(member.toString());
                     }
+                    boolean b = reqBool("do you wish to send invoices to these members: ", sc);
+                    if (b) controller.writeInvoices();
                 } else {
                     System.out.println("Every member has paid their fees.");
                 }
@@ -566,7 +595,19 @@ public class UserInterface {
         String name = reqString("enter tournament name: ", sc);
         String date = reqString("enter tournament date: ", sc);
         String place = reqString("enter tournament placement: ", sc);
-        String category = reqString("enter tournament category: ", sc);
+        String category = null;
+        while(category == null){
+            System.out.println("enter category:");
+            String command = sc.nextLine();
+            switch (command){
+                case "1","butterfly" -> category = "Butterfly.";
+                case "2","crawl" -> category = "Crawl.";
+                case "3","backstroke"-> category = "Backstroke.";
+                case "4","breaststroke"-> category = "Breaststroke.";
+                default -> System.out.println("Please, try again.");
+            }
+        }
+
         ArrayList<Competitor> competitors = new ArrayList<Competitor>();
         while (true) {
             boolean sameMember = false;
@@ -578,7 +619,7 @@ public class UserInterface {
             }
             if (!sameMember) {
                 System.out.println("added " + "\n" + competitorMember.getShortDescription() + "\n" + "to the tournament");
-                competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc)));
+                competitors.add(controller.createCompetitor(competitorMember, reqDouble("competitors time:", sc), date, category));
             }else System.out.println("this member has already been added\n");
             if (!reqBool("do you wish to add more competitors: ", sc)) break;
 
@@ -672,37 +713,153 @@ public class UserInterface {
             }
         }
     }
+    public void sortMembers() {
+        if (controller.getMembers().memberList().isEmpty()) {
+            System.out.println("\nThere is no member list to be sorted.\n");
+            userInterface();
+        }
+        Scanner sc = new Scanner(System.in);
+        System.out.println(
+                """ 
+                        How do you want to list the members?
+                        
+                        Sorted by: 
+                        1. ID?
+                        2. Name?
+                        3. Age?
+                        4. Number?
+                        5. Mail?
+                        6. IsActive?
+                        7. IsSenior?
+                        8. IsCompetitive?
+                        9. Return to menu
+                        """);
+        System.out.print("Type here: ");
+        String input = sc.next().toLowerCase();
+
+
+        switch (input) {
+            case "1", "id", "i" -> {
+                input = "id";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "2", "name", "n" -> {
+                input = "name";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "3", "age", "a" -> {
+                input = "age";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "4", "number" -> {
+                input = "number";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "5", "mail", "m" -> {
+                input = "mail";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "6", "isactive" -> {
+                input = "isactive";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "7", "issenior" -> {
+                input = "issenior";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "8", "iscompetitive" -> {
+                input = "iscompetitive";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+            case "9", "return", "exit" -> {
+                System.out.println("Returning back to menu");
+                userInterface();
+            }
+            default -> {
+                input = "name";
+                controller.getMembers().sortedMemberList(input,"");
+            }
+        }
+
+
+
+        System.out.println("Do you want to have secondary sort?");
+        System.out.print("Type (yes/no): ");
+
+        while (true) {
+            String input2 = sc.next().toLowerCase();
+            switch (input2) {
+                case "yes" -> {
+                    System.out.println(
+                            """ 
+                                    How do you want to list the members?
+                                    
+                                    Sorted by: 
+                                    1. ID?
+                                    2. Name?
+                                    3. Age?
+                                    4. Number?
+                                    5. Mail?
+                                    6. IsActive?
+                                    7. IsSenior?
+                                    8. IsCompetitive?
+                                    9. Return to menu
+                                    """);
+                    System.out.print("Type here: ");
+                    String input3 = sc.next().toLowerCase();
+                    switch (input3) {
+                        case "1", "id", "i" -> controller.getMembers().sortedMemberList(input,"id");
+                        case "2", "name", "n" -> controller.getMembers().sortedMemberList(input,"name");
+                        case "3", "age", "a" -> controller.getMembers().sortedMemberList(input,"age");
+                        case "4", "number" -> controller.getMembers().sortedMemberList(input,"number");
+                        case "5", "mail", "m" -> controller.getMembers().sortedMemberList(input,"mail");
+                        case "6", "isactive" -> controller.getMembers().sortedMemberList(input,"isactive");
+                        case "7", "issenior" -> controller.getMembers().sortedMemberList(input,"issenior");
+                        case "8", "iscompetitive" -> controller.getMembers().sortedMemberList(input,"iscompetitive");
+                        case "9", "return", "exit" -> {
+                            System.out.println("Returning back to menu");
+                            userInterface();
+                        }
+                    }
+                }
+                case "no" -> System.out.println(controller.getMembers().memberList());
+                default -> System.out.print("Invalid input, please try again: ");
+
+            }
+        }
+    }
+
 
     public void addMemberToDiscipline (Member member) {
         System.out.println("You are adding the member to one or more disciplines.");
         Scanner sc = new Scanner(System.in);
         boolean boolTrue = true;
             while(boolTrue) {
-                System.out.println(
+                System.out.print(
                         """
                                 These are the disciplines you can choose from:
-                                For butterfly write: \"bu\" or \"butterfly\"
-                                For crawl write: \"c\" or \"crawl\"
-                                For backstroke write: \"ba\" or \"backstroke\"
-                                For breaststroke write: \"br\" or \"breaststroke\"
-                                Which discipline do you want to add the member to:
-                        """);
+                                1. if butterfly write: \"bu\" or \"butterfly\"
+                                2. if crawl write: \"c\" or \"crawl\"
+                                3. if backstroke write: \"ba\" or \"backstroke\"
+                                4. if breaststroke write: \"br\" or \"breaststroke\"
+                                
+                                Which discipline do you want to add the member to: """);
                 String command = sc.next().toLowerCase();
                 switch (command) {
-                    case "bu", "butterfly" -> {
-                        controller.addMemberToDiscipline(member, "butterfly");
+                    case "bu", "butterfly","1" -> {
+                        System.out.println(controller.addMemberToDiscipline(member, "butterfly"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
-                    case "c", "crawl" -> {
-                        controller.addMemberToDiscipline(member, "crawl");
+                    case "c", "crawl","2" -> {
+                        System.out.println(controller.addMemberToDiscipline(member, "crawl"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
-                    case "ba", "backstroke" -> {
-                        controller.addMemberToDiscipline(member, "backstroke");
+                    case "ba", "backstroke","3" -> {
+                        System.out.println(controller.addMemberToDiscipline(member, "backstroke"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
-                    case "br", "breaststroke" -> {
-                        controller.addMemberToDiscipline(member, "breaststroke");
+                    case "br", "breaststroke","4" -> {
+                        System.out.println(controller.addMemberToDiscipline(member, "breaststroke"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
                     default -> System.out.println("Invalid command. Try again.");
@@ -731,6 +888,24 @@ public class UserInterface {
         Member found = searchSpecificMember(thisMember, sc);
 
         System.out.println(found);
+        System.out.println(controller.getDisciplinesList(found));
         addMemberToDiscipline(found);
     }
+
+    public void topDisciplinesList(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println(
+                """ 
+                                These are the disciplines you can choose from:
+                                        1. if butterfly write: \"bu\" or \"butterfly\"
+                                        2. if crawl write: \"c\" or \"crawl\"
+                                        3. if backstroke write: \"ba\" or \"backstroke\"
+                                        4. if breaststroke write: \"br\" or \"breaststroke\" 
+                                        Which list do you want to check the top 5 of: """);
+        String command = sc.next();
+        System.out.println("Do you want to check top 5 of Senior or Junior\nIf Senior type 1 & else Junior type 2");
+        String command2 = sc.next();
+        System.out.println(controller.getTopDisciplinesList(command, command2));
+    }
+
 }

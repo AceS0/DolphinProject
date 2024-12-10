@@ -1,6 +1,7 @@
 package Domain.TournamentClasses;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Tournament {
     private ArrayList<Competitor> competitors;
@@ -15,9 +16,10 @@ public class Tournament {
         this.name = name;
         this.date = date;
         this.place = place;
-        this.competitors = competitors;
         this.category = category;
         this.id = id;
+        this.competitors = competitors;
+        competitors.sort(Competitor.TIME_COMPARATOR);
 
     }
 
@@ -35,14 +37,6 @@ public class Tournament {
 
     public String getDate() {
         return date;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public ArrayList<Competitor> getCompetitors() {
@@ -71,19 +65,29 @@ public class Tournament {
                 "\nDate: " + date +
                 "\nNumber of competitors: " + competitors.size() +
                 "\nCategory" + category +
-                "\nCompetitors" + competitorsToString();
+                "\n" + competitorsToString();
 
     }
 
     public String competitorsToString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("Competitors:");
+        sb.append("Competitors: \n");
+        int placement = 1;
         for (Competitor c : competitors)
         {
-            sb.append(c.toString()+ "\n");
+            sb.append(placement+". ");
+            placement++;
+            sb.append(c.toString());
+            sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public ArrayList<Competitor> getStandings()
+    {
+        competitors.sort(Competitor.TIME_COMPARATOR);
+        return competitors;
     }
 
 }
