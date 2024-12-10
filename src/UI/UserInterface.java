@@ -61,8 +61,8 @@ public class UserInterface {
                         8. Record, Update, Display member performance.
                         9. Check member's balance and pay fee.
                         10. Deposit balance for a member.
-                        11. Wipe members
-                        12. Exit""");
+                        12. List disciplines of the member.
+                        13. Exit""");
         while (running) {
             try {
                 System.out.print("""
@@ -118,6 +118,7 @@ public class UserInterface {
                     case "10", "deposit" -> depositMemberBalance();
                     case "11", "wipe" ->wipeMembers();
                     case "12", "discipline" -> listMemberDisciplines();
+                    case "14" -> topDisciplinesList();
                     case "help" -> System.out.println(
                             """
                                     
@@ -299,10 +300,22 @@ public class UserInterface {
 
 
                 switch (command2){
-                    case "Butterfly." -> found.setButterfly("Butterfly -> Time: " + recordTime + " min. || Date: " + recordDate);
-                    case "Crawl." -> found.setCrawl("Crawl -> Time: " + recordTime + " min. || Date: " + recordDate);
-                    case "Backstroke."-> found.setBackstroke("Backstroke -> Time: " + recordTime + " min. || Date: " + recordDate);
-                    case "Breaststroke."-> found.setBreaststroke("Breaststroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    case "Butterfly." -> {
+                        controller.addMemberToDiscipline(found, "butterfly");
+                        found.setButterfly("Butterfly -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                    case "Crawl." -> {
+                        controller.addMemberToDiscipline(found, "crawl");
+                        found.setCrawl("Crawl -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                    case "Backstroke."-> {
+                        controller.addMemberToDiscipline(found, "backstroke");
+                        found.setBackstroke("Backstroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
+                    case "Breaststroke."-> {
+                        controller.addMemberToDiscipline(found, "breaststroke");
+                        found.setBreaststroke("Breaststroke -> Time: " + recordTime + " min. || Date: " + recordDate);
+                    }
                 }
 
                 System.out.println("You have Added/Updated record time for " + found.getName());
@@ -823,19 +836,19 @@ public class UserInterface {
                 String command = sc.next().toLowerCase();
                 switch (command) {
                     case "bu", "butterfly","1" -> {
-                        controller.addMemberToDiscipline(member, "butterfly");
+                        System.out.println(controller.addMemberToDiscipline(member, "butterfly"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
                     case "c", "crawl","2" -> {
-                        controller.addMemberToDiscipline(member, "crawl");
+                        System.out.println(controller.addMemberToDiscipline(member, "crawl"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
                     case "ba", "backstroke","3" -> {
-                        controller.addMemberToDiscipline(member, "backstroke");
+                        System.out.println(controller.addMemberToDiscipline(member, "backstroke"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
                     case "br", "breaststroke","4" -> {
-                        controller.addMemberToDiscipline(member, "breaststroke");
+                        System.out.println(controller.addMemberToDiscipline(member, "breaststroke"));
                         boolTrue = wantToAddToMoreDisciplines();
                     }
                     default -> System.out.println("Invalid command. Try again.");
@@ -864,7 +877,24 @@ public class UserInterface {
         Member found = searchSpecificMember(thisMember, sc);
 
         System.out.println(found);
-        controller.getDisciplinesList(found);
+        System.out.println(controller.getDisciplinesList(found));
         addMemberToDiscipline(found);
     }
+
+    public void topDisciplinesList(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println(
+                """ 
+                                These are the disciplines you can choose from:
+                                        1. if butterfly write: \"bu\" or \"butterfly\"
+                                        2. if crawl write: \"c\" or \"crawl\"
+                                        3. if backstroke write: \"ba\" or \"backstroke\"
+                                        4. if breaststroke write: \"br\" or \"breaststroke\" 
+                                        Which list do you want to check the top 5 of: """);
+        String command = sc.next();
+        System.out.println("Do you want to check top 5 of Senior or Junior\nIf Senior type 1 & else Junior type 2");
+        String command2 = sc.next();
+        System.out.println(controller.getTopDisciplinesList(command, command2));
+    }
+
 }

@@ -34,8 +34,8 @@ public class Controller {
         }
     }
 
-    public void getDisciplinesList(Member member){
-        members.disciplinesList(member);
+    public String getDisciplinesList(Member member){
+        return members.disciplinesList(member);
     }
 
     public String loadMembers()
@@ -130,7 +130,11 @@ public class Controller {
         return fileHandler.wipeTournamentFile();
     }
 
-    public void addMemberToDiscipline(Member member, String command) {
-        members.addMemberToDiscipline(member, command);
+    public String addMemberToDiscipline(Member member, String command) {
+         return members.addMemberToDiscipline(member, command);
+    }
+
+    public String getTopDisciplinesList(String command, String command2){
+        return members.topDisciplinesList(command,command2);
     }
 }
