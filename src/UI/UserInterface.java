@@ -179,7 +179,17 @@ public class UserInterface {
 
         int age = reqInt("Insert age: ", sc);
 
+        boolean stage = true;
+        if (age < 18){
+            stage = false;
+            System.out.println("The member status has been set to junior");
+        } else {
+            stage = true;
+            System.out.println("The member status has been set to senior");
+        }
+
         int number = reqInt("Insert telephone number: ", sc);
+
 
         String mail = reqString("Insert mail: ", sc);
 
@@ -187,26 +197,13 @@ public class UserInterface {
 
         sc.nextLine();
 
-        System.out.print("Is the member a senior (+18): ");
-        String stage = sc.nextLine().toLowerCase();
-        boolean stage1 = true;
-        while (!stage.equals("yes") && !stage.equals("no")) {
-            System.out.println("Invalid input, please try again");
-            System.out.print("Type yes/no here: ");
-            stage = sc.nextLine();
-        }
-        if (stage.equals("no")) {
-            stage1 = false;
-            System.out.println("The member has been assigned the junior status (<18)");
-
-        }
 
         boolean competitive1 = reqBool("Is the member competitive: ", sc);
         sc.nextLine();
 
         int balance = reqInt("How much did the member deposit?: ", sc);
 
-        Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage1, competitive1);
+        Member m = controller.addMemberToList(memberName, age, number, mail, activity, stage, competitive1);
         //tilføjer ikke balance, check helst på et tidspunkt
         controller.setMembershipBalanceFee(m.getID(), memberName, activity, age, balance);
         System.out.println("You have created a new member, and successfully connected a membership ID.");
@@ -320,69 +317,6 @@ public class UserInterface {
             }*/
     }
 
-    public void recordEdit(Member thisMember){
-        Scanner sc = new Scanner(System.in);
-        boolean running = true;
-        while (running) {
-            System.out.println("Current status on the member: ");
-            System.out.println(thisMember.toString());
-            System.out.println("In which discipline do you want to add performance record.");
-            System.out.println("0. exit, 1. butterfly, 2. crawl, 3. backstroke, 4. breaststroke.");
-
-
-            switch (sc.nextInt()) {
-                case 0 -> {
-                    System.out.println("-> Returning back to menu.");
-                    running = false;
-                }
-                case 1 -> {
-                    System.out.println("Discipline: butterfly.");
-
-                    System.out.print("What is the date of the record: ");
-                    String recordDate = sc.next();
-                    thisMember.setRecordDate(recordDate);
-                    System.out.print("What was the members best time performance ");
-                    double recordTime = sc.nextInt();
-                    thisMember.setTimeInMinutes(recordTime);
-
-
-
-                }
-                case 2 -> {
-                    System.out.println("Discipline: crawl.");
-
-                    System.out.print("What is the date of the record: ");
-                    String recordDate = sc.next();
-                    thisMember.setRecordDate(recordDate);
-                    System.out.print("What was the members best time performance ");
-                    int recordTime = sc.nextInt();
-                    thisMember.setTimeInMinutes(recordTime);
-                }
-                case 3 -> {
-                    System.out.println("Discipline: backstroke.");
-
-                    System.out.print("What is the date of the record: ");
-                    String recordDate = sc.next();
-                    thisMember.setRecordDate(recordDate);
-                    System.out.print("What was the members best time performance ");
-                    int recordTime = sc.nextInt();
-                    thisMember.setTimeInMinutes(recordTime);
-
-                }
-                case 4 -> {
-                    System.out.println("Discipline: breaststroke.");
-
-                    System.out.print("What is the date of the record: ");
-                    String recordDate = sc.next();
-                    thisMember.setRecordDate(recordDate);
-                    System.out.print("What was the members best time performance ");
-                    int recordTime = sc.nextInt();
-                    thisMember.setTimeInMinutes(recordTime);
-
-                }
-            }
-        }
-    }
 
     public void recordTime() {
         Scanner sc = new Scanner(System.in);

@@ -12,12 +12,10 @@ public class Member implements Comparable {
     private boolean isCompetitive;
     private double debt = 0;
     private double balance;
-    private double timeInMinutes;
-    private String recordDate;
-    private String butterfly;
-    private String crawl;
-    private String backstroke;
-    private String breaststroke;
+    private String butterfly = "Nothing";
+    private String crawl = "Nothing";
+    private String backstroke = "Nothing";
+    private String breaststroke = "Nothing";
 
     //separation for what can be done automatically or as a final
     private double annualFee;
@@ -54,7 +52,7 @@ public class Member implements Comparable {
     }
     //overload for the save files
     public Member(int ID, String name, int age, int number, String mail, boolean isActive, boolean isSenior,
-                  boolean isCompetitive, double debt, double balance) {
+                  boolean isCompetitive, double debt, double balance, String butterfly, String crawl, String backstroke, String breaststroke) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -65,6 +63,10 @@ public class Member implements Comparable {
         this.isCompetitive = isCompetitive;
         this.debt = debt;
         this.balance = balance;
+        this.butterfly = butterfly;
+        this.crawl = crawl;
+        this.backstroke = backstroke;
+        this.breaststroke = breaststroke;
         setMembershipFee(isActive, age);
         if (debt == 0)
         {
@@ -73,7 +75,7 @@ public class Member implements Comparable {
     }
 
     public String getCompact() {
-        return ID+";"+ name +";"+ age +";"+ number +";"+ mail +";"+ isActive +";"+ isSenior +";"+ isCompetitive +";"+ debt +";"+ balance;
+        return ID+";"+ name +";"+ age +";"+ number +";"+ mail +";"+ isActive +";"+ isSenior +";"+ isCompetitive +";"+ debt +";"+ balance + ";" + butterfly + ";" + crawl + ";" + backstroke + ";" + breaststroke + ";";
     }
     public void setMembershipFee (boolean isActive, int age) {
         try {
@@ -148,14 +150,6 @@ public class Member implements Comparable {
         isCompetitive = competitive;
     }
 
-    public void setRecordDate(String recordDate) {
-        this.recordDate = recordDate;
-    }
-
-    public void setTimeInMinutes(double timeInMinutes) {
-        this.timeInMinutes = timeInMinutes;
-    }
-
     public double getAnnualFee() {
         return annualFee;
     }
@@ -192,13 +186,7 @@ public class Member implements Comparable {
         return isCompetitive;
     }
 
-    public String getRecordDate() {
-        return recordDate;
-    }
 
-    public double getTimeInMinutes() {
-        return timeInMinutes;
-    }
 
     public String toString() {
         return  "ID: "+ID+
