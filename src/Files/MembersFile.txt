@@ -1,10 +1,7 @@
 contains all members 
-8
-1;jon;20;4442422;xavfgfw;true;true;true;0.0;1000.0;Nothing;Nothing;Nothing;Nothing;
+5
+1;jon;20;4442422;xavfgfw;true;true;true;0.0;1000.0;Butterfly -> Time: 1.0 min. || Date: today;Nothing;Nothing;Nothing;
 2;ley;156;2045;5125;true;true;true;0.0;10124.0;Nothing;Nothing;Nothing;Nothing;
 3;Enes;23;23;e;true;true;true;0.0;1500.0;Nothing;Nothing;Nothing;Nothing;
-4;Abdul;28;24;ab;true;true;true;0.0;2000.0;Butterfly -> Time: 2.4 min. || Date: 1;Nothing;Nothing;Nothing;
-5;robin;25;23;ro;true;true;true;0.0;1200.0;Butterfly -> Time: 1.4 min. || Date: 1;Nothing;Nothing;Nothing;
-6;kok;24;23;ew;true;true;true;0.0;1000.0;Butterfly -> Time: 2.1 min. || Date: 1;Nothing;Nothing;Nothing;
-7;kok;24;2;e;true;true;true;0.0;10000.0;Butterfly -> Time: 2.2 min. || Date: 1;Nothing;Nothing;Nothing;
-8;hans;25;23;qw;true;true;true;0.0;1000.0;Nothing;Nothing;Nothing;Nothing;
+4;Abdul;28;24;ab;true;true;true;0.0;2000.0;Nothing;Nothing;Nothing;Nothing;
+5;robin;25;23;ro;true;true;true;0.0;1200.0;Nothing;Nothing;Nothing;Nothing;

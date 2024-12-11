@@ -50,7 +50,7 @@ public class Controller {
     public void removeMemberFromList(Member member){
 
         members.removeMember(member);
-        fileHandler.saveToMembersFile(members);
+        saveMembers();
     }
 
     public String sumMembershipFees() {
@@ -67,18 +67,18 @@ public class Controller {
 
     public String depositMemberBalance(String name, double balance){
         String result = members.depositMemberBalance(name,balance);
-        fileHandler.saveToMembersFile(members);
+        saveMembers();
        return result;
     }
 
     public void setMembershipBalanceFee(int memberID,String name,boolean isActive, int age, double balance){
        members.setMembershipBalanceFee(memberID,name,isActive,age,balance);
-       fileHandler.saveToMembersFile(members);
+       saveMembers();
     }
 
     public String editMember(Member member, String command, String edit) {
         String result = members.editMember(member,command,edit);
-        fileHandler.saveToMembersFile(members);
+        saveMembers();
        return result;
     }
 
@@ -110,12 +110,14 @@ public class Controller {
 
     public void createTournament(String name, String date, String place, String category, ArrayList<Competitor> competitors) {
         tournaments.createTournament(name, date, place, category, competitors);
-        fileHandler.saveToTournamentsFile(tournaments);
+        saveMembers();
     }
 
     public Competitor createCompetitor(Member member, double time,String date , String category)
     {
-        return tournaments.createCompetitor(member, time, date, category);
+        Competitor c = tournaments.createCompetitor(member, time, date, category);
+        saveMembers();
+        return c;
     }
 
     public Tournaments getTournaments() {
@@ -131,7 +133,10 @@ public class Controller {
     }
 
     public String addMemberToDiscipline(Member member, String command) {
-         return members.addMemberToDiscipline(member, command);
+        String result = members.addMemberToDiscipline(member, command);
+        saveMembers();
+         return result;
+
     }
 
     public String getTopDisciplinesList(String command, String command2){
