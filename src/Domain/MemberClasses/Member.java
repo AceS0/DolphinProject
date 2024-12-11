@@ -23,11 +23,7 @@ public class Member implements Comparable {
     private double annualFee;
     private boolean isSenior;
     private boolean hasPaid;
-    private final int juniorRate = 1000;
-    private final int seniorRate = 1600;
-    private final double seniorDiscount = 25;
-    private final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
-    private final int passiveRate = 500;
+
 
     //sort function:
     public static Comparator<Member> ID_COMPARATOR = Comparator.comparing(Member::getID);
@@ -82,6 +78,11 @@ public class Member implements Comparable {
         return ID+";"+ name +";"+ age +";"+ number +";"+ mail +";"+ isActive +";"+ isSenior +";"+ isCompetitive +";"+ debt +";"+ balance + ";" + butterfly + ";" + crawl + ";" + backstroke + ";" + breaststroke + ";";
     }
     public void setMembershipFee (boolean isActive, int age) {
+        final int juniorRate = 1000;
+        final int seniorRate = 1600;
+        final double seniorDiscount = 25;
+        final double seniorDiscountedRate = (seniorRate*(1-(seniorDiscount/100)));
+        final int passiveRate = 500;
         try {
             if (isActive) {
                 if (age < 18) {
@@ -94,7 +95,7 @@ public class Member implements Comparable {
             } else {
                 setAnnualFee(passiveRate);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -227,7 +228,7 @@ public class Member implements Comparable {
     }
 
     public void yearpassed() {
-        debt =+ annualFee;
+        debt += annualFee;
     }
 
     public String getShortDescription() {
@@ -280,7 +281,7 @@ public class Member implements Comparable {
         }
         double newTime =getTimeFromSTring(timeString);
         double oldTime = getTimeFromSTring(breaststroke);
-        if (newTime < oldTime) this.breaststroke=breaststroke;
+        if (newTime < oldTime) this.breaststroke=timeString;
     }
 
     public String getButterfly(){

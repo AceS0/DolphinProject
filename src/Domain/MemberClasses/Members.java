@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Members {
-    private final ArrayList<Member> members = new ArrayList();
+    private final ArrayList<Member> members = new ArrayList<>();
     private int openId = 0;
     private final ArrayList<Member> butterflyList = new ArrayList<>();
     private final ArrayList<Member> crawlList = new ArrayList<>();
@@ -69,7 +69,7 @@ public class Members {
         for (Member member : members) {
             toPrint.append("\n\n").append(member.toString());
         }
-        return toPrint.toString();
+        return String.valueOf(toPrint);
     }
 
     public String balancePaid(Member member){
@@ -86,7 +86,7 @@ public class Members {
 
     public ArrayList<Member> getUnpaid()
     {
-        ArrayList<Member> result = new ArrayList<Member>();
+        ArrayList<Member> result = new ArrayList<>();
         for (Member m: members)
         {
             if (!m.gethasPaid())
@@ -220,10 +220,6 @@ public class Members {
         }
     }
 
-    public ArrayList<Member> getMembers() {
-        return members;
-    }
-
     public String compactMembers() {
         StringBuilder result = new StringBuilder();
         result.append(openId+"\n");
@@ -258,19 +254,6 @@ public class Members {
                     default -> members.sort(ID);
                 }
 
-            }
-
-            case "name" -> {
-                switch (term2) {
-                    case "id" -> Member.NAME_COMPARATOR.thenComparing(ID);
-                    case "age" -> Member.NAME_COMPARATOR.thenComparing(age);
-                    case "number" -> Member.NAME_COMPARATOR.thenComparing(number);
-                    case "mail" -> Member.NAME_COMPARATOR.thenComparing(mail);
-                    case "isActive" -> Member.NAME_COMPARATOR.thenComparing(isActive);
-                    case "isSenior" -> Member.NAME_COMPARATOR.thenComparing(isSenior);
-                    case "isCompetitve" -> Member.NAME_COMPARATOR.thenComparing(isCompetitve);
-                    default -> members.sort(name);
-                }
             }
 
             case "age" -> {

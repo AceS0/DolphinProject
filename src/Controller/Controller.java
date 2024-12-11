@@ -14,7 +14,7 @@ public class Controller {
     private final Members members = new Members();
     private final Tournaments tournaments = new Tournaments();
     private final FileHandler fileHandler = new FileHandler();
-    private InvoiceWriter invoiceWriter = new InvoiceWriter();
+    private final InvoiceWriter invoiceWriter = new InvoiceWriter();
 
     public Member addMemberToList(String name, int age, int number,
                                   String mail, boolean isActive, boolean isSenior, boolean isCompetitive){

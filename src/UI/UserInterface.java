@@ -257,11 +257,11 @@ public class UserInterface {
         Scanner sc = new Scanner(System.in);
         System.out.println
                 ("""
-                Below is your options: 
+                Below is your options:
                 
-                1. Record/Update record time.             
+                1. Record/Update record time.
                 2. Display record time for one member.
-                3. Display record time for all members.         
+                3. Display record time for all members.
                 """);
         System.out.print("Type here: ");
         int command = reqInt("",sc);
@@ -328,9 +328,8 @@ public class UserInterface {
 
             }
 
-            case 3 ->  {
-                System.out.println(controller.getMembers().memberListShortRecord());
-            }
+            case 3 -> System.out.println(controller.getMembers().memberListShortRecord());
+
 
         }
     }
@@ -483,9 +482,14 @@ public class UserInterface {
 
     public void listMembers() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("You have 3 types of lists:\n1. Print a list of all members." +
-                "\n2. Print a list of all members who paid their fees." +
-                "\n3. Print a list of all members who didn't pay their fees.");
+        System.out.println("""
+                You have 3 types of lists:
+                
+                1. Print a list of all members.\
+                
+                2. Print a list of all members who paid their fees.\
+                
+                3. Print a list of all members who didn't pay their fees.""");
         String command = reqString("",sc);
         switch (command) {
             case "1" -> System.out.println(controller.getMembers().memberList());
@@ -591,7 +595,7 @@ public class UserInterface {
         String category = null;
         while(category == null){
             System.out.println("enter category:");
-            String command = sc.nextLine();
+            String command = reqString("",sc);
             switch (command){
                 case "1","butterfly" -> category = "Butterfly.";
                 case "2","crawl" -> category = "Crawl.";
@@ -601,7 +605,7 @@ public class UserInterface {
             }
         }
 
-        ArrayList<Competitor> competitors = new ArrayList<Competitor>();
+        ArrayList<Competitor> competitors = new ArrayList<>();
         while (true) {
             boolean sameMember = false;
             Member competitorMember = searchSpecificMember(reqString("please enter the name or id of a competitor", sc), sc);
@@ -623,11 +627,6 @@ public class UserInterface {
     private void listTourneys() {
         Tournaments tournaments = controller.getTournaments();
         System.out.println("tourneys:\n" +tournaments.listOfShortDescriptions());
-    }
-
-
-    private void workInProgress() {
-        System.out.println("work in progress \n");
     }
 
     public void searchForTourney(String thisTourney) {
@@ -716,7 +715,7 @@ public class UserInterface {
                 """ 
                         How do you want to list the members?
                         
-                        Sorted by: 
+                        Sorted by:
                         1. ID?
                         2. Name?
                         3. Age?
@@ -733,10 +732,6 @@ public class UserInterface {
         switch (input) {
             case "1", "id", "i" -> {
                 input = "id";
-                controller.getMembers().sortedMemberList(input,"");
-            }
-            case "2", "name", "n" -> {
-                input = "name";
                 controller.getMembers().sortedMemberList(input,"");
             }
             case "3", "age", "a" -> {
@@ -786,7 +781,7 @@ public class UserInterface {
                             """ 
                                     How do you want to list the members?
                                     
-                                    Sorted by: 
+                                    Sorted by:
                                     1. ID?
                                     2. Name?
                                     3. Age?
@@ -829,12 +824,12 @@ public class UserInterface {
                 System.out.print(
                         """
                                 These are the disciplines you can choose from:
-                                1. if butterfly write: \"bu\" or \"butterfly\"
-                                2. if crawl write: \"c\" or \"crawl\"
-                                3. if backstroke write: \"ba\" or \"backstroke\"
-                                4. if breaststroke write: \"br\" or \"breaststroke\"
+                                1. if butterfly write: "bu" or "butterfly"
+                                2. if crawl write: "c" or "crawl"
+                                3. if backstroke write: "ba" or "backstroke"
+                                4. if breaststroke write: "br" or "breaststroke"
                                 
-                                Which discipline do you want to add the member to: """);
+                                Which discipline do you want to add the member to:""");
                 String command = reqString("",sc);
                 switch (command) {
                     case "bu", "butterfly","1" -> {
@@ -888,11 +883,11 @@ public class UserInterface {
         System.out.println(
                 """ 
                                 These are the disciplines you can choose from:
-                                        1. if butterfly write: \"bu\" or \"butterfly\"
-                                        2. if crawl write: \"c\" or \"crawl\"
-                                        3. if backstroke write: \"ba\" or \"backstroke\"
-                                        4. if breaststroke write: \"br\" or \"breaststroke\" 
-                                        Which list do you want to check the top 5 of: """);
+                                        1. if butterfly write: "bu" or "butterfly"
+                                        2. if crawl write: "c" or "crawl"
+                                        3. if backstroke write: "ba" or "backstroke"
+                                        4. if breaststroke write: "br" or "breaststroke"
+                                        Which list do you want to check the top 5 of:""");
         String command = reqString("",sc);
         System.out.println("Do you want to check top 5 of Senior or Junior\nIf Senior type 1 & else Junior type 2");
         String command2 = reqString("",sc);
