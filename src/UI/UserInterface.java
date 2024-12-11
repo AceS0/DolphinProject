@@ -61,8 +61,9 @@ public class UserInterface {
                         8. Record, Update, Display member performance.
                         9. Check member's balance and pay fee.
                         10. Deposit balance for a member.
-                        12. List disciplines of the member.
-                        13. Exit""");
+                        12. List disciplines of the member
+                        13. List top 5 members of each discipline.
+                        14. Exit""");
         while (running) {
             try {
                 System.out.print("""
@@ -118,7 +119,7 @@ public class UserInterface {
                     case "10", "deposit" -> depositMemberBalance();
                     case "11", "wipe" ->wipeMembers();
                     case "12", "discipline" -> listMemberDisciplines();
-                    case "14" -> topDisciplinesList();
+                    case "13" -> topDisciplinesList();
                     case "help" -> System.out.println(
                             """
                                     
@@ -136,8 +137,9 @@ public class UserInterface {
                                     10. Deposit balance for a member.
                                     11. Wipe members
                                     12. List disciplines of the member.
-                                    13. Exit""");
-                    case "13", "exit" -> running = false;
+                                    13. List top 5 members of each discipline.
+                                    14. Exit""");
+                    case "14", "exit" -> running = false;
                 }
             } catch (ArrayIndexOutOfBoundsException | IOException aioobe) {
                 System.out.println("Unknown request, please try again.");
@@ -262,11 +264,10 @@ public class UserInterface {
                 3. Display record time for all members.         
                 """);
         System.out.print("Type here: ");
-        int command = sc.nextInt();
+        int command = reqInt("",sc);
         switch (command){
             case 1 ->{
-                System.out.print("which member do you want to record time for: ");
-                String thisMember = sc.next();
+                String thisMember = reqString("which member do you want to record time for: ",sc);
                 Member found = searchSpecificMember(thisMember,sc);
                 System.out.println(
                 """
@@ -277,11 +278,8 @@ public class UserInterface {
                 3. backstroke.
                 4. breaststroke.
                 """);
-                System.out.print("Type here:");
 
-
-
-                String command2 = sc.next();
+                String command2 = reqString("Type here: ",sc);
                 switch (command2){
                     case "1","butterfly" -> command2 = "Butterfly.";
                     case "2","crawl" -> command2 = "Crawl.";
@@ -291,12 +289,8 @@ public class UserInterface {
                 }
 
                 System.out.println("Discipline: " + command2);
-
-                System.out.print("What is the date of the record: ");
-                String recordDate = sc.next();
-                System.out.print("What was the members best time performance (in minutes): ");
-                double recordTime = sc.nextDouble();
-
+                String recordDate = reqString("What is the date of the record: ",sc);
+                double recordTime = reqDouble("What was the members best time performance (in minutes): ",sc);
 
                 switch (command2){
                     case "Butterfly." -> {
@@ -322,7 +316,7 @@ public class UserInterface {
 
             case 2 -> {
                 System.out.println("Which member do you want to get info about");
-                String thisMember = sc.next();
+                String thisMember = reqString("",sc);
                 Member found = searchSpecificMember(thisMember,sc);
                 System.out.println("ID: " +found.getID() +
                                     "\nName: " + found.getName() +
@@ -402,8 +396,7 @@ public class UserInterface {
                 case "6", "active" -> {
                     while (true) {
                         System.out.println("is " + thisMember.getName() + " active?");
-                        System.out.print("Type here: ");
-                        String input = sc.next();
+                        String input = reqString("Type here: ",sc);
                         if (input.equals("yes") || input.equals("no")) {
                             System.out.println(controller.editMember(thisMember, "active", input));
                             break;
@@ -414,7 +407,7 @@ public class UserInterface {
                     while (true) {
                         System.out.println("is " + thisMember.getName() + " a senior?");
                         System.out.print("Type here: ");
-                        String input = sc.next();
+                        String input = reqString("Type here: ",sc);
                         if (input.equals("yes") || input.equals("no")) {
                             System.out.println(controller.editMember(thisMember, "senior", input));
                             break;
@@ -425,7 +418,7 @@ public class UserInterface {
                     while (true) {
                         System.out.println("is " + thisMember.getName() + " competitive?");
                         System.out.print("Type here: ");
-                        String input = sc.next();
+                        String input = reqString("Type here: ",sc);
                         if (input.equals("yes") || input.equals("no")) {
                             System.out.println(controller.editMember(thisMember, "competitive", input));
                             break;
@@ -477,7 +470,7 @@ public class UserInterface {
     public void depositMemberBalance() {
         Scanner sc = new Scanner(System.in);
         Member found;
-        found = searchSpecificMember(reqString("what member are you looking for: ", sc), sc);
+        found = searchSpecificMember(reqString("What member are you looking for: ", sc), sc);
         if (found == null) {
             System.out.println("Returning back to menu.");
             return;
@@ -493,7 +486,7 @@ public class UserInterface {
         System.out.println("You have 3 types of lists:\n1. Print a list of all members." +
                 "\n2. Print a list of all members who paid their fees." +
                 "\n3. Print a list of all members who didn't pay their fees.");
-        String command = sc.next();
+        String command = reqString("",sc);
         switch (command) {
             case "1" -> System.out.println(controller.getMembers().memberList());
             case "2" -> {
@@ -734,8 +727,7 @@ public class UserInterface {
                         8. IsCompetitive?
                         9. Return to menu
                         """);
-        System.out.print("Type here: ");
-        String input = sc.next().toLowerCase();
+        String input = reqString("Type here: ",sc);
 
 
         switch (input) {
@@ -787,7 +779,7 @@ public class UserInterface {
         System.out.print("Type (yes/no): ");
 
         while (true) {
-            String input2 = sc.next().toLowerCase();
+            String input2 = reqString("",sc);
             switch (input2) {
                 case "yes" -> {
                     System.out.println(
@@ -805,8 +797,7 @@ public class UserInterface {
                                     8. IsCompetitive?
                                     9. Return to menu
                                     """);
-                    System.out.print("Type here: ");
-                    String input3 = sc.next().toLowerCase();
+                    String input3 = reqString("Type here: ",sc);
                     switch (input3) {
                         case "1", "id", "i" -> controller.getMembers().sortedMemberList(input,"id");
                         case "2", "name", "n" -> controller.getMembers().sortedMemberList(input,"name");
@@ -818,7 +809,7 @@ public class UserInterface {
                         case "8", "iscompetitive" -> controller.getMembers().sortedMemberList(input,"iscompetitive");
                         case "9", "return", "exit" -> {
                             System.out.println("Returning back to menu");
-                            userInterface();
+                            return;
                         }
                     }
                 }
@@ -844,7 +835,7 @@ public class UserInterface {
                                 4. if breaststroke write: \"br\" or \"breaststroke\"
                                 
                                 Which discipline do you want to add the member to: """);
-                String command = sc.next().toLowerCase();
+                String command = reqString("",sc);
                 switch (command) {
                     case "bu", "butterfly","1" -> {
                         System.out.println(controller.addMemberToDiscipline(member, "butterfly"));
@@ -870,7 +861,7 @@ public class UserInterface {
     public boolean wantToAddToMoreDisciplines() {
         System.out.println("Do you want to add member to more disciplines (\"yes\" or \"no\")? ");
         Scanner sc = new Scanner(System.in);
-        String input = sc.next();
+        String input = reqString("",sc);
         if(input.equalsIgnoreCase("yes")) {
             return true;
         }else if(input.equalsIgnoreCase("no")) {
@@ -884,7 +875,7 @@ public class UserInterface {
     public void listMemberDisciplines() {
         System.out.println("Which members disciplines do you want to look up?");
         Scanner sc = new Scanner(System.in);
-        String thisMember = sc.next();
+        String thisMember = reqString("",sc);
         Member found = searchSpecificMember(thisMember, sc);
 
         System.out.println(found);
@@ -902,9 +893,9 @@ public class UserInterface {
                                         3. if backstroke write: \"ba\" or \"backstroke\"
                                         4. if breaststroke write: \"br\" or \"breaststroke\" 
                                         Which list do you want to check the top 5 of: """);
-        String command = sc.next();
+        String command = reqString("",sc);
         System.out.println("Do you want to check top 5 of Senior or Junior\nIf Senior type 1 & else Junior type 2");
-        String command2 = sc.next();
+        String command2 = reqString("",sc);
         System.out.println(controller.getTopDisciplinesList(command, command2));
     }
 

@@ -245,7 +245,7 @@ public class Member implements Comparable {
 
     }
 
-    public double getTimeFromSTring(String timeString)
+    public static double getTimeFromSTring(String timeString)
     {
         String[] splitTime1 = timeString.split(" ");
         return Double.parseDouble(splitTime1[3]);
@@ -253,12 +253,12 @@ public class Member implements Comparable {
 
     public void setCrawl(String timeString){
         if (Objects.equals(crawl, "Nothing")) {
-            crawl = crawl;
+            crawl = timeString;
             return;
         }
         double newTime = getTimeFromSTring(timeString);
         double oldTime = getTimeFromSTring(crawl);
-        if (newTime < oldTime) this.crawl=crawl;
+        if (newTime < oldTime) this.crawl=timeString;
 
     }
 

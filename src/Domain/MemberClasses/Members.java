@@ -364,12 +364,6 @@ public class Members {
 
                 }
             }
-
-
-
-
-
-
         }
     }
 
@@ -408,76 +402,130 @@ public class Members {
 
     public String topDisciplinesList(String command, String command2){
         //Sorting not finished yet.
+        StringBuilder toPrint = new StringBuilder();
+        int counter = 0;
         switch(command) {
             case "1","butterfly", "bu" -> {
+
+                butterflyList.sort(Comparator.comparingDouble(member -> {
+                    String butterflyInfo = member.getButterfly();
+                    return Member.getTimeFromSTring(butterflyInfo);
+                }));
+
+
                 for (Member thisMember : butterflyList) {
                     if (command2.equals("1")) {
                         if (thisMember.getIsSenior()) {
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getButterfly();
-                        } else {
-                           return "There is no senior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" senior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getButterfly());
                         }
                     } else if (command2.equals("2")){
                         if (!thisMember.getIsSenior()){
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getButterfly();
-                        } else {
-                           return "There is no junior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" junior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getButterfly());
                         }
                     }
+                    if (counter == 5){
+                        return String.valueOf(toPrint);
+                    }
                 }
+
+                if (counter == 0) {
+                    return "There is no " + (command2.equals("1") ? "senior" : "junior") + " recorded.";
+                }
+
+                return String.valueOf(toPrint);
             }
 
             case "2", "crawl", "c" -> {
+
+                crawlList.sort(Comparator.comparingDouble(member -> {
+                    String crawlInfo = member.getCrawl();
+                    return Member.getTimeFromSTring(crawlInfo);
+                }));
+
                 for (Member thisMember : crawlList) {
                     if (command2.equals("1")) {
                         if (thisMember.getIsSenior()) {
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getCrawl();
-                        } else {
-                            return "There is no senior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" senior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getCrawl());
                         }
                     } else if (command2.equals("2")){
                         if (!thisMember.getIsSenior()){
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getCrawl();
-                        } else {
-                            return "There is no junior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" junior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getCrawl());
                         }
                     }
+                    if (counter == 5){
+                        return String.valueOf(toPrint);
+                    }
                 }
+
+                if (counter == 0) {
+                    return "There is no " + (command2.equals("1") ? "senior" : "junior") + " recorded.";
+                }
+
+                return String.valueOf(toPrint);
             }
 
             case "3","backstroke", "ba" -> {
+
+                backstrokeList.sort(Comparator.comparingDouble(member -> {
+                    String backstrokeInfo = member.getBackstroke();
+                    return Member.getTimeFromSTring(backstrokeInfo);
+                }));
+
                 for (Member thisMember : backstrokeList) {
                     if (command2.equals("1")) {
                         if (thisMember.getIsSenior()) {
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBackstroke();
-                        } else {
-                            return "There is no senior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" senior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getBackstroke());
                         }
                     } else if (command2.equals("2")){
                         if (!thisMember.getIsSenior()){
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBackstroke();
-                        } else {
-                            return "There is no junior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" junior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getBackstroke());
                         }
                     }
+                    if (counter == 5){
+                        return String.valueOf(toPrint);
+                    }
                 }
+
+                if (counter == 0) {
+                    return "There is no " + (command2.equals("1") ? "senior" : "junior") + " recorded.";
+                }
+
+                return String.valueOf(toPrint);
             }
+
             case "4","breaststroke", "br" -> {
+
+                breaststrokeList.sort(Comparator.comparingDouble(member -> {
+                    String breaststrokeInfo = member.getBreaststroke();
+                    return Member.getTimeFromSTring(breaststrokeInfo);
+                }));
+
                 for (Member thisMember : breaststrokeList) {
                     if (command2.equals("1")) {
                         if (thisMember.getIsSenior()) {
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName()+ " is senior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBreaststroke();
-                        } else {
-                            return "There is no senior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" senior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getBreaststroke());
                         }
                     } else if (command2.equals("2")){
                         if (!thisMember.getIsSenior()){
-                            return "ID: " + thisMember.getID() + " Name: " + thisMember.getName() + " is junior: " + thisMember.getIsSenior() + " Discipline: " + thisMember.getBreaststroke();
-                        } else {
-                            return "There is no junior recorded.";
+                            counter++;
+                            toPrint.append("\nID: ").append(thisMember.getID()).append(" Name: ").append(thisMember.getName()).append(" junior: ").append(thisMember.getIsSenior()).append(" Discipline: ").append(thisMember.getBreaststroke());
                         }
                     }
+                    if (counter == 5){
+                        return String.valueOf(toPrint);
+                    }
                 }
+                if (counter == 0) {
+                    return "There is no " + (command2.equals("1") ? "senior" : "junior") + " recorded.";
+                }
+                return String.valueOf(toPrint);
             }
         }
         return "An error occured.";
